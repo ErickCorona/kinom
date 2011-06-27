@@ -1,9 +1,13 @@
 package classes;
 
+import javax.swing.ImageIcon;
+
 public class Pelicula {
+	private int id;
+
 
 	private String nombre;
-	private String imagen;
+	private ImageIcon imagen;
 	private String clasificacion;
 	private int duracion;
 	private String sinopsis;
@@ -31,11 +35,11 @@ public class Pelicula {
 		this.nombre = nombre;
 	}
 
-	public String getImagen() {
+	public ImageIcon getImagen() {
 		return imagen;
 	}
 
-	public void setImagen(String imagen) {
+	public void setImagen(ImageIcon imagen) {
 		this.imagen = imagen;
 	}
 
@@ -69,5 +73,13 @@ public class Pelicula {
 
 	public void setIdioma(String idioma) {
 		this.idioma = idioma;
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }
