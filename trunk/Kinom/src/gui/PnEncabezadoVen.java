@@ -17,6 +17,8 @@ public class PnEncabezadoVen extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTextField txtNombre;
+	JComboBox cmbFecha;
+	
 
 	/**
 	 * Create the panel.
@@ -47,12 +49,37 @@ public class PnEncabezadoVen extends JPanel {
 		JLabel lblFecha = new JLabel("Fecha:");
 		lblFecha.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		panel_1.add(lblFecha);
-		
-		JComboBox cmbFecha = new JComboBox();
+		cmbFecha = new JComboBox();
 		cmbFecha.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		cmbFecha.setModel(new DefaultComboBoxModel(new String[] {"Prueba 1", "Prueba 2"}));
 		panel_1.add(cmbFecha);
+		
+		cmbFecha.setActionCommand("cmbFecha");
 
+	}
+
+
+	public JTextField getTxtNombre() {
+		return txtNombre;
+	}
+
+
+	public void setTxtNombre(JTextField txtNombre) {
+		this.txtNombre = txtNombre;
+	}
+
+
+	public JComboBox getCmbFecha() {
+		return cmbFecha;
+	}
+
+
+	public void setCmbFecha(JComboBox cmbFecha) {
+		this.cmbFecha = cmbFecha;
+	}
+	
+	public void setModelFecha(DefaultComboBoxModel model){
+		this.cmbFecha.setModel(model);
 	}
 
 }

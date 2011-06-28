@@ -6,17 +6,20 @@ import java.awt.Insets;
 import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
 import classes.Funcion;
+import classes.Pelicula;
+
 import java.awt.GridLayout;
+import java.awt.color.CMMException;
 
 public class PnCartelera extends JPanel {
 	private ArrayList<Funcion> funciones;
 	private JPanel pnCartelera;
+	private ArrayList<BtnPelicula> botones;
 	
 
 	/**
@@ -58,6 +61,8 @@ public class PnCartelera extends JPanel {
 		gbc_txtInformacion.gridy = 1;
 		add(txtInformacion, gbc_txtInformacion);
 		
+		
+		
 		llenarCartelera();
 
 	}
@@ -95,11 +100,20 @@ public class PnCartelera extends JPanel {
 	private void llenarCartelera(){
 		ButtonGroup group = new ButtonGroup();
 		for (Funcion func : this.funciones) {
+			System.out.println("hola");
 			PnPelicula peli = new PnPelicula(func);
 			pnCartelera.add(peli);
 			group.add(peli.getTglbtnPelicula());
+			botones.add(peli.getTglbtnPelicula());
 
 		}
 	}
+	public ArrayList<BtnPelicula> getBotones() {
+		return botones;
+	}
+	public void setBotones(ArrayList<BtnPelicula> botones) {
+		this.botones = botones;
+	}
+
 
 }
