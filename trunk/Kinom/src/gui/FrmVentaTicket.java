@@ -10,6 +10,10 @@ import java.awt.GridBagLayout;
 
 public class FrmVentaTicket extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
 	/**
@@ -44,11 +48,11 @@ public class FrmVentaTicket extends JFrame {
 		gridBagLayout.columnWidths = new int[]{0, 0, 135, 0};
 		contentPane.add(PnVentaPanel, BorderLayout.WEST);
 		
-		JPanel panel = new PnEncabezadoVen();
-		contentPane.add(panel, BorderLayout.NORTH);
+		JPanel pnSuperior = new PnEncabezadoVen();
+		contentPane.add(pnSuperior, BorderLayout.NORTH);
 		
-		JPanel panel_1 = new JPanel();
-		contentPane.add(panel_1, BorderLayout.CENTER);
+		JPanel pnCentral = new PnCartelera();
+		contentPane.add(pnCentral, BorderLayout.CENTER);
 	}
 
 }
