@@ -7,6 +7,9 @@ import java.util.*;
 
 class Tester {
 
+	/**
+	 * @param args
+	 */
 	public static void main(String args[]){
 		/*Conexion c = new Conexion("root","pass","kinom");
 		ResultSet rs;
@@ -22,8 +25,8 @@ class Tester {
 		hoy.set(2012, 11, 21, 11, 59, 59);
 		System.out.println("Dia: " + hoy.getTime());*/
 		
-		classes.Cartelera cart = new classes.Cartelera();
-		try {
+		//classes.Cartelera cart = new classes.Cartelera();
+	/*	try {
 			cart.loadFunciones();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -31,6 +34,7 @@ class Tester {
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
+		
 	}
 }

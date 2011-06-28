@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.awt.Insets;
 import javax.swing.JTextField;
 import java.awt.Component;
+import java.util.ArrayList;
+
 import javax.swing.Box;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
@@ -15,7 +17,9 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
-public class PnDetalleTicket extends JPanel {
+import classes.Funcion;
+
+public class PnDetalleTicket extends JPanel  {
 	/**
 	 * 
 	 */
@@ -125,6 +129,10 @@ public class PnDetalleTicket extends JPanel {
 		gbc_btnCancelar.gridy = 7;
 		add(btnCancelar, gbc_btnCancelar);
 
+	}
+	
+	public void llenar(ArrayList<Funcion> funciones){
+		
 	}
 
 }

@@ -3,18 +3,39 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.GridBagLayout;
 
-public class FrmVentaTicket extends JFrame {
+import classes.Cartelera;
+
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+
+public class FrmVentaTicket extends JFrame implements ActionListener{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private PnEncabezadoVen pnSuperior;
+	private PnCartelera pnCentral;
+	private PnDetalleTicket PnVentaPanel;
+	Cartelera car;
 
 	/**
 	 * Launch the application.
@@ -36,6 +57,8 @@ public class FrmVentaTicket extends JFrame {
 	 * Create the frame.
 	 */
 	public FrmVentaTicket() {
+		
+
 		setTitle("Venta de Tickets");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 931, 651);
@@ -44,16 +67,85 @@ public class FrmVentaTicket extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
-		JPanel PnVentaPanel = new PnDetalleTicket();
+		 PnVentaPanel = new PnDetalleTicket();
 		GridBagLayout gridBagLayout = (GridBagLayout) PnVentaPanel.getLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 135, 0};
 		contentPane.add(PnVentaPanel, BorderLayout.WEST);
 		
-		JPanel pnSuperior = new PnEncabezadoVen();
+		pnSuperior = new PnEncabezadoVen();
 		contentPane.add(pnSuperior, BorderLayout.NORTH);
 		
-		JPanel pnCentral = new PnCartelera();
-		contentPane.add(pnCentral, BorderLayout.CENTER);
+	
+		
+		DefaultComboBoxModel model = new DefaultComboBoxModel();
+		Calendar fecha = Calendar.getInstance();
+		SimpleDateFormat fecha_h = new SimpleDateFormat("EEE, MMM d, ''yy ");
+		for(int i=0;i<7;i++){
+			model.addElement(fecha_h.format(fecha.getTime()));
+			fecha.set(Calendar.DATE, fecha.get(Calendar.DATE)+1);
+		}
+		
+		pnSuperior.setModelFecha(model);
+		
+	
+		try {
+			car = new Cartelera();
+			pnCentral = new PnCartelera(car.getPeliculas(Calendar.getInstance()));
+			contentPane.add(pnCentral, BorderLayout.CENTER);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		pnSuperior.getCmbFecha().addActionListener(this);
+		eventoBtn();
+		
+		
+	}
+	
+	private void eventoBtn(){
+		ArrayList<BtnPelicula> botones = pnCentral.getBotones();
+		for (BtnPelicula btnPelicula : botones) {
+			btnPelicula.addActionListener(this);
+			btnPelicula.setActionCommand("pelicula");
+		}
 	}
 
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getActionCommand().equals("cmbFecha")){
+			SimpleDateFormat format = new SimpleDateFormat("EEE, MMM d, ''yy ");
+			JComboBox cfecha = (JComboBox) e.getSource();
+			Calendar fecha = Calendar.getInstance();
+			try {
+				contentPane.remove(pnCentral);
+				fecha.setTime(format.parse(cfecha.getSelectedItem().toString()));
+				pnCentral = new PnCartelera(car.getPeliculas(fecha));
+				contentPane.add(pnCentral, BorderLayout.CENTER);
+				contentPane.validate();
+				eventoBtn();
+				
+				
+				
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			
+		}else if(e.getActionCommand().equals( "pelicula")){
+			//BtnPelicula btn = (BtnPelicula) e.getSource();
+			
+			//PnVentaPanel.llenar(btn.getPeli());
+		}
+		
+	}
+
+	
 }
