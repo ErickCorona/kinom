@@ -1,14 +1,17 @@
 package classes;
 
+import java.util.Calendar;
+
 public class Funcion {
 
 	private Pelicula pelicula;
-	private Horario horarios[];
+	private Calendar horario;
 	private Sala sala;
+	private int ocupados;
 	
-	public Funcion(Pelicula pelicula, Horario[] horarios, Sala sala) {
+	public Funcion(Pelicula pelicula, Calendar horario, Sala sala) {
 		this.pelicula = pelicula;
-		this.horarios = horarios;
+		this.horario = horario;
 		this.sala = sala;
 	}
 
@@ -33,12 +36,12 @@ public class Funcion {
 		this.pelicula = pelicula;
 	}
 
-	public Horario[] getHorarios() {
-		return horarios;
+	public Calendar getHorario() {
+		return horario;
 	}
 
-	public void setHorarios(Horario[] horarios) {
-		this.horarios = horarios;
+	public void setHorario(Calendar horario) {
+		this.horario = horario;
 	}
 
 	public Sala getSala() {
@@ -48,4 +51,13 @@ public class Funcion {
 	public void setSala(Sala sala) {
 		this.sala = sala;
 	}
+
+	public int getOcupados() {
+		return ocupados;
+	}
+
+	public void setOcupados(int ocupados) {
+		this.ocupados = ocupados;
+	}
+	
 }

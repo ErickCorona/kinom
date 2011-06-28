@@ -31,7 +31,7 @@ public class Conexion{
 	
 	private void open() throws SQLException, ClassNotFoundException{
 		Class.forName("org.sqlite.JDBC");
-		String urljdbc = "jdbc:sqlite:bin\\bd\\" + this.database + ".sqlite";
+		String urljdbc = "jdbc:sqlite:src\\bd\\" + this.database + ".sqlite";
 		this.conn = DriverManager.getConnection(urljdbc);
 		enabled = true;
 	}

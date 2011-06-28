@@ -27,6 +27,18 @@ public class Pelicula {
 		this.duracion = duracion;
 	}
 
+	public Pelicula(int id, String nombre, ImageIcon imagen,
+			String clasificacion, int duracion, String sinopsis, String idioma) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.imagen = imagen;
+		this.clasificacion = clasificacion;
+		this.duracion = duracion;
+		this.sinopsis = sinopsis;
+		this.idioma = idioma;
+	}
+
 	public String getNombre() {
 		return nombre;
 	}
