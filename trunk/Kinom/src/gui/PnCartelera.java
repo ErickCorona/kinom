@@ -61,7 +61,7 @@ public class PnCartelera extends JPanel {
 		gbc_txtInformacion.gridy = 1;
 		add(txtInformacion, gbc_txtInformacion);
 		
-		
+		botones = new ArrayList<BtnPelicula>();
 		
 		llenarCartelera();
 

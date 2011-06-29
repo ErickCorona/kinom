@@ -57,7 +57,7 @@ public class Cartelera {
 					break;
 				}
 			}
-			if(!entro)
+			if(!entro && (!isToday || f.getHorario().getTimeInMillis()>=fecha.getTimeInMillis()-7200000))
 				p.add(f);
 		}
 		return p;
