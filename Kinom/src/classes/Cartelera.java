@@ -1,17 +1,11 @@
 package classes;
 
-import gui.BtnPelicula;
-
-import java.text.DateFormat;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.sql.Blob;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
 
 import javax.swing.ImageIcon;
 
