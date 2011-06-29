@@ -1,18 +1,15 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JToggleButton;
 
 import classes.Funcion;
-import classes.Pelicula;
-import java.awt.Color;
 
 public class PnPelicula extends JPanel{
 	

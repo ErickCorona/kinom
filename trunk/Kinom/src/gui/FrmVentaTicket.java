@@ -2,28 +2,21 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import classes.Cartelera;
-
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import classes.Cartelera;
 
 public class FrmVentaTicket extends JFrame implements ActionListener{
 
@@ -140,9 +133,21 @@ public class FrmVentaTicket extends JFrame implements ActionListener{
 			
 			
 		}else if(e.getActionCommand().equals( "pelicula")){
-			//BtnPelicula btn = (BtnPelicula) e.getSource();
+		System.out.println("Purbe");
+			BtnPelicula btn = (BtnPelicula) e.getSource();
 			
-			//PnVentaPanel.llenar(btn.getPeli());
+			try {
+				PnVentaPanel.llenar(car.getFunciones(btn.getPeli(), btn.getSala()));
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		
 	}

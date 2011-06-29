@@ -1,19 +1,20 @@
 package gui;
 
-import javax.swing.JPanel;
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
-import java.awt.GridBagConstraints;
-import java.awt.Font;
-import java.awt.Insets;
-import javax.swing.JTextField;
 import java.awt.Component;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.ArrayList;
 
 import javax.swing.Box;
-import javax.swing.JScrollPane;
-import javax.swing.JList;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
@@ -25,6 +26,7 @@ public class PnDetalleTicket extends JPanel  {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTextField txtNumero;
+	private JList lstHorarios;
 
 	/**
 	 * Create the panel.
@@ -106,7 +108,8 @@ public class PnDetalleTicket extends JPanel  {
 		gbc_scrollPane.gridy = 5;
 		add(scrollPane, gbc_scrollPane);
 		
-		JList lstHorarios = new JList();
+		lstHorarios = new JList();
+		lstHorarios.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		scrollPane.setViewportView(lstHorarios);
 		
 		JButton btnImprimir = new JButton("Imprimir");
@@ -132,7 +135,8 @@ public class PnDetalleTicket extends JPanel  {
 	}
 	
 	public void llenar(ArrayList<Funcion> funciones){
-		
+		DefaultComboBoxModel model = new DefaultComboBoxModel(funciones.toArray());
+		lstHorarios.setModel(model);
 	}
 
 }

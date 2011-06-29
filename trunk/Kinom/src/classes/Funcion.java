@@ -1,5 +1,6 @@
 package classes;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class Funcion {
@@ -58,6 +59,15 @@ public class Funcion {
 
 	public void setOcupados(int ocupados) {
 		this.ocupados = ocupados;
+	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
+		String horario = format.format(this.getHorario().getTime());
+		return horario;
+		//return super.toString();
 	}
 	
 }

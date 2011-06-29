@@ -1,22 +1,23 @@
 package gui;
 
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 
+import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
 import classes.Funcion;
-import classes.Pelicula;
 
-import java.awt.GridLayout;
-import java.awt.color.CMMException;
-
-public class PnCartelera extends JPanel {
+public class PnCartelera extends JPanel implements ComponentListener {
 	private ArrayList<Funcion> funciones;
 	private JPanel pnCartelera;
 	private ArrayList<BtnPelicula> botones;
@@ -33,7 +34,10 @@ public class PnCartelera extends JPanel {
 	 */
 	public PnCartelera(ArrayList<Funcion> funciones) {
 		this.funciones = funciones;
-		int cols = 4;
+		int cols = 1;
+		cols = (funciones.size() <  4) && (funciones.size() > 0) ? funciones.size() : 4 ;
+		
+		
 		int rows = (int) Math.ceil(funciones.size() / cols);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
@@ -69,9 +73,9 @@ public class PnCartelera extends JPanel {
 	public PnCartelera() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
-		gridBagLayout.rowHeights = new int[]{218, 154, 0};
+		gridBagLayout.rowHeights = new int[]{218, 0, 154, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -86,11 +90,18 @@ public class PnCartelera extends JPanel {
 		scrollPane.setViewportView(pnCartelera);
 		pnCartelera.setLayout(new GridLayout(1, 0, 0, 0));
 		
+		Component verticalStrut = Box.createVerticalStrut(20);
+		GridBagConstraints gbc_verticalStrut = new GridBagConstraints();
+		gbc_verticalStrut.insets = new Insets(0, 0, 5, 0);
+		gbc_verticalStrut.gridx = 0;
+		gbc_verticalStrut.gridy = 1;
+		add(verticalStrut, gbc_verticalStrut);
+		
 		JTextPane txtInformacion = new JTextPane();
 		GridBagConstraints gbc_txtInformacion = new GridBagConstraints();
 		gbc_txtInformacion.fill = GridBagConstraints.BOTH;
 		gbc_txtInformacion.gridx = 0;
-		gbc_txtInformacion.gridy = 1;
+		gbc_txtInformacion.gridy = 2;
 		add(txtInformacion, gbc_txtInformacion);
 		
 		
@@ -105,6 +116,7 @@ public class PnCartelera extends JPanel {
 			pnCartelera.add(peli);
 			group.add(peli.getTglbtnPelicula());
 			botones.add(peli.getTglbtnPelicula());
+			peli.getTglbtnPelicula().addComponentListener(this);
 
 		}
 	}
@@ -113,6 +125,29 @@ public class PnCartelera extends JPanel {
 	}
 	public void setBotones(ArrayList<BtnPelicula> botones) {
 		this.botones = botones;
+	}
+	@Override
+	public void componentHidden(ComponentEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void componentMoved(ComponentEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void componentResized(ComponentEvent e) {
+		BtnPelicula boton = (BtnPelicula) e.getSource();
+		boton.upImage();
+		this.validate();
+		
+		
+	}
+	@Override
+	public void componentShown(ComponentEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 
