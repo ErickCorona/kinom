@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import classes.Cartelera;
+import classes.Funcion;
 
 public class FrmVentaTicket extends JFrame implements ActionListener{
 
@@ -125,7 +126,7 @@ public class FrmVentaTicket extends JFrame implements ActionListener{
 				contentPane.add(pnCentral, BorderLayout.CENTER);
 				contentPane.validate();
 				eventoBtn();
-				
+				PnVentaPanel.llenar(new ArrayList<Funcion>());
 				
 				
 			} catch (Exception e1) {

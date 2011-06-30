@@ -70,7 +70,7 @@ public class Cartelera {
 		ArrayList<Funcion> p = new ArrayList<Funcion>();
 		boolean isToday = currentDate.get(Calendar.DAY_OF_YEAR)==Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
 		for(Funcion f:funciones){
-			if(f.getPelicula().equals(pel) && f.getSala().getNumero()==sala
+			if(f.getPelicula().getId()==pel.getId() && f.getSala().getNumero()==sala
 				&& (!isToday || f.getHorario().getTimeInMillis()>=currentDate.getTimeInMillis()-7200000))
 				p.add(f);
 		}
@@ -92,7 +92,7 @@ public class Cartelera {
 		SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
 		
 		Conexion con = new Conexion();
-		ResultSet rs = con.executeQ("SELECT * FROM funciones,peliculas,salas WHERE funciones.id_pel=peliculas.id_pel AND funciones.id_sala=salas.id_sala AND date(hro_fun) ='" + format2.format(date.getTime()) + "'");
+		ResultSet rs = con.executeQ("SELECT * FROM funciones,peliculas,salas WHERE funciones.id_pel=peliculas.id_pel AND funciones.id_sala=salas.id_sala AND date(hro_fun) ='" + format2.format(date.getTime()) + "' ORDER BY hro_fun");
 		
 		while(rs.next()){
 			Calendar fecha = Calendar.getInstance();
