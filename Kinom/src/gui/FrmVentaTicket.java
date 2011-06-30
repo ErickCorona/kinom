@@ -119,6 +119,8 @@ public class FrmVentaTicket extends JFrame implements ActionListener{
 			try {
 				contentPane.remove(pnCentral);
 				fecha.setTime(format.parse(cfecha.getSelectedItem().toString()));
+				if(fecha.get(Calendar.DAY_OF_YEAR)==Calendar.getInstance().get(Calendar.DAY_OF_YEAR))
+					fecha = Calendar.getInstance();
 				pnCentral = new PnCartelera(car.getPeliculas(fecha));
 				contentPane.add(pnCentral, BorderLayout.CENTER);
 				contentPane.validate();
