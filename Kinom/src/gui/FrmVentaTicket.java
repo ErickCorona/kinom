@@ -99,7 +99,7 @@ public class FrmVentaTicket extends JFrame implements ActionListener{
 		
 		pnSuperior.getCmbFecha().addActionListener(this);
 		eventoBtn();
-		
+		PnVentaPanel.getBtnCancelar().addActionListener(this);
 		
 	}
 	
@@ -113,13 +113,17 @@ public class FrmVentaTicket extends JFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getActionCommand().equals("cmbFecha")){
-			SimpleDateFormat format = new SimpleDateFormat("EEE, MMM d, ''yy ");
-			JComboBox cfecha = (JComboBox) e.getSource();
-			Calendar fecha = Calendar.getInstance();
+		if(e.getActionCommand().equals("cmbFecha") || e.getActionCommand().equals("cancel")){
 			try {
+				Calendar fecha = Calendar.getInstance();
+				if(!e.getActionCommand().equals("cancel")){
+					SimpleDateFormat format = new SimpleDateFormat("EEE, MMM d, ''yy ");
+					JComboBox cfecha = (JComboBox) e.getSource();
+					fecha.setTime(format.parse(cfecha.getSelectedItem().toString()));
+				}else{
+					pnSuperior.getCmbFecha().setSelectedIndex(0);
+				}
 				contentPane.remove(pnCentral);
-				fecha.setTime(format.parse(cfecha.getSelectedItem().toString()));
 				if(fecha.get(Calendar.DAY_OF_YEAR)==Calendar.getInstance().get(Calendar.DAY_OF_YEAR))
 					fecha = Calendar.getInstance();
 				pnCentral = new PnCartelera(car.getPeliculas(fecha));

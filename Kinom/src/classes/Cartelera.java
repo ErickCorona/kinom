@@ -112,6 +112,35 @@ public class Cartelera {
 
 		con.close();
 	}
+	
+	public static double getPrecio(){
+		Conexion con = new Conexion();
+		double pre = 0;
+		try {
+			ResultSet rs = con.select("precios");
+			pre = rs.getDouble("base_pre");
+			con.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return pre;
+	}
+	
+	public static boolean is2x1(Calendar date){
+		Conexion con = new Conexion();
+		boolean pre = false;
+		try {
+			ResultSet rs = con.select("precios");
+			if(rs.getInt("2x1_pre")==date.get(Calendar.DAY_OF_WEEK))
+				pre = true;
+			con.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return pre;
+	}
 
 	public ArrayList<Funcion> getFunciones() {
 		return funciones;

@@ -35,6 +35,6 @@ class Tester {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}*/
-		
+		System.out.println(Calendar.WEDNESDAY);
 	}
 }
