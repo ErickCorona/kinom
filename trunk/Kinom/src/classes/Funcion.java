@@ -3,6 +3,9 @@ package classes;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import javax.swing.JTextPane;
+import javax.swing.text.StyledDocument;
+
 public class Funcion {
 
 	private Pelicula pelicula;
@@ -18,15 +21,6 @@ public class Funcion {
 
 	public Funcion(Pelicula pelicula) {
 		this.pelicula = pelicula;
-	}
-	
-	public String consultarFuncion(){
-		String s = "";
-		s+= pelicula.getNombre() + pelicula.getIdioma() + "\n";
-		s+= "Sala: " + sala.getNumero() + "\n\n";
-		s+= "Clas. " + pelicula.getClasificacion() + "\n";
-		s+= "Sinopsis: \n" + pelicula.getSinopsis();
-		return s;
 	}
 
 	public Pelicula getPelicula() {

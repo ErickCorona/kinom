@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -14,6 +15,8 @@ import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
 
 import classes.Funcion;
 
@@ -21,7 +24,7 @@ public class PnCartelera extends JPanel implements ComponentListener {
 	private ArrayList<Funcion> funciones;
 	private JPanel pnCartelera;
 	private ArrayList<BtnPelicula> botones;
-	
+	private JTextPane txtInformacion;
 
 	/**
 	 * 
@@ -58,7 +61,7 @@ public class PnCartelera extends JPanel implements ComponentListener {
 		scrollPane.setViewportView(pnCartelera);
 		pnCartelera.setLayout(new GridLayout(rows, cols , 10, 10));
 		
-		JTextPane txtInformacion = new JTextPane();
+		txtInformacion = new JTextPane();
 		GridBagConstraints gbc_txtInformacion = new GridBagConstraints();
 		gbc_txtInformacion.fill = GridBagConstraints.BOTH;
 		gbc_txtInformacion.gridx = 0;
@@ -68,6 +71,18 @@ public class PnCartelera extends JPanel implements ComponentListener {
 		botones = new ArrayList<BtnPelicula>();
 		
 		llenarCartelera();
+		
+		Style style;
+		style = txtInformacion.addStyle("24", null);
+		StyleConstants.setFontSize(style, 24);
+		style = txtInformacion.addStyle("24bold", style);
+		StyleConstants.setBold(style, true);
+		style = txtInformacion.addStyle("18", null);
+		StyleConstants.setFontSize(style, 18);
+		style = txtInformacion.addStyle("18bold", style);
+		StyleConstants.setBold(style, true);
+		style = txtInformacion.addStyle("Red18bold", style);
+		StyleConstants.setForeground(style, Color.red);
 
 	}
 	public PnCartelera() {
@@ -103,8 +118,6 @@ public class PnCartelera extends JPanel implements ComponentListener {
 		gbc_txtInformacion.gridx = 0;
 		gbc_txtInformacion.gridy = 2;
 		add(txtInformacion, gbc_txtInformacion);
-		
-		
 
 	}
 	
@@ -149,6 +162,12 @@ public class PnCartelera extends JPanel implements ComponentListener {
 		// TODO Auto-generated method stub
 		
 	}
+	public JTextPane getTxtInformacion() {
+		return txtInformacion;
+	}
+	public void setTxtInformacion(JTextPane txtInformacion) {
+		this.txtInformacion = txtInformacion;
+	}
 
-
+	
 }

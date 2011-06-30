@@ -136,11 +136,12 @@ public class FrmVentaTicket extends JFrame implements ActionListener{
 			
 			
 		}else if(e.getActionCommand().equals( "pelicula")){
-		System.out.println("Purbe");
+			System.out.println("Purbe");
 			BtnPelicula btn = (BtnPelicula) e.getSource();
 			
 			try {
 				PnVentaPanel.llenar(car.getFunciones(btn.getPeli(), btn.getSala()));
+				btn.getPeli().desplegarInfo(pnCentral.getTxtInformacion(),btn.getSala());
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
