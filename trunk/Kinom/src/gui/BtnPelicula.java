@@ -62,8 +62,8 @@ public class BtnPelicula extends JToggleButton {
 		BufferedImage tempBuff = new BufferedImage(tempImage.getWidth(null),tempImage.getHeight(null), BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2 = tempBuff.createGraphics();
 	    g2.drawImage(tempImage, 0, 0,null);//Lo escrimos
-		int h = (int) (this.getHeight()* (.7));
-		int w = (int) (this.getWidth()* (.7));
+		int h = (int) (this.getHeight()* (.5));
+		int w = (int) (this.getWidth()* (.5));
 		BufferedImage scaled = new BufferedImage(w,h , BufferedImage.TYPE_INT_RGB);
 		scaled = ImageUtils.getScaledInstance(tempBuff,w,h, RenderingHints.VALUE_INTERPOLATION_BILINEAR,true);
 		this.imgThumb = new ImageIcon(scaled);
