@@ -1,6 +1,12 @@
 package classes;
 
+import java.awt.Color;
+
 import javax.swing.ImageIcon;
+import javax.swing.JTextPane;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 public class Pelicula {
 	private int id;
@@ -37,6 +43,17 @@ public class Pelicula {
 		this.duracion = duracion;
 		this.sinopsis = sinopsis;
 		this.idioma = idioma;
+	}
+	
+	public void desplegarInfo(JTextPane text, int sala){
+		String info = nombre + " " + idioma + "\nSala: " + sala + "\nDuración: " + duracion + "\nClas. " + (clasificacion==null?"s/c":clasificacion) + "\nSinopsis: \n" + sinopsis;
+		text.setText(info);
+		StyledDocument doc = text.getStyledDocument();
+		
+		doc.setCharacterAttributes(0, info.indexOf('\n'), text.getStyle("24bold"), true);
+		int prev = info.length();
+		info = info.substring(info.indexOf('\n')+1);
+		doc.setCharacterAttributes(prev-info.length(), info.indexOf('\n'), text.getStyle("Red18bold"), true);
 	}
 
 	public String getNombre() {

@@ -24,6 +24,10 @@ public class Ticket {
 		this.ticketero = ticketero;
 		this.tipo = NORMAL;
 	}
+	
+	public void imprimir(){
+		
+	}
 
 	public Funcion getFuncion() {
 		return funcion;
