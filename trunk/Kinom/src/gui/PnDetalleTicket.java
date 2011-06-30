@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.Box;
@@ -19,15 +21,18 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
 import classes.Funcion;
+import classes.Ticket;
+import classes.Usuario;
 
-public class PnDetalleTicket extends JPanel  {
+public class PnDetalleTicket extends JPanel implements ActionListener {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTextField txtNumero;
 	private JList lstHorarios;
-
+	private JButton btnCancelar;
+	
 	/**
 	 * Create the panel.
 	 */
@@ -120,9 +125,11 @@ public class PnDetalleTicket extends JPanel  {
 		gbc_btnImprimir.insets = new Insets(0, 0, 5, 5);
 		gbc_btnImprimir.gridx = 1;
 		gbc_btnImprimir.gridy = 6;
+		btnImprimir.addActionListener(this);
+		btnImprimir.setActionCommand("print");
 		add(btnImprimir, gbc_btnImprimir);
 		
-		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar = new JButton("Cancelar");
 		btnCancelar.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
 		gbc_btnCancelar.fill = GridBagConstraints.BOTH;
@@ -130,6 +137,7 @@ public class PnDetalleTicket extends JPanel  {
 		gbc_btnCancelar.insets = new Insets(0, 0, 0, 5);
 		gbc_btnCancelar.gridx = 1;
 		gbc_btnCancelar.gridy = 7;
+		btnCancelar.setActionCommand("cancel");
 		add(btnCancelar, gbc_btnCancelar);
 
 	}
@@ -139,4 +147,31 @@ public class PnDetalleTicket extends JPanel  {
 		lstHorarios.setModel(model);
 	}
 
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getActionCommand().equals("print")){
+			if(lstHorarios.getSelectedIndex()!=-1){
+				int total;
+				if(txtNumero.getText().equals(""))
+					total = 0;
+				else
+					total = Integer.parseInt(txtNumero.getText());
+				while(total!=0){
+					total--;
+					Ticket tick = new Ticket((Funcion)lstHorarios.getSelectedValue(),new Usuario("tick","tick","Omar Bermúdez",0));
+					tick.imprimir();
+				}
+			}
+		}
+	}
+
+	public JButton getBtnCancelar() {
+		return btnCancelar;
+	}
+
+	public void setBtnCancelar(JButton btnCancelar) {
+		this.btnCancelar = btnCancelar;
+	}
+
+	
 }
