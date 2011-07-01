@@ -11,6 +11,8 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.BoxLayout;
 import javax.swing.SwingConstants;
+
+import java.awt.Frame;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -38,7 +40,7 @@ public class DgConfirmacionCambio extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			DgConfirmacionCambio dialog = new DgConfirmacionCambio();
+			DgConfirmacionCambio dialog = new DgConfirmacionCambio(null, false);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -49,8 +51,8 @@ public class DgConfirmacionCambio extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public DgConfirmacionCambio() {
-		//super()
+	public DgConfirmacionCambio(Frame owner, boolean modal) {
+		super(owner, modal);
 		setBounds(100, 100, 450, 281);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
