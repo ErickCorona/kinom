@@ -44,15 +44,17 @@ public class Cartelera {
 		for(Funcion f:funciones){
 			entro = false;
 			for(Funcion faux:p){
-				entro = true;
 				if((faux.getPelicula().getId()!=f.getPelicula().getId() || faux.getSala().getNumero()!=f.getSala().getNumero())
 						&& (!isToday || f.getHorario().getTimeInMillis()>=fecha.getTimeInMillis()-7200000)){
-					p.add(f);
+					entro=false;
+				}else{
+					entro = true;
 					break;
 				}
 			}
 			if(!entro && (!isToday || f.getHorario().getTimeInMillis()>=fecha.getTimeInMillis()-7200000))
 				p.add(f);
+			System.out.println(p.size());
 		}
 		return p;
 	}

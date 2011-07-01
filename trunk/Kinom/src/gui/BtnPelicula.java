@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
@@ -38,25 +39,31 @@ public class BtnPelicula extends JToggleButton {
 		BufferedImage tempBuff = new BufferedImage(tempImage.getWidth(null),tempImage.getHeight(null), BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2 = tempBuff.createGraphics();
 	    g2.drawImage(tempImage, 0, 0,null);
+	    
 		
-		BufferedImage scaled = new BufferedImage(200, 300, BufferedImage.TYPE_INT_RGB);
-		scaled = ImageUtils.getScaledInstance(tempBuff, 200, 300, RenderingHints.VALUE_INTERPOLATION_BILINEAR,true);
+		BufferedImage scaled = new BufferedImage(120, 190, BufferedImage.TYPE_INT_RGB);
 		
+		//scaled = ImageUtils.getScaledInstance(tempBuff, 120, 190, RenderingHints.VALUE_INTERPOLATION_BILINEAR,true);
 		
-		//Graphics2D g2 = scaled.createGraphics();
-		//g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-                //RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+	    
 		
-		//g2.drawImage(tempImage, 0,0,200,300,null);
+		Graphics2D g2d = scaled.createGraphics();
+		g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+                RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		
+		g2d.drawImage(tempImage, 0,0,120,190,null);
 		
 		imgThumb = new ImageIcon(scaled);
 		
 		setIcon(imgThumb);
 		setText("");
 		
+		setPreferredSize(new Dimension(50, 200));
+		
 	}
 	
 	public void upImage(){
+		/*
 		Image tempImage = peli.getImagen().getImage(); //Obtemeos el objeto imagen del ImageIcon 
 		//Creamos un buffered para contenerlo
 		BufferedImage tempBuff = new BufferedImage(tempImage.getWidth(null),tempImage.getHeight(null), BufferedImage.TYPE_INT_RGB);
@@ -67,7 +74,7 @@ public class BtnPelicula extends JToggleButton {
 		BufferedImage scaled = new BufferedImage(w,h , BufferedImage.TYPE_INT_RGB);
 		scaled = ImageUtils.getScaledInstance(tempBuff,w,h, RenderingHints.VALUE_INTERPOLATION_BILINEAR,true);
 		this.imgThumb = new ImageIcon(scaled);
-		setIcon(imgThumb);
+		setIcon(imgThumb);*/
 	}
 
 	public int getSala() {

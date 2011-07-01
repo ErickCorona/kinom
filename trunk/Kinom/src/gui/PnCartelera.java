@@ -6,8 +6,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 
 import javax.swing.Box;
@@ -20,7 +18,7 @@ import javax.swing.text.StyleConstants;
 
 import classes.Funcion;
 
-public class PnCartelera extends JPanel implements ComponentListener {
+public class PnCartelera extends JPanel  {
 	private ArrayList<Funcion> funciones;
 	private JPanel pnCartelera;
 	private ArrayList<BtnPelicula> botones;
@@ -38,10 +36,10 @@ public class PnCartelera extends JPanel implements ComponentListener {
 	public PnCartelera(ArrayList<Funcion> funciones) {
 		this.funciones = funciones;
 		int cols = 1;
-		cols = (funciones.size() <  4) && (funciones.size() > 0) ? funciones.size() : 4 ;
+		cols = 4 ;
 		
 		
-		int rows = (int) Math.ceil(funciones.size() / cols);
+		int rows = 0;
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
 		gridBagLayout.rowHeights = new int[]{218, 154, 0};
@@ -59,9 +57,13 @@ public class PnCartelera extends JPanel implements ComponentListener {
 		
 		pnCartelera = new JPanel();
 		scrollPane.setViewportView(pnCartelera);
-		pnCartelera.setLayout(new GridLayout(rows, cols , 10, 10));
+		//scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		pnCartelera.setLayout(new GridLayout(rows, cols , 5, 5));
 		
 		txtInformacion = new JTextPane();
+		txtInformacion.setEnabled(true);
+		txtInformacion.setEditable(false);
+		
 		GridBagConstraints gbc_txtInformacion = new GridBagConstraints();
 		gbc_txtInformacion.fill = GridBagConstraints.BOTH;
 		gbc_txtInformacion.gridx = 0;
@@ -83,7 +85,10 @@ public class PnCartelera extends JPanel implements ComponentListener {
 		StyleConstants.setBold(style, true);
 		style = txtInformacion.addStyle("Red18bold", style);
 		StyleConstants.setForeground(style, Color.red);
+		style = txtInformacion.addStyle("12", null);
+		StyleConstants.setFontSize(style, 12);
 
+		
 	}
 	public PnCartelera() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -113,6 +118,7 @@ public class PnCartelera extends JPanel implements ComponentListener {
 		add(verticalStrut, gbc_verticalStrut);
 		
 		JTextPane txtInformacion = new JTextPane();
+		txtInformacion.setEditable(false);
 		GridBagConstraints gbc_txtInformacion = new GridBagConstraints();
 		gbc_txtInformacion.fill = GridBagConstraints.BOTH;
 		gbc_txtInformacion.gridx = 0;
@@ -129,39 +135,19 @@ public class PnCartelera extends JPanel implements ComponentListener {
 			pnCartelera.add(peli);
 			group.add(peli.getTglbtnPelicula());
 			botones.add(peli.getTglbtnPelicula());
-			peli.getTglbtnPelicula().addComponentListener(this);
+			//peli.getTglbtnPelicula().addComponentListener(this);
 
 		}
 	}
+	
+	
 	public ArrayList<BtnPelicula> getBotones() {
 		return botones;
 	}
 	public void setBotones(ArrayList<BtnPelicula> botones) {
 		this.botones = botones;
 	}
-	@Override
-	public void componentHidden(ComponentEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void componentMoved(ComponentEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void componentResized(ComponentEvent e) {
-		BtnPelicula boton = (BtnPelicula) e.getSource();
-		boton.upImage();
-		this.validate();
-		
-		
-	}
-	@Override
-	public void componentShown(ComponentEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	public JTextPane getTxtInformacion() {
 		return txtInformacion;
 	}
