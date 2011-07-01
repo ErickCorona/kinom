@@ -47,15 +47,25 @@ public class Pelicula {
 	
 	public void desplegarInfo(JTextPane text, int sala){
 		String info = nombre + " " + idioma + "\nSala: " + sala + "\nDuración: " + duracion + "\nClas. " + (clasificacion==null?"s/c":clasificacion) + "\nSinopsis: \n" + sinopsis;
+		int lon = info.length();
 		text.setText(info);
 		StyledDocument doc = text.getStyledDocument();
 		
 		doc.setCharacterAttributes(0, info.indexOf('\n'), text.getStyle("24bold"), true);
 		int prev = info.length();
 		info = info.substring(info.indexOf('\n')+1);
-		doc.setCharacterAttributes(prev-info.length(), info.indexOf('\n'), text.getStyle("Red18bold"), true);
+		int fsala = info.indexOf('\n');
+		doc.setCharacterAttributes(prev-info.length(), fsala, text.getStyle("Red18bold"), true);
+		int cosatam=(prev-info.length())+fsala;
+		//System.out.println(""+(prev-info.length()));
+		//System.out.println(""+lon);
+		doc.setCharacterAttributes(cosatam,lon-cosatam, text.getStyle("12"), true);
 	}
 
+	public String getShortNombre(){
+		return null;
+	}
+	
 	public String getNombre() {
 		return nombre;
 	}

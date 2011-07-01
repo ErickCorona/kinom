@@ -31,7 +31,7 @@ public class PnPelicula extends JPanel{
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		JLabel lblTituloDeLa = new JLabel("TItulo de la pelicula");
+		JLabel lblTituloDeLa = new JLabel("Titulo de la pelicula");
 		lblTituloDeLa.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		GridBagConstraints gbc_lblTituloDeLa = new GridBagConstraints();
 		gbc_lblTituloDeLa.insets = new Insets(0, 0, 5, 0);
@@ -58,6 +58,8 @@ public class PnPelicula extends JPanel{
 		
 		lblTituloDeLa.setText(funcion.getPelicula().getNombre());
 		lblSala.setText("Sala: " + funcion.getSala().getNumero());
+		
+		
 		
 
 	}
