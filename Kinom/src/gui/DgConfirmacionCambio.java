@@ -8,6 +8,9 @@ import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.Calendar;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -17,7 +20,17 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import classes.Cartelera;
+import classes.Funcion;
+import classes.Ticket;
+import classes.Usuario;
+
 import net.miginfocom.swing.MigLayout;
+import javax.swing.SwingConstants;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class DgConfirmacionCambio extends JDialog {
 
@@ -26,19 +39,24 @@ public class DgConfirmacionCambio extends JDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField txtPelicula;
+	private JTextField txtHora;
+	private JTextField txtNumero;
 	private JTextField txtTotal;
 	private JTextField txtRecibido;
 	private JTextField txtCambio;
+	private Funcion funcion;
+	private int numBoletos;
+	private Usuario usuario;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			DgConfirmacionCambio dialog = new DgConfirmacionCambio(null, false);
+			DgConfirmacionCambio dialog = new DgConfirmacionCambio(null, false, null,0,null);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -47,7 +65,7 @@ public class DgConfirmacionCambio extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public DgConfirmacionCambio(Frame owner, boolean modal) {
+	public DgConfirmacionCambio(Frame owner, boolean modal, Funcion func, int num, Usuario usr) {
 		super(owner, modal);
 		setBounds(100, 100, 450, 281);
 		getContentPane().setLayout(new BorderLayout());
@@ -116,40 +134,43 @@ public class DgConfirmacionCambio extends JDialog {
 				panel.add(horizontalGlue, gbc_horizontalGlue);
 			}
 			{
-				textField = new JTextField();
-				textField.setEditable(false);
-				textField.setFont(new Font("Tahoma", Font.PLAIN, 12));
-				GridBagConstraints gbc_textField = new GridBagConstraints();
-				gbc_textField.insets = new Insets(0, 0, 5, 5);
-				gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-				gbc_textField.gridx = 1;
-				gbc_textField.gridy = 1;
-				panel.add(textField, gbc_textField);
-				textField.setColumns(10);
+				txtPelicula = new JTextField();
+				txtPelicula.setHorizontalAlignment(SwingConstants.CENTER);
+				txtPelicula.setEditable(false);
+				txtPelicula.setFont(new Font("Tahoma", Font.PLAIN, 12));
+				GridBagConstraints gbc_txtPelicula = new GridBagConstraints();
+				gbc_txtPelicula.insets = new Insets(0, 0, 5, 5);
+				gbc_txtPelicula.fill = GridBagConstraints.HORIZONTAL;
+				gbc_txtPelicula.gridx = 1;
+				gbc_txtPelicula.gridy = 1;
+				panel.add(txtPelicula, gbc_txtPelicula);
+				txtPelicula.setColumns(10);
 			}
 			{
-				textField_1 = new JTextField();
-				textField_1.setEditable(false);
-				textField_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-				GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-				gbc_textField_1.insets = new Insets(0, 0, 5, 5);
-				gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-				gbc_textField_1.gridx = 3;
-				gbc_textField_1.gridy = 1;
-				panel.add(textField_1, gbc_textField_1);
-				textField_1.setColumns(10);
+				txtHora = new JTextField();
+				txtHora.setHorizontalAlignment(SwingConstants.CENTER);
+				txtHora.setEditable(false);
+				txtHora.setFont(new Font("Tahoma", Font.PLAIN, 12));
+				GridBagConstraints gbc_txtHora = new GridBagConstraints();
+				gbc_txtHora.insets = new Insets(0, 0, 5, 5);
+				gbc_txtHora.fill = GridBagConstraints.HORIZONTAL;
+				gbc_txtHora.gridx = 3;
+				gbc_txtHora.gridy = 1;
+				panel.add(txtHora, gbc_txtHora);
+				txtHora.setColumns(10);
 			}
 			{
-				textField_2 = new JTextField();
-				textField_2.setEditable(false);
-				textField_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
-				GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-				gbc_textField_2.insets = new Insets(0, 0, 5, 5);
-				gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
-				gbc_textField_2.gridx = 5;
-				gbc_textField_2.gridy = 1;
-				panel.add(textField_2, gbc_textField_2);
-				textField_2.setColumns(10);
+				txtNumero = new JTextField();
+				txtNumero.setHorizontalAlignment(SwingConstants.CENTER);
+				txtNumero.setEditable(false);
+				txtNumero.setFont(new Font("Tahoma", Font.PLAIN, 12));
+				GridBagConstraints gbc_txtNumero = new GridBagConstraints();
+				gbc_txtNumero.insets = new Insets(0, 0, 5, 5);
+				gbc_txtNumero.fill = GridBagConstraints.HORIZONTAL;
+				gbc_txtNumero.gridx = 5;
+				gbc_txtNumero.gridy = 1;
+				panel.add(txtNumero, gbc_txtNumero);
+				txtNumero.setColumns(10);
 			}
 			{
 				JPanel panel_1 = new JPanel();
@@ -168,6 +189,7 @@ public class DgConfirmacionCambio extends JDialog {
 				}
 				{
 					txtTotal = new JTextField();
+					txtTotal.setHorizontalAlignment(SwingConstants.RIGHT);
 					txtTotal.setFont(new Font("Tahoma", Font.PLAIN, 16));
 					panel_1.add(txtTotal, "cell 1 0,alignx left");
 					txtTotal.setColumns(10);
@@ -179,6 +201,22 @@ public class DgConfirmacionCambio extends JDialog {
 				}
 				{
 					txtRecibido = new JTextField();
+					txtRecibido.addKeyListener(new KeyAdapter() {
+						@Override
+						public void keyTyped(KeyEvent arg0) {
+							JTextField recib = (JTextField) arg0.getSource();
+							try{
+								float total = Float.parseFloat(txtTotal.getText());
+								float dinero = Float.parseFloat(recib.getText() + arg0.getKeyChar());
+								//System.out.println("Recibido: " + dinero);
+								txtCambio.setText(""+(dinero-total));
+								
+							}catch (Exception e) {
+								// TODO: handle exception
+							}
+						}
+					});
+					txtRecibido.setHorizontalAlignment(SwingConstants.RIGHT);
 					txtRecibido.setFont(new Font("Tahoma", Font.PLAIN, 16));
 					panel_1.add(txtRecibido, "cell 1 1");
 					txtRecibido.setColumns(10);
@@ -190,6 +228,7 @@ public class DgConfirmacionCambio extends JDialog {
 				}
 				{
 					txtCambio = new JTextField();
+					txtCambio.setHorizontalAlignment(SwingConstants.RIGHT);
 					txtCambio.setFont(new Font("Tahoma", Font.PLAIN, 16));
 					panel_1.add(txtCambio, "cell 1 2");
 					txtCambio.setColumns(10);
@@ -202,18 +241,54 @@ public class DgConfirmacionCambio extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						for(int i=0; i<numBoletos; i++){
+							Ticket ticket = new Ticket(funcion, usuario);
+							ticket.imprimir();
+						}
+						dispose();
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						dispose();
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
+		llenar(func, num, usr);
 		setVisible(true);
-		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	}
+	
+	public void llenar(Funcion func, int num, Usuario usr){
+		this.funcion = func;
+		this.numBoletos = num;
+		this.usuario = usr;
+		txtHora.setText(func.toString());
+		txtPelicula.setText(func.getPelicula().getNombre());
+		txtNumero.setText(""+num);
+		
+		if(Cartelera.is2x1(func.getHorario())){
+			//Se contabilizan como 2x1
+			double total = num / 2 * Cartelera.getPrecio();
+			txtTotal.setText(""+total);
+			
+			
+		}else{
+			//No es 2x1
+			double total = num * Cartelera.getPrecio();
+			txtTotal.setText(""+total);
+		}
+		
 	}
 
 }

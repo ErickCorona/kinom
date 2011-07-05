@@ -35,23 +35,23 @@ public class BtnPelicula extends JToggleButton {
 		peli = func.getPelicula();
 		this.sala = func.getSala().getNumero();
 		
-		Image tempImage = peli.getImagen().getImage();
-		BufferedImage tempBuff = new BufferedImage(tempImage.getWidth(null),tempImage.getHeight(null), BufferedImage.TYPE_INT_RGB);
-		Graphics2D g2 = tempBuff.createGraphics();
-	    g2.drawImage(tempImage, 0, 0,null);
+		Image tempImage = peli.getImagen().getImage(); //Obtenemos imagen 
+		BufferedImage tempBuff = new BufferedImage(tempImage.getWidth(null),tempImage.getHeight(null), BufferedImage.TYPE_INT_RGB); //Buffered image
+		Graphics2D g2 = tempBuff.createGraphics(); //Obtemeos la instancia grafica
+	    g2.drawImage(tempImage, 0, 0,null); //La pintamos
 	    
 		
 		BufferedImage scaled = new BufferedImage(120, 190, BufferedImage.TYPE_INT_RGB);
 		
-		//scaled = ImageUtils.getScaledInstance(tempBuff, 120, 190, RenderingHints.VALUE_INTERPOLATION_BILINEAR,true);
+		scaled = ImageUtils.getScaledInstance(tempBuff, 120, 190, RenderingHints.VALUE_INTERPOLATION_BILINEAR,false);
 		
 	    
 		
-		Graphics2D g2d = scaled.createGraphics();
+		/*Graphics2D g2d = scaled.createGraphics();
 		g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
                 RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		
-		g2d.drawImage(tempImage, 0,0,120,190,null);
+		g2d.drawImage(tempImage, 0,0,120,190,null);*/
 		
 		imgThumb = new ImageIcon(scaled);
 		
