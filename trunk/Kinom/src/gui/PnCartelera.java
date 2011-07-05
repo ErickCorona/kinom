@@ -129,6 +129,7 @@ public class PnCartelera extends JPanel  {
 	
 	private void llenarCartelera(){
 		ButtonGroup group = new ButtonGroup();
+		int i = 0;
 		for (Funcion func : this.funciones) {
 			System.out.println("hola");
 			PnPelicula peli = new PnPelicula(func);
@@ -136,6 +137,9 @@ public class PnCartelera extends JPanel  {
 			group.add(peli.getTglbtnPelicula());
 			botones.add(peli.getTglbtnPelicula());
 			//peli.getTglbtnPelicula().addComponentListener(this);
+			/*if(i == 0)
+				peli.getTglbtnPelicula().setSelected(true);
+			i++;*/
 
 		}
 	}

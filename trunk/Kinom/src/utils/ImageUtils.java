@@ -6,7 +6,7 @@ import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 
 public class ImageUtils {
-	 /**
+    /**
      * Convenience method that returns a scaled instance of the
      * provided {@code BufferedImage}.
      *
@@ -77,5 +77,4 @@ public class ImageUtils {
 
         return ret;
     }
-
 }
