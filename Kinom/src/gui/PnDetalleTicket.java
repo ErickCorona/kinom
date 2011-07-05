@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -156,12 +157,11 @@ public class PnDetalleTicket extends JPanel implements ActionListener {
 					total = 0;
 				else
 					total = Integer.parseInt(txtNumero.getText());
-				while(total!=0){
-					//new DgConfirmacionCambio();
+				System.out.println("sad");
+				new DgConfirmacionCambio((Frame)this.getParent().getParent().getParent().getParent(),true);
 					/*total--;
 					Ticket tick = new Ticket((Funcion)lstHorarios.getSelectedValue(),new Usuario("tick","tick","Omar Bermúdez",0));
 					tick.imprimir();*/
-				}
 			}
 		}
 	}

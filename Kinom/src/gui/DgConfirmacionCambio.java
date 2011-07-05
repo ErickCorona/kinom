@@ -39,8 +39,6 @@ public class DgConfirmacionCambio extends JDialog {
 	public static void main(String[] args) {
 		try {
 			DgConfirmacionCambio dialog = new DgConfirmacionCambio(null, false);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -214,6 +212,8 @@ public class DgConfirmacionCambio extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		setVisible(true);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	}
 
 }
