@@ -2,6 +2,7 @@ package classes;
 
 import java.awt.print.Printable;
 import java.awt.print.PrinterJob;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -9,6 +10,8 @@ import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.swing.JTextPane;
 import javax.swing.text.*;
+
+import bd.Conexion;
 
 public class Ticket {
 

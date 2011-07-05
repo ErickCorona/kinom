@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import bd.Conexion;
 import classes.Cartelera;
 import classes.Funcion;
 import classes.Ticket;
@@ -45,18 +46,16 @@ public class DgConfirmacionCambio extends JDialog {
 	private JTextField txtTotal;
 	private JTextField txtRecibido;
 	private JTextField txtCambio;
-	private Funcion funcion;
+	private Ticket ticket;
 	private int numBoletos;
-	private Usuario usuario;
+	private boolean dosx1;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			DgConfirmacionCambio dialog = new DgConfirmacionCambio(null, false, null,0,null);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
+			DgConfirmacionCambio dialog = new DgConfirmacionCambio(null, false, 1, null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -65,7 +64,7 @@ public class DgConfirmacionCambio extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public DgConfirmacionCambio(Frame owner, boolean modal, Funcion func, int num, Usuario usr) {
+	public DgConfirmacionCambio(Frame owner, boolean modal, int total, Ticket tick) {
 		super(owner, modal);
 		setBounds(100, 100, 450, 281);
 		getContentPane().setLayout(new BorderLayout());
@@ -243,9 +242,19 @@ public class DgConfirmacionCambio extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						Conexion c = new Conexion();
 						for(int i=0; i<numBoletos; i++){
-							Ticket ticket = new Ticket(funcion, usuario);
-							ticket.imprimir();
+							try {
+								if(!dosx1 || i%2==0){
+									ticket.imprimir();
+									c.insert("ventas", "null," + ticket.getFuncion().getId() + ",(SELECT base_pre FROM precios)," + (dosx1?1:0) + ",null");
+								}
+								c.executeU("UPDATE funciones SET ocu_fun=ocu_fun+1 WHERE id_fun=" + ticket.getFuncion().getId());
+								c.close();
+							} catch (Exception ex) {
+								// TODO Auto-generated catch block
+								ex.printStackTrace();
+							}
 						}
 						dispose();
 					}
@@ -265,30 +274,28 @@ public class DgConfirmacionCambio extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
-		llenar(func, num, usr);
+		llenar(tick, total);
 		setVisible(true);
 	}
 	
-	public void llenar(Funcion func, int num, Usuario usr){
-		this.funcion = func;
+	public void llenar(Ticket tick, int num){
+		this.ticket = tick;
 		this.numBoletos = num;
-		this.usuario = usr;
-		txtHora.setText(func.toString());
-		txtPelicula.setText(func.getPelicula().getNombre());
+		txtHora.setText(tick.getFuncion().toString());
+		txtPelicula.setText(tick.getFuncion().getPelicula().getNombre());
 		txtNumero.setText(""+num);
 		
-		if(Cartelera.is2x1(func.getHorario())){
+		if(Cartelera.is2x1(tick.getFuncion().getHorario())){
 			//Se contabilizan como 2x1
-			double total = num / 2 * Cartelera.getPrecio();
+			double total = Math.round(num/2.0) * Cartelera.getPrecio();
 			txtTotal.setText(""+total);
-			
-			
+			dosx1 = true;
 		}else{
 			//No es 2x1
 			double total = num * Cartelera.getPrecio();
 			txtTotal.setText(""+total);
+			dosx1 = false;
 		}
-		
 	}
 
 }

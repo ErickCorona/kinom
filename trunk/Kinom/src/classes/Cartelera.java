@@ -107,7 +107,9 @@ public class Cartelera {
 				new Funcion(
 					new Pelicula(rs.getInt(2), rs.getString("nom_pel"), new ImageIcon(blob), rs.getString("clas_pel"), rs.getInt("dur_pel"), rs.getString("sin_pel"), rs.getString("idm_pel")),
 					fecha,
-					new Sala(rs.getInt(3),rs.getInt("cap_sala"))
+					new Sala(rs.getInt(3),rs.getInt("cap_sala")),
+					rs.getInt("ocu_fun"),
+					rs.getInt("id_fun")
 				)
 			);
 		}

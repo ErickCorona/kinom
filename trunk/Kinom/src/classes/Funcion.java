@@ -12,11 +12,14 @@ public class Funcion {
 	private Calendar horario;
 	private Sala sala;
 	private int ocupados;
+	private int id;
 	
-	public Funcion(Pelicula pelicula, Calendar horario, Sala sala) {
+	public Funcion(Pelicula pelicula, Calendar horario, Sala sala, int ocupados, int id) {
 		this.pelicula = pelicula;
 		this.horario = horario;
 		this.sala = sala;
+		this.ocupados = ocupados;
+		this.id = id;
 	}
 
 	public Funcion(Pelicula pelicula) {
@@ -55,6 +58,14 @@ public class Funcion {
 		this.ocupados = ocupados;
 	}
 	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub

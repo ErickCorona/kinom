@@ -157,17 +157,8 @@ public class PnDetalleTicket extends JPanel implements ActionListener {
 					total = 1;
 				else
 					total = Integer.parseInt(txtNumero.getText());
-				//while(total!=0){
-					new DgConfirmacionCambio(
-							(Frame) this.getParent().getParent().getParent().getParent(),
-							true,
-							(Funcion) lstHorarios.getSelectedValue(),
-							total,
-							new Usuario("tick","tick","Omar Bermúdez",0));
-					/*total--;
-					Ticket tick = new Ticket((Funcion)lstHorarios.getSelectedValue(),new Usuario("tick","tick","Omar Bermúdez",0));
-					tick.imprimir();*/
-				//}
+				Ticket tick = new Ticket((Funcion)lstHorarios.getSelectedValue(),new Usuario("tick","tick","Omar Bermúdez",0));
+				new DgConfirmacionCambio((Frame)this.getParent().getParent().getParent().getParent(),true, total, tick);
 			}
 		}
 	}
