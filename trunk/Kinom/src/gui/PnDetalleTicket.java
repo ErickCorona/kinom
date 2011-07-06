@@ -39,6 +39,7 @@ public class PnDetalleTicket extends JPanel implements ActionListener {
 	private JTextField txtNumero;
 	private JList lstHorarios;
 	private JButton btnCancelar;
+	private JButton btnImprimir;
 	
 	/**
 	 * Create the panel.
@@ -125,7 +126,7 @@ public class PnDetalleTicket extends JPanel implements ActionListener {
 		lstHorarios.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		scrollPane.setViewportView(lstHorarios);
 		
-		JButton btnImprimir = new JButton("Imprimir");
+		btnImprimir = new JButton("Imprimir");
 		btnImprimir.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		GridBagConstraints gbc_btnImprimir = new GridBagConstraints();
 		gbc_btnImprimir.fill = GridBagConstraints.BOTH;
@@ -172,17 +173,28 @@ public class PnDetalleTicket extends JPanel implements ActionListener {
 			if(lstHorarios.getSelectedIndex()==-1)
 				lstHorarios.setSelectedIndex(0);
 			int total;
-			if(txtNumero.getText().equals(""))
+			if(txtNumero.getText().equals("")){
 				total = 1;
+				txtNumero.setText("1");
+				btnImprimir.doClick();
+				
+			}
 			else
-				total = Integer.parseInt(txtNumero.getText());
-				if(((Funcion)lstHorarios.getSelectedValue()).getLibres()>=total){
-					Ticket tick = new Ticket((Funcion)lstHorarios.getSelectedValue(),((FrmVentaTicket)this.getParent().getParent().getParent().getParent()).getUser());
-					new DgConfirmacionCambio((Frame)this.getParent().getParent().getParent().getParent(),true, total, tick);
-					btnCancelar.doClick();
+				try{
+					total = Integer.parseInt(txtNumero.getText());
+					if(((Funcion)lstHorarios.getSelectedValue()).getLibres()>=total){
+						Ticket tick = new Ticket((Funcion)lstHorarios.getSelectedValue(),((FrmVentaTicket)this.getParent().getParent().getParent().getParent()).getUser());
+						new DgConfirmacionCambio((Frame)this.getParent().getParent().getParent().getParent(),true, total, tick);
+						btnCancelar.doClick();
+					}
+					else{
+						JOptionPane.showMessageDialog(this, "No hay tantos boletos disponibles");
+					}
 				}
-				else{
-					JOptionPane.showMessageDialog(this, "No hay tantos boletos disponibles");
+				catch(Exception c)
+				{
+					JOptionPane.showMessageDialog(this, "No es valido ese numero de tickets");
+					txtNumero.setText("");
 				}
 		}
 	}
