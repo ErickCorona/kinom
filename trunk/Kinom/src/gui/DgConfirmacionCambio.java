@@ -211,7 +211,7 @@ public class DgConfirmacionCambio extends JDialog {
 								txtCambio.setText(""+(dinero-total));
 								
 							}catch (Exception e) {
-								// TODO: handle exception
+
 							}
 						}
 					});
@@ -251,8 +251,9 @@ public class DgConfirmacionCambio extends JDialog {
 								}
 								c.executeU("UPDATE funciones SET ocu_fun=ocu_fun+1 WHERE id_fun=" + ticket.getFuncion().getId());
 								c.close();
+								//TODO Aumentar oucpados en funcion.
+								//TODO Decrementar los 4 en caso de que compren 3 en dia 2x1
 							} catch (Exception ex) {
-								// TODO Auto-generated catch block
 								ex.printStackTrace();
 							}
 						}

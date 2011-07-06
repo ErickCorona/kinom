@@ -11,6 +11,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PnEncabezadoVen extends JPanel {
 	/**
@@ -38,6 +41,7 @@ public class PnEncabezadoVen extends JPanel {
 		panel.add(lblNombre);
 		
 		txtNombre = new JTextField();
+		txtNombre.setEditable(false);
 		txtNombre.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		panel.add(txtNombre);
 		txtNombre.setColumns(10);
@@ -46,6 +50,13 @@ public class PnEncabezadoVen extends JPanel {
 		FlowLayout flowLayout_1 = (FlowLayout) panel_1.getLayout();
 		flowLayout_1.setAlignment(FlowLayout.RIGHT);
 		add(panel_1);
+		
+		JButton btnCortesia = new JButton("Cortes\u00EDa");
+		btnCortesia.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		panel_1.add(btnCortesia);
 		
 		JLabel lblFecha = new JLabel("Fecha:");
 		lblFecha.setFont(new Font("Tahoma", Font.PLAIN, 15));

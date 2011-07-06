@@ -14,6 +14,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import classes.Cartelera;
@@ -40,6 +41,9 @@ public class FrmVentaTicket extends JFrame implements ActionListener{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					UIManager.setLookAndFeel(
+							"com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+					
 					FrmVentaTicket frame = new FrmVentaTicket(new Usuario("tick","tick","Omar Bermúdez",0));
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -71,7 +75,7 @@ public class FrmVentaTicket extends JFrame implements ActionListener{
 		pnSuperior = new PnEncabezadoVen();
 		contentPane.add(pnSuperior, BorderLayout.NORTH);
 		
-	
+		//TODO validaciones
 		
 		DefaultComboBoxModel model = new DefaultComboBoxModel();
 		Calendar fecha = Calendar.getInstance();
@@ -133,7 +137,7 @@ public class FrmVentaTicket extends JFrame implements ActionListener{
 				contentPane.validate();
 				eventoBtn();
 				PnVentaPanel.llenar(new ArrayList<Funcion>());
-				
+				PnVentaPanel.getTxtNumero().setText("");
 				
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
@@ -148,14 +152,7 @@ public class FrmVentaTicket extends JFrame implements ActionListener{
 			try {
 				PnVentaPanel.llenar(car.getFunciones(btn.getPeli(), btn.getSala()));
 				btn.getPeli().desplegarInfo(pnCentral.getTxtInformacion(),btn.getSala());
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
+			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
 		}

@@ -29,6 +29,7 @@ import classes.Funcion;
 import classes.Sala;
 import classes.Ticket;
 import classes.Usuario;
+import javax.swing.ListSelectionModel;
 
 public class PnDetalleTicket extends JPanel implements ActionListener {
 	/**
@@ -120,6 +121,7 @@ public class PnDetalleTicket extends JPanel implements ActionListener {
 		add(scrollPane, gbc_scrollPane);
 		
 		lstHorarios = new JList();
+		lstHorarios.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		lstHorarios.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		scrollPane.setViewportView(lstHorarios);
 		
@@ -175,8 +177,9 @@ public class PnDetalleTicket extends JPanel implements ActionListener {
 			else
 				total = Integer.parseInt(txtNumero.getText());
 				if(((Funcion)lstHorarios.getSelectedValue()).getLibres()>=total){
-								Ticket tick = new Ticket((Funcion)lstHorarios.getSelectedValue(),((FrmVentaTicket)this.getParent().getParent().getParent().getParent()).getUser());
-								new DgConfirmacionCambio((Frame)this.getParent().getParent().getParent().getParent(),true, total, tick);
+					Ticket tick = new Ticket((Funcion)lstHorarios.getSelectedValue(),((FrmVentaTicket)this.getParent().getParent().getParent().getParent()).getUser());
+					new DgConfirmacionCambio((Frame)this.getParent().getParent().getParent().getParent(),true, total, tick);
+					btnCancelar.doClick();
 				}
 				else{
 					JOptionPane.showMessageDialog(this, "No hay tantos boletos disponibles");
@@ -190,6 +193,14 @@ public class PnDetalleTicket extends JPanel implements ActionListener {
 
 	public void setBtnCancelar(JButton btnCancelar) {
 		this.btnCancelar = btnCancelar;
+	}
+
+	public JTextField getTxtNumero() {
+		return txtNumero;
+	}
+
+	public void setTxtNumero(JTextField txtNumero) {
+		this.txtNumero = txtNumero;
 	}
 
 	
