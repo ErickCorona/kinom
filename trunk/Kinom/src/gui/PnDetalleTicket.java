@@ -8,13 +8,17 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -22,6 +26,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
 import classes.Funcion;
+import classes.Sala;
 import classes.Ticket;
 import classes.Usuario;
 
@@ -144,6 +149,17 @@ public class PnDetalleTicket extends JPanel implements ActionListener {
 	}
 	
 	public void llenar(ArrayList<Funcion> funciones){
+		/*
+		Object[] horas = new String[20];		
+		SimpleDateFormat fecha_h = new SimpleDateFormat("h:mm a");
+		int ocu;
+		for(int i=0;i<funciones.size();i++){
+			ocu=100-(funciones.get(i).getOcupados());
+			horas[i]=fecha_h.format(funciones.get(i).getHorario().getTime())+"  Disp: "+ ocu;
+			System.out.println(horas[i]);
+		}
+		DefaultComboBoxModel model1 = new DefaultComboBoxModel(horas);
+		*/
 		DefaultComboBoxModel model = new DefaultComboBoxModel(funciones.toArray());
 		lstHorarios.setModel(model);
 	}
@@ -151,15 +167,20 @@ public class PnDetalleTicket extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equals("print")){
-			if(lstHorarios.getSelectedIndex()!=-1){
-				int total;
-				if(txtNumero.getText().equals(""))
-					total = 1;
-				else
-					total = Integer.parseInt(txtNumero.getText());
-				Ticket tick = new Ticket((Funcion)lstHorarios.getSelectedValue(),new Usuario("tick","tick","Omar Bermúdez",0));
-				new DgConfirmacionCambio((Frame)this.getParent().getParent().getParent().getParent(),true, total, tick);
-			}
+			if(lstHorarios.getSelectedIndex()==-1)
+				lstHorarios.setSelectedIndex(0);
+			int total;
+			if(txtNumero.getText().equals(""))
+				total = 1;
+			else
+				total = Integer.parseInt(txtNumero.getText());
+				if(((Funcion)lstHorarios.getSelectedValue()).getLibres()>=total){
+								Ticket tick = new Ticket((Funcion)lstHorarios.getSelectedValue(),((FrmVentaTicket)this.getParent().getParent().getParent().getParent()).getUser());
+								new DgConfirmacionCambio((Frame)this.getParent().getParent().getParent().getParent(),true, total, tick);
+				}
+				else{
+					JOptionPane.showMessageDialog(this, "No hay tantos boletos disponibles");
+				}
 		}
 	}
 

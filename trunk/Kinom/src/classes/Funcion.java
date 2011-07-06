@@ -53,6 +53,10 @@ public class Funcion {
 	public int getOcupados() {
 		return ocupados;
 	}
+	
+	public int getLibres() {
+		return sala.getCapacidad()-ocupados;
+	}
 
 	public void setOcupados(int ocupados) {
 		this.ocupados = ocupados;
@@ -71,7 +75,7 @@ public class Funcion {
 		// TODO Auto-generated method stub
 		SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
 		String horario = format.format(this.getHorario().getTime());
-		return horario;
+		return horario+"  Disp: "+ (getLibres());
 		//return super.toString();
 	}
 	
