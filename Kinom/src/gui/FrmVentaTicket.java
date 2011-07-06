@@ -18,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 
 import classes.Cartelera;
 import classes.Funcion;
+import classes.Usuario;
 
 public class FrmVentaTicket extends JFrame implements ActionListener{
 
@@ -29,6 +30,7 @@ public class FrmVentaTicket extends JFrame implements ActionListener{
 	private PnEncabezadoVen pnSuperior;
 	private PnCartelera pnCentral;
 	private PnDetalleTicket PnVentaPanel;
+	private Usuario user;
 	Cartelera car;
 
 	/**
@@ -38,7 +40,7 @@ public class FrmVentaTicket extends JFrame implements ActionListener{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrmVentaTicket frame = new FrmVentaTicket();
+					FrmVentaTicket frame = new FrmVentaTicket(new Usuario("tick","tick","Omar Bermúdez",0));
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -50,8 +52,8 @@ public class FrmVentaTicket extends JFrame implements ActionListener{
 	/**
 	 * Create the frame.
 	 */
-	public FrmVentaTicket() {
-		
+	public FrmVentaTicket(Usuario user) {
+		this.user = user;
 
 		setTitle("Venta de Tickets");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -100,7 +102,7 @@ public class FrmVentaTicket extends JFrame implements ActionListener{
 		pnSuperior.getCmbFecha().addActionListener(this);
 		eventoBtn();
 		PnVentaPanel.getBtnCancelar().addActionListener(this);
-		
+		pnSuperior.getTxtNombre().setText(user.getNombre());
 	}
 	
 	private void eventoBtn(){
@@ -158,6 +160,14 @@ public class FrmVentaTicket extends JFrame implements ActionListener{
 			}
 		}
 		
+	}
+
+	public Usuario getUser() {
+		return user;
+	}
+
+	public void setUser(Usuario user) {
+		this.user = user;
 	}
 
 	

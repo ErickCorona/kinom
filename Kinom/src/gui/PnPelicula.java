@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import classes.Funcion;
+import java.awt.Dimension;
 
 public class PnPelicula extends JPanel{
 	
@@ -57,9 +58,7 @@ public class PnPelicula extends JPanel{
 		
 		
 		lblTituloDeLa.setText(funcion.getPelicula().getNombre());
-		lblSala.setText("Sala: " + funcion.getSala().getNumero());
-		
-		
+		lblSala.setText("Sala:" + funcion.getSala().getNumero());
 		
 
 	}

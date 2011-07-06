@@ -5,6 +5,9 @@ public class Sala {
 	private int numero;
 	private int capacidad;
 	
+	public Sala(){
+	}
+	
 	public Sala(int numero, int capacidad) {
 		super();
 		this.numero = numero;
