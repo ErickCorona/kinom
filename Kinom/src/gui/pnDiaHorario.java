@@ -35,7 +35,7 @@ public class pnDiaHorario extends JPanel {
 		
 		JLabel lblDia = new JLabel(dfDia.format(fecha.getTime()));//Obtemeos el tiempo itroducido
 		lblDia.setFont(new Font("Tahoma", Font.BOLD, 16));
-		add(lblDia, "cell 0 0,alignx trailing");
+		add(lblDia, "cell 0 0,alignx center");
 		
 		//=====Boton de agregar====
 		btnAgregar = new JButton("Agregar");
