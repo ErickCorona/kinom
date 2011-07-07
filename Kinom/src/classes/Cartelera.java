@@ -60,6 +60,27 @@ public class Cartelera {
 	}
 	
 	/**
+	 * Regresa todas las peliculas en la base de datos que no estan eliminadas
+	 * @param fecha <i>Calendar</i> que contiene la fecha deseada.
+	 * @return <i>ArrayList</i> de <i>Peliculas</i> que contiene las diferentes películas.
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 * @throws ParseException
+	 */
+	public ArrayList<Pelicula> getPeliculas() throws SQLException, ClassNotFoundException, ParseException{
+		ArrayList<Pelicula> p = new ArrayList<Pelicula>();
+		Conexion conn = new Conexion();
+		ResultSet rs = conn.select("Peliculas");
+		Pelicula pel;
+		while(rs.next()){
+			byte blob[] = rs.getBytes("img_pel");
+			pel = new Pelicula(rs.getInt("id_pel"), rs.getString("nom_pel"), new ImageIcon(blob), rs.getString("clas_pel"), rs.getInt("dur_pel"), rs.getString("sin_pel"), rs.getString("idm_pel"));
+			p.add(pel);
+		}
+		return p;
+	}
+	
+	/**
 	 * Toma las funciones que serán proyectadas en la fecha actual <i>currentDate</i> de una película en específico en una sala.
 	 * @param pel Película de la que se quieren las funciones.
 	 * @param sala Sala en la que está la película.
