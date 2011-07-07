@@ -23,6 +23,7 @@ import java.awt.Font;
 import java.awt.Component;
 import javax.swing.Box;
 import java.awt.FlowLayout;
+import java.util.Calendar;
 
 public class FrmAdmFuncion extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -164,7 +165,7 @@ public class FrmAdmFuncion extends JFrame {
 		JButton btnGuardar = new JButton("Guardar");
 		panel_1.add(btnGuardar);
 		
-		JPanel panel_2 = new JPanel();
+		JPanel panel_2 = new PnHorario(Calendar.getInstance());
 		panel.add(panel_2, BorderLayout.CENTER);
 	}
 	
