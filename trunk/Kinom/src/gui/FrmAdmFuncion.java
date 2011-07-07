@@ -22,11 +22,13 @@ import javax.swing.JTextField;
 import java.awt.Font;
 import java.awt.Component;
 import javax.swing.Box;
+import java.awt.FlowLayout;
 
 public class FrmAdmFuncion extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtCapacidad;
+	private JList lstPeliculas;
 
 	/**
 	 * Launch the application.
@@ -48,8 +50,9 @@ public class FrmAdmFuncion extends JFrame {
 	 * Create the frame.
 	 */
 	public FrmAdmFuncion() {
+		setTitle("Cartelera");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 813, 348);
+		setBounds(100, 100, 813, 473);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -118,7 +121,7 @@ public class FrmAdmFuncion extends JFrame {
 		gbc_scrollPane.gridy = 0;
 		pnPeliculas.add(scrollPane, gbc_scrollPane);
 		
-		JList lstPeliculas = new JList();
+		lstPeliculas = new JList();
 		scrollPane.setViewportView(lstPeliculas);
 		
 		JButton btnAgregar = new JButton("Agregar");
@@ -145,6 +148,32 @@ public class FrmAdmFuncion extends JFrame {
 		gbc_btnModificar.gridx = 1;
 		gbc_btnModificar.gridy = 2;
 		pnPeliculas.add(btnModificar, gbc_btnModificar);
+		
+		JPanel panel = new JPanel();
+		contentPane.add(panel, BorderLayout.CENTER);
+		panel.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel_1 = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) panel_1.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		panel.add(panel_1, BorderLayout.NORTH);
+		
+		JButton btnAgregarmodificar = new JButton("Agregar/Modificar");
+		panel_1.add(btnAgregarmodificar);
+		
+		JButton btnGuardar = new JButton("Guardar");
+		panel_1.add(btnGuardar);
+		
+		JPanel panel_2 = new PnDiaHro();
+		panel.add(panel_2, BorderLayout.CENTER);
+	}
+	
+	public void llenarPeliculas(){
+		
+		
 	}
 
+	public JList getLstPeliculas() {
+		return lstPeliculas;
+	}
 }
