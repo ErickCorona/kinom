@@ -164,7 +164,7 @@ public class FrmAdmFuncion extends JFrame {
 		JButton btnGuardar = new JButton("Guardar");
 		panel_1.add(btnGuardar);
 		
-		JPanel panel_2 = new PnDiaHro();
+		JPanel panel_2 = new JPanel();
 		panel.add(panel_2, BorderLayout.CENTER);
 	}
 	
