@@ -26,6 +26,7 @@ import java.awt.Font;
 import java.awt.Component;
 import javax.swing.Box;
 
+import bd.Conexion;
 import classes.Cartelera;
 import classes.Funcion;
 import classes.Pelicula;
@@ -47,6 +48,7 @@ public class FrmAdmFuncion extends JFrame {
 	private JTextField txtCapacidad;
 	private JList lstPeliculas;
 	private JComboBox cmbSala;
+	private PnHorario pnHorario;
 
 	/**
 	 * Launch the application.
@@ -96,7 +98,7 @@ public class FrmAdmFuncion extends JFrame {
 		gbc_pnSalas.gridx = 0;
 		gbc_pnSalas.gridy = 0;
 		pnEncabezado.add(pnSalas, gbc_pnSalas);
-		pnSalas.setLayout(new MigLayout("", "[][grow]", "[][][]"));
+		pnSalas.setLayout(new MigLayout("", "[grow][grow]", "[][][][grow]"));
 		
 		Component verticalStrut = Box.createVerticalStrut(20);
 		pnSalas.add(verticalStrut, "cell 1 0");
@@ -108,7 +110,7 @@ public class FrmAdmFuncion extends JFrame {
 		cmbSala = new JComboBox();
 		cmbSala.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(cmbSala.getSelectedIndex() > 0){
+				if(cmbSala.getSelectedIndex() >= 0){
 				JComboBox cmbSala = (JComboBox) arg0.getSource();
 				Sala sala = (Sala) cmbSala.getSelectedItem();
 				
@@ -131,6 +133,58 @@ public class FrmAdmFuncion extends JFrame {
 		txtCapacidad.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		pnSalas.add(txtCapacidad, "cell 1 2,growx");
 		txtCapacidad.setColumns(10);
+		
+		JPanel panel_2 = new JPanel();
+		pnSalas.add(panel_2, "cell 0 3 2 1,grow");
+		
+		JButton btnNewButton_1 = new JButton("Agregar");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String numSala = JOptionPane.showInputDialog("Ingresa la capacidad de la sala");
+				if (numSala == null)
+					return;
+				int num = Integer.parseInt(numSala);
+				
+				try {
+					Conexion conn = new Conexion();
+					
+					conn.insert("salas", "null, "+num);
+					llenarSalas();
+					conn.close();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+			}
+		});
+		
+		panel_2.add(btnNewButton_1);
+		
+		JButton btnNewButton = new JButton("Modificar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Sala sala = (Sala) cmbSala.getSelectedItem();
+				Conexion conn = new Conexion();
+				try {
+					conn.update("salas", "cap_sala="+txtCapacidad.getText(), "id_sala="+sala.getNumero());
+					conn.close();
+					llenarSalas();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		panel_2.add(btnNewButton);
 		
 		JPanel pnPeliculas = new JPanel();
 		pnPeliculas.setBorder(new TitledBorder(null, "Peliculas", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -199,12 +253,30 @@ public class FrmAdmFuncion extends JFrame {
 				//Consultar si ya existe una funcion con esas caracteristicas
 				Pelicula pel = (Pelicula) lstPeliculas.getSelectedValue();
 				Sala sala = (Sala) cmbSala.getSelectedItem();
+				ArrayList<Funcion> funciones = new ArrayList<Funcion>();
+				pnHorario.setPel(pel);
+				pnHorario.setSala(sala);
 				try {
-					Cartelera.getFuncionDesdeHoy(pel, sala.getNumero());
+					funciones = Cartelera.getFuncionDesdeHoy(pel, sala.getNumero());
+					if(funciones.size() == 0){
+						Calendar cal = Calendar.getInstance();
+						System.out.println("Prueba");
+						pnHorario.llenar(cal);
+						pnHorario.validate();
+						
+					}else {
+						pnHorario.llenar(funciones, Calendar.getInstance());
+						pnHorario.validate();
+						
+					}		
+					
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
@@ -215,10 +287,15 @@ public class FrmAdmFuncion extends JFrame {
 		panel_1.add(btnAgregarmodificar);
 		
 		JButton btnGuardar = new JButton("Guardar");
+		btnGuardar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pnHorario.guardar();
+			}
+		});
 		panel_1.add(btnGuardar);
 		
-		JPanel panel_2 = new JPanel();
-		panel.add(panel_2, BorderLayout.CENTER);
+		pnHorario = new PnHorario();
+		panel.add(pnHorario, BorderLayout.CENTER);
 		
 		
 		llenarPeliculas();
@@ -256,12 +333,13 @@ public class FrmAdmFuncion extends JFrame {
 		try {
 			salas = Sala.getSalas();
 			DefaultComboBoxModel model = new DefaultComboBoxModel();
-			model.addElement("");
+			//model.addElement("");
 			for (Sala sala : salas) {
 				model.addElement(sala);
 				
 			}
 			this.cmbSala.setModel(model);
+			this.txtCapacidad.setText(""+salas.get(0).getCapacidad());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -278,5 +356,8 @@ public class FrmAdmFuncion extends JFrame {
 	}
 	public JComboBox getCmbSala() {
 		return cmbSala;
+	}
+	public JPanel getPnHorario() {
+		return pnHorario;
 	}
 }

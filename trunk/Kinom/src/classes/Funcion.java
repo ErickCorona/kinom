@@ -14,6 +14,10 @@ public class Funcion {
 	private int ocupados;
 	private int id;
 	
+	public Funcion(){
+		
+	}
+	
 	public Funcion(Pelicula pelicula, Calendar horario, Sala sala, int ocupados, int id) {
 		this.pelicula = pelicula;
 		this.horario = horario;
@@ -77,6 +81,12 @@ public class Funcion {
 		String horario = format.format(this.getHorario().getTime());
 		return horario+"  Disp: "+ (getLibres());
 		//return super.toString();
+	}
+	
+	public String getHorarString(){
+		SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+		String horario = format.format(this.getHorario().getTime());
+		return horario;
 	}
 	
 }
