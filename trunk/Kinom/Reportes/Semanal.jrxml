@@ -7,13 +7,15 @@
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
 	<style name="Detail" fontName="Arial" fontSize="12"/>
-	<queryString language="SQL">
-		<![CDATA[SELECT * FROM semanal]]>
+	<queryString>
+		<![CDATA[SELECT *,(select SUM(Total) from semanal where Fecha=s.Fecha) as Final,(select SUM(Total) from semanal) as TotalFinal from semanal s]]>
 	</queryString>
 	<field name="Fecha" class="java.lang.Object"/>
 	<field name="Película" class="java.lang.Object"/>
 	<field name="Boletos" class="java.lang.Object"/>
 	<field name="Total" class="java.lang.Object"/>
+	<field name="Final" class="java.lang.Object"/>
+	<field name="TotalFinal" class="java.lang.Object"/>
 	<group name="Fecha">
 		<groupExpression><![CDATA[$F{Fecha}]]></groupExpression>
 		<groupHeader>
@@ -35,6 +37,20 @@
 						<pen lineWidth="0.5" lineColor="#999999"/>
 					</graphicElement>
 				</line>
+				<textField>
+					<reportElement x="453" y="0" width="100" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["\$ "+$F{Final}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="353" y="0" width="100" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Total:"]]></textFieldExpression>
+				</textField>
 			</band>
 		</groupFooter>
 	</group>
@@ -54,7 +70,7 @@
 					<textElement textAlignment="Right">
 						<font size="16" isBold="true"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[""+$F{Total}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA["\$ "+$F{Total}]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement style="SubTitle" x="353" y="4" width="100" height="20"/>
@@ -127,6 +143,20 @@
 					<pen lineWidth="0.5" lineColor="#999999"/>
 				</graphicElement>
 			</line>
+			<textField>
+				<reportElement x="453" y="15" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["\$ "+$F{TotalFinal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="241" y="15" width="212" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Total Semanal:"]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnFooter>
 	<pageFooter>
