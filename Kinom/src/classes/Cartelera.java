@@ -101,23 +101,28 @@ public class Cartelera {
 		return p;
 	}
 	
-	public static void getFuncionDesdeHoy(Pelicula pel, int sala) throws SQLException, ClassNotFoundException{
+	public static ArrayList<Funcion> getFuncionDesdeHoy(Pelicula pel, int sala) throws SQLException, ClassNotFoundException, ParseException{
 		ArrayList<Funcion> funciones = new ArrayList<Funcion>();
 		Conexion conn = new Conexion();
-		String stm = "SELECT id_fun,hro_fun FROM funciones WHERE id_pel=" + pel.getId() + " AND id_sala=" + sala + " AND strftime('%s',hro_fun) >= strftime('%s',date('now','localtime'))";
-		//String stm = "SELECT * FROM funciones";
+		String stm = "SELECT id_fun,hro_fun FROM funciones WHERE id_pel=" + pel.getId() + " AND id_sala=" + sala + " AND strftime('%s',hro_fun) >= strftime('%s',date('now','localtime')) ORDER BY hro_fun";
 		System.out.println(stm);
+		//String stm = "SELECT * FROM funciones";
 		ResultSet rs = conn.executeQ(stm);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 		while(rs.next()){
-			System.out.println("id:" + rs.getString(1));
-			System.out.println("hora:"+rs.getString(2));/*
-			System.out.println(""+rs.getString(4));
-			System.out.println(""+rs.getString(5));
-			System.out.println(""+rs.getString(6));
-			System.out.println(""+rs.getString(7));*/
+			Funcion func = new Funcion();
+			func.setPelicula(pel);
+			func.setSala(new Sala(sala, 0));
+			Calendar fecha = Calendar.getInstance();
+			fecha.setTime(format.parse(rs.getString("hro_fun")));
+			func.setHorario(fecha);
+			
+			funciones.add(func);
 		}
-		conn.close();
 		
+		conn.close();
+		return funciones;
 		
 	}
 	

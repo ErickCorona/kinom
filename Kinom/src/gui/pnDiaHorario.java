@@ -1,18 +1,22 @@
 package gui;
 
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Set;
 
-import javax.swing.JPanel;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.JTextField;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import net.miginfocom.swing.MigLayout;
+import classes.Funcion;
+import classes.Pelicula;
+import classes.Sala;
 
 public class pnDiaHorario extends JPanel {
 	private String dia;
@@ -20,6 +24,7 @@ public class pnDiaHorario extends JPanel {
 	public JButton btnAgregar;
 	private int numBotones; //Empezando por cero
 	public HashMap<Integer,JTextHora> horario;
+	private JLabel label;
 	
 
 	/**
@@ -41,11 +46,6 @@ public class pnDiaHorario extends JPanel {
 		btnAgregar = new JButton("Agregar");
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//Quitamos el boton
-				//remove(btnAgregar);
-				 //new JTextHora(1);
-				//String id = "btn"+numBotones;
-				String cont = "cell " + (numBotones+1) + " 0 1 2,growx";
 				JTextHora nHora = new JTextHora(numBotones);
 				horario.put(numBotones, nHora);
 				add(nHora, "cell 1 0 1 2,growx"); //Se agrega el boton
@@ -82,13 +82,46 @@ public class pnDiaHorario extends JPanel {
 		
 		
 		//=====Boton de eliminar//
-		
-		JLabel label = new JLabel(dfFecha.format(fecha.getTime()));
+		this.fecha = fecha;
+		label = new JLabel(dfFecha.format(this.fecha.getTime()));
 		label.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		add(label, "cell 0 1,alignx center");
 		
 
 	}
 	
+	public void cargarFunciones(ArrayList<Funcion> func){
+		int i;
+		for (Funcion funcion : func) {
+			JTextHora nHora = new JTextHora(numBotones);
+			nHora.setFuncion(funcion);
+			horario.put(numBotones, nHora);
+			add(nHora, "cell 1 0 1 2,growx"); //Se agrega el boton
+			/*
+			btnAgregar = new JButton("Agregar");
+			add(btnAgregar,"cell "+(numBotones+2)+  " 0 1 2");
+			*/
+			numBotones++;
+			
+			validate();
+		
+			
+		}
+		
+	}
+	
+	public void guardarFunciones(Pelicula pel, Sala sal){
+		Set<Integer> keys = this.horario.keySet(); 
+		for (Integer k : keys) {
+			JTextHora hraFuncion = horario.get(k);
+			System.out.println(label.getText());
+			System.out.println("Horario"+hraFuncion.getText());
+			//hraFuncion.guardar(pel,sal,this.fecha);
+		}
+	}
+	
 
+	public JLabel getLabel() {
+		return label;
+	}
 }

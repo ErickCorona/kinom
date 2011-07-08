@@ -121,6 +121,7 @@ public class Conexion{
 			open();
 		Statement stm = this.conn.createStatement();
 		String consulta = "INSERT INTO "+tabla+" VALUES ("+valores+");";
+		System.out.println(consulta);
 		stm.executeUpdate(consulta);
 	}
 	
