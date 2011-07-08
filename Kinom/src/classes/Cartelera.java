@@ -104,17 +104,17 @@ public class Cartelera {
 	public static void getFuncionDesdeHoy(Pelicula pel, int sala) throws SQLException, ClassNotFoundException{
 		ArrayList<Funcion> funciones = new ArrayList<Funcion>();
 		Conexion conn = new Conexion();
-		String stm = "SELECT * FROM funciones,peliculas,salas WHERE funciones.id_pel=peliculas.id_pel AND funciones.id_sala=salas.id_sala AND salas.id_sala = "+sala+" AND peliculas.id_pel = "+pel.getId()+" AND strftime('%s',funciones.hro_fun) > strftime('%s',date('now','localtime'))";
+		String stm = "SELECT id_fun,hro_fun FROM funciones WHERE id_pel=" + pel.getId() + " AND id_sala=" + sala + " AND strftime('%s',hro_fun) >= strftime('%s',date('now','localtime'))";
 		//String stm = "SELECT * FROM funciones";
 		System.out.println(stm);
 		ResultSet rs = conn.executeQ(stm);
 		while(rs.next()){
 			System.out.println("id:" + rs.getString(1));
-			System.out.println("Nom:"+rs.getString("nom_pel"));
+			System.out.println("hora:"+rs.getString(2));/*
 			System.out.println(""+rs.getString(4));
 			System.out.println(""+rs.getString(5));
 			System.out.println(""+rs.getString(6));
-			System.out.println(""+rs.getString(7));
+			System.out.println(""+rs.getString(7));*/
 		}
 		conn.close();
 		
