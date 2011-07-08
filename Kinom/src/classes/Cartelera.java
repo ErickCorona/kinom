@@ -178,7 +178,7 @@ public class Cartelera {
 		boolean pre = false;
 		try {
 			ResultSet rs = con.select("precios");
-			if(rs.getInt("2x1_pre")==date.get(Calendar.DAY_OF_WEEK))
+			if(rs.getInt("dosx1_pre")==date.get(Calendar.DAY_OF_WEEK))
 				pre = true;
 			con.close();
 		} catch (Exception e) {

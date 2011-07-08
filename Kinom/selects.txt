@@ -8,12 +8,34 @@ SELECT COUNT(ventas.id_ven) FROM ventas,peliculas,funciones WHERE peliculas.nom_
 
 SELECT DISTINCT
 peliculas.id_pel,
-(SELECT COUNT(ventas.id_ven) FROM ventas,funciones WHERE ventas.id_fun=funciones.id_fun AND funciones.id_pel=peliculas.id_pel AND date(funciones.hro_fun)=date('now'))
+(SELECT COUNT(ventas.id_ven) FROM ventas,funciones WHERE ventas.id_fun=funciones.id_fun AND funciones.id_pel=peliculas.id_pel AND date(funciones.hro_fun)=date('now','localtime'))
 FROM
 peliculas,funciones,ventas
 WHERE
 ventas.id_fun=funciones.id_fun
 AND peliculas.id_pel=funciones.id_pel
-AND date(funciones.hro_fun)=date('now')
+AND date(funciones.hro_fun)=date('now','localtime')
 
-SELECT (SELECT 1,2,3,4,5,6) as number,date('now',' day')
+////////////////////VISTA:
+
+SELECT DISTINCT
+date('now','localtime','+'||numeros.num||' day') as Fecha,
+peliculas.nom_pel as Película,
+
+(SELECT COUNT(ventas.id_ven) FROM ventas,funciones WHERE ventas.id_fun=funciones.id_fun AND funciones.id_pel=peliculas.id_pel AND date(funciones.hro_fun)=date('now','localtime','+'||numeros.num||' day'))
+as Boletos,
+
+(SELECT COUNT(ventas.id_ven) FROM ventas,funciones WHERE ventas.id_fun=funciones.id_fun AND funciones.id_pel=peliculas.id_pel AND date(funciones.hro_fun)=date('now','localtime','+'||numeros.num||' day'))
+/
+(case when precios.dosx1_pre=strftime('%w',date('now','localtime','+'||numeros.num||' day'))+1 then 2 else 1 end)
+*
+precios.base_pre
+as Total
+
+FROM
+peliculas,funciones,ventas,numeros,precios
+WHERE
+ventas.id_fun=funciones.id_fun
+AND peliculas.id_pel=funciones.id_pel
+AND date(funciones.hro_fun)=date('now','localtime','+'||numeros.num||' day')
+
