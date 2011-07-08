@@ -15,20 +15,25 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
 import javax.swing.JPanel;
+import java.awt.Component;
+import javax.swing.Box;
 
 public class FrmAdmPelicula extends JFrame {
 	public FrmAdmPelicula() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Administrar Pelicula");
+		setBounds(100, 100, 594, 480);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0};
+		gridBagLayout.columnWidths = new int[]{0, 0, 0, 138, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 20, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{5.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 6.0, 0.0, 4.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 3.0, 1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 8.0, 0.0, 4.0, Double.MIN_VALUE};
 		getContentPane().setLayout(gridBagLayout);
 		
 		JPanel panel = new JPanel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.gridwidth = 3;
-		gbc_panel.insets = new Insets(0, 0, 5, 0);
+		gbc_panel.insets = new Insets(0, 0, 5, 5);
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 1;
 		gbc_panel.gridy = 0;
@@ -70,10 +75,10 @@ public class FrmAdmPelicula extends JFrame {
 		textField_1.setColumns(10);
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.anchor = GridBagConstraints.WEST;
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
+		gbc_btnNewButton.fill = GridBagConstraints.VERTICAL;
+		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton.gridx = 3;
 		gbc_btnNewButton.gridy = 3;
-		btnNewButton.setHorizontalAlignment(SwingConstants.RIGHT);
 		btnNewButton.setFont(new Font("Arial", Font.BOLD, 12));
 		getContentPane().add(btnNewButton, gbc_btnNewButton);
 		
@@ -131,6 +136,13 @@ public class FrmAdmPelicula extends JFrame {
 		gbc_comboBox.gridy = 9;
 		getContentPane().add(comboBox, gbc_comboBox);
 		
+		Component horizontalStrut = Box.createHorizontalStrut(20);
+		GridBagConstraints gbc_horizontalStrut = new GridBagConstraints();
+		gbc_horizontalStrut.insets = new Insets(0, 0, 5, 5);
+		gbc_horizontalStrut.gridx = 0;
+		gbc_horizontalStrut.gridy = 11;
+		getContentPane().add(horizontalStrut, gbc_horizontalStrut);
+		
 		JLabel lblSinopsis = new JLabel("Sinopsis:");
 		lblSinopsis.setFont(new Font("Verdana", Font.BOLD, 14));
 		GridBagConstraints gbc_lblSinopsis = new GridBagConstraints();
@@ -145,16 +157,24 @@ public class FrmAdmPelicula extends JFrame {
 		textArea.setTabSize(6);
 		textArea.setFont(new Font("Arial", Font.BOLD, 12));
 		GridBagConstraints gbc_textArea = new GridBagConstraints();
-		gbc_textArea.gridwidth = 2;
-		gbc_textArea.insets = new Insets(0, 0, 5, 0);
+		gbc_textArea.gridwidth = 3;
+		gbc_textArea.insets = new Insets(0, 0, 5, 5);
 		gbc_textArea.fill = GridBagConstraints.BOTH;
-		gbc_textArea.gridx = 2;
+		gbc_textArea.gridx = 1;
 		gbc_textArea.gridy = 12;
 		getContentPane().add(textArea, gbc_textArea);
+		
+		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
+		GridBagConstraints gbc_horizontalStrut_1 = new GridBagConstraints();
+		gbc_horizontalStrut_1.insets = new Insets(0, 0, 5, 0);
+		gbc_horizontalStrut_1.gridx = 4;
+		gbc_horizontalStrut_1.gridy = 12;
+		getContentPane().add(horizontalStrut_1, gbc_horizontalStrut_1);
 		
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.setFont(new Font("Verdana", Font.BOLD, 14));
 		GridBagConstraints gbc_btnGuardar = new GridBagConstraints();
+		gbc_btnGuardar.anchor = GridBagConstraints.EAST;
 		gbc_btnGuardar.insets = new Insets(0, 0, 0, 5);
 		gbc_btnGuardar.gridx = 2;
 		gbc_btnGuardar.gridy = 14;
@@ -163,6 +183,8 @@ public class FrmAdmPelicula extends JFrame {
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setFont(new Font("Verdana", Font.BOLD, 14));
 		GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
+		gbc_btnCancelar.insets = new Insets(0, 0, 0, 5);
+		gbc_btnCancelar.anchor = GridBagConstraints.WEST;
 		gbc_btnCancelar.gridx = 3;
 		gbc_btnCancelar.gridy = 14;
 		getContentPane().add(btnCancelar, gbc_btnCancelar);
