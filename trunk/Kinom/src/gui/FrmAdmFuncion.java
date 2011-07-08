@@ -34,6 +34,7 @@ import classes.Sala;
 import java.awt.FlowLayout;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.awt.event.ActionListener;
@@ -65,8 +66,11 @@ public class FrmAdmFuncion extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws ParseException 
+	 * @throws ClassNotFoundException 
+	 * @throws SQLException 
 	 */
-	public FrmAdmFuncion() {
+	public FrmAdmFuncion() throws SQLException, ClassNotFoundException, ParseException {
 		setTitle("Cartelera");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 813, 473);
@@ -196,28 +200,16 @@ public class FrmAdmFuncion extends JFrame {
 				Pelicula pel = (Pelicula) lstPeliculas.getSelectedValue();
 				Sala sala = (Sala) cmbSala.getSelectedItem();
 				try {
-					ArrayList<Funcion> funciones = new Cartelera().getTodasFunciones(pel, sala.getNumero());
-					System.out.println(pel.getNombre());
-					System.out.println(sala.getNumero());
-					if(funciones.size() ==    0){
-						JOptionPane.showMessageDialog(null,"No Existen funciones" );
-					}else{
-						JOptionPane.showMessageDialog(null,"existen funciones" );
-					}
-					
-					
-					
-					
+					Cartelera.getFuncionDesdeHoy(pel, sala.getNumero());
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (ClassNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
 				}
+				
+		
 			}
 		});
 		panel_1.add(btnAgregarmodificar);
@@ -227,6 +219,7 @@ public class FrmAdmFuncion extends JFrame {
 		
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2, BorderLayout.CENTER);
+		
 		
 		llenarPeliculas();
 		llenarSalas();
