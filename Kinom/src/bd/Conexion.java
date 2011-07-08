@@ -54,7 +54,9 @@ public class Conexion{
 		if(!enabled)
 			open();
 		Statement stm = this.conn.createStatement();
-		ResultSet rs = stm.executeQuery("SELECT * FROM "+nomTab+" WHERE " + filtro);
+		String ste = "SELECT * FROM "+nomTab+" WHERE " + filtro;
+		System.out.println(ste);
+		ResultSet rs = stm.executeQuery(ste);
 		
 		return rs;
 	}

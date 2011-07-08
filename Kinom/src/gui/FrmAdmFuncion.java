@@ -15,6 +15,9 @@ import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JTextPane;
 import javax.swing.border.TitledBorder;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JButton;
@@ -22,14 +25,27 @@ import javax.swing.JTextField;
 import java.awt.Font;
 import java.awt.Component;
 import javax.swing.Box;
+
+import classes.Cartelera;
+import classes.Funcion;
+import classes.Pelicula;
+import classes.Sala;
+
 import java.awt.FlowLayout;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.ListSelectionModel;
 
 public class FrmAdmFuncion extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtCapacidad;
 	private JList lstPeliculas;
+	private JComboBox cmbSala;
 
 	/**
 	 * Launch the application.
@@ -85,7 +101,20 @@ public class FrmAdmFuncion extends JFrame {
 		lblSala.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		pnSalas.add(lblSala, "cell 0 1,alignx trailing");
 		
-		JComboBox cmbSala = new JComboBox();
+		cmbSala = new JComboBox();
+		cmbSala.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(cmbSala.getSelectedIndex() > 0){
+				JComboBox cmbSala = (JComboBox) arg0.getSource();
+				Sala sala = (Sala) cmbSala.getSelectedItem();
+				
+					txtCapacidad.setText(""+sala.getCapacidad());
+				}else{
+					txtCapacidad.setText("");
+				}
+				
+			}
+		});
 		cmbSala.setEditable(true);
 		cmbSala.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		pnSalas.add(cmbSala, "cell 1 1,growx");
@@ -123,6 +152,7 @@ public class FrmAdmFuncion extends JFrame {
 		pnPeliculas.add(scrollPane, gbc_scrollPane);
 		
 		lstPeliculas = new JList();
+		lstPeliculas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(lstPeliculas);
 		
 		JButton btnAgregar = new JButton("Agregar");
@@ -160,21 +190,100 @@ public class FrmAdmFuncion extends JFrame {
 		panel.add(panel_1, BorderLayout.NORTH);
 		
 		JButton btnAgregarmodificar = new JButton("Agregar/Modificar");
+		btnAgregarmodificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Consultar si ya existe una funcion con esas caracteristicas
+				Pelicula pel = (Pelicula) lstPeliculas.getSelectedValue();
+				Sala sala = (Sala) cmbSala.getSelectedItem();
+				try {
+					ArrayList<Funcion> funciones = new Cartelera().getTodasFunciones(pel, sala.getNumero());
+					System.out.println(pel.getNombre());
+					System.out.println(sala.getNumero());
+					if(funciones.size() ==    0){
+						JOptionPane.showMessageDialog(null,"No Existen funciones" );
+					}else{
+						JOptionPane.showMessageDialog(null,"existen funciones" );
+					}
+					
+					
+					
+					
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		panel_1.add(btnAgregarmodificar);
 		
 		JButton btnGuardar = new JButton("Guardar");
 		panel_1.add(btnGuardar);
 		
-		JPanel panel_2 = new PnHorario(Calendar.getInstance());
+		JPanel panel_2 = new JPanel();
 		panel.add(panel_2, BorderLayout.CENTER);
+		
+		llenarPeliculas();
+		llenarSalas();
 	}
 	
+
+
 	public void llenarPeliculas(){
+		try {
+			ArrayList<Pelicula> peliculas =  new Cartelera().getPeliculas();
+			DefaultListModel model = new DefaultListModel();
+			for (Pelicula pelicula : peliculas) {
+				model.addElement(pelicula);
+				//System.out.println("Hola");
+			}
+			this.lstPeliculas.setModel(model);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	public void llenarSalas(){
+		ArrayList<Sala> salas;
+		try {
+			salas = Sala.getSalas();
+			DefaultComboBoxModel model = new DefaultComboBoxModel();
+			model.addElement("");
+			for (Sala sala : salas) {
+				model.addElement(sala);
+				
+			}
+			this.cmbSala.setModel(model);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 	}
 
 	public JList getLstPeliculas() {
 		return lstPeliculas;
+	}
+	public JComboBox getCmbSala() {
+		return cmbSala;
 	}
 }

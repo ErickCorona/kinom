@@ -77,6 +77,7 @@ public class Cartelera {
 			pel = new Pelicula(rs.getInt("id_pel"), rs.getString("nom_pel"), new ImageIcon(blob), rs.getString("clas_pel"), rs.getInt("dur_pel"), rs.getString("sin_pel"), rs.getString("idm_pel"));
 			p.add(pel);
 		}
+		conn.close();
 		return p;
 	}
 	
@@ -99,6 +100,45 @@ public class Cartelera {
 		}
 		return p;
 	}
+	
+	/**
+	 * Toma las funciones que serán proyectadas en la fecha actual <i>currentDate</i> de una película en específico en una sala.
+	 * @param pel Película de la que se quieren las funciones.
+	 * @param sala Sala en la que está la película.
+	 * @return <i>ArrayList</i> de <i>Funcion</i> que contiene las diferentes funciones.
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 * @throws ParseException
+	 */
+	public ArrayList<Funcion> getTodasFunciones(Pelicula pel, int sala) throws SQLException, ClassNotFoundException, ParseException {
+		ArrayList<Funcion> funciones = new ArrayList<Funcion>();
+		Conexion conn = new Conexion();
+		ResultSet rs = conn.executeQ("SELECT * FROM funciones,peliculas,salas WHERE funciones.id_pel=peliculas.id_pel AND funciones.id_sala=salas.id_sala AND salas.id_sala = "+sala+" AND peliculas.id_pel = " + pel.getId());
+		//ResultSet rs = conn.select("funciones");
+		while(rs.next()){
+			System.out.println("hola");
+			
+			Calendar fecha = Calendar.getInstance();
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			fecha.setTime(format.parse(rs.getString("hro_fun")));
+			
+			//System.out.println(fecha.getTime());
+			byte blob[] = rs.getBytes("img_pel");
+			funciones.add(
+				new Funcion(
+					new Pelicula(rs.getInt(2), rs.getString("nom_pel"), new ImageIcon(blob), rs.getString("clas_pel"), rs.getInt("dur_pel"), rs.getString("sin_pel"), rs.getString("idm_pel")),
+					fecha,
+					new Sala(rs.getInt(3),rs.getInt("cap_sala")),
+					rs.getInt("ocu_fun"),
+					rs.getInt("id_fun")
+				)
+			);
+			
+		}
+		conn.close();
+		return funciones;
+	}
+	
 	
 	/**
 	 * Carga en el <i>ArrayList</i> global <i>funciones</i> desde la base de datos las funciones de una fecha especificada.
