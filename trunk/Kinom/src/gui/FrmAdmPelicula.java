@@ -5,34 +5,63 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Font;
 import javax.swing.JTextField;
 import java.awt.Insets;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFileChooser;
 import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
 import javax.swing.JPanel;
 import java.awt.Component;
 import javax.swing.Box;
 
-public class FrmAdmPelicula extends JFrame {
+import bd.Conexion;
+
+import classes.Funcion;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.awt.FlowLayout;
+
+public class FrmAdmPelicula extends JFrame implements ActionListener {
+	
+	JComboBox comboIdio;
+	JTextArea txSinpel;
+	JButton btnGuardar;
+	JButton btnCancelar;
+	JButton btnAbrir = new JButton("Abrir");
+
 	public FrmAdmPelicula() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Administrar Pelicula");
 		setBounds(100, 100, 594, 480);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 0, 138, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 20, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 3.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 8.0, 0.0, 4.0, Double.MIN_VALUE};
+		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 138, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 3.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 8.0, 1.0, Double.MIN_VALUE};
 		getContentPane().setLayout(gridBagLayout);
 		
 		JPanel panel = new JPanel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.gridwidth = 3;
+		gbc_panel.gridwidth = 4;
 		gbc_panel.insets = new Insets(0, 0, 5, 5);
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 1;
@@ -47,15 +76,15 @@ public class FrmAdmPelicula extends JFrame {
 		gbc_lblNombre.gridy = 1;
 		getContentPane().add(lblNombre, gbc_lblNombre);
 		
-		textField = new JTextField();
-		textField.setFont(new Font("Arial", Font.BOLD, 12));
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridx = 2;
-		gbc_textField.gridy = 1;
-		getContentPane().add(textField, gbc_textField);
-		textField.setColumns(10);
+		txtNompel = new JTextField();
+		txtNompel.setFont(new Font("Arial", Font.BOLD, 12));
+		GridBagConstraints gbc_txtNompel = new GridBagConstraints();
+		gbc_txtNompel.insets = new Insets(0, 0, 5, 5);
+		gbc_txtNompel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtNompel.gridx = 2;
+		gbc_txtNompel.gridy = 1;
+		getContentPane().add(txtNompel, gbc_txtNompel);
+		txtNompel.setColumns(10);
 		
 		JLabel lblImagen = new JLabel("Imagen*");
 		lblImagen.setFont(new Font("Verdana", Font.BOLD, 14));
@@ -65,22 +94,23 @@ public class FrmAdmPelicula extends JFrame {
 		gbc_lblImagen.gridy = 3;
 		getContentPane().add(lblImagen, gbc_lblImagen);
 		
-		textField_1 = new JTextField();
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.gridx = 2;
-		gbc_textField_1.gridy = 3;
-		getContentPane().add(textField_1, gbc_textField_1);
-		textField_1.setColumns(10);
+		txImgpel = new JTextField();
+		GridBagConstraints gbc_txImgpel = new GridBagConstraints();
+		gbc_txImgpel.insets = new Insets(0, 0, 5, 5);
+		gbc_txImgpel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txImgpel.gridx = 2;
+		gbc_txImgpel.gridy = 3;
+		getContentPane().add(txImgpel, gbc_txImgpel);
+		txImgpel.setColumns(10);
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.anchor = GridBagConstraints.WEST;
 		gbc_btnNewButton.fill = GridBagConstraints.VERTICAL;
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton.gridx = 3;
+		gbc_btnNewButton.gridx = 4;
 		gbc_btnNewButton.gridy = 3;
-		btnNewButton.setFont(new Font("Arial", Font.BOLD, 12));
-		getContentPane().add(btnNewButton, gbc_btnNewButton);
+
+		btnAbrir.setFont(new Font("Arial", Font.BOLD, 12));
+		getContentPane().add(btnAbrir,gbc_btnNewButton);
 		
 		JLabel lblDuracion = new JLabel("Duracion");
 		lblDuracion.setFont(new Font("Verdana", Font.BOLD, 14));
@@ -90,14 +120,22 @@ public class FrmAdmPelicula extends JFrame {
 		gbc_lblDuracion.gridy = 5;
 		getContentPane().add(lblDuracion, gbc_lblDuracion);
 		
-		textField_2 = new JTextField();
-		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-		gbc_textField_2.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_2.gridx = 2;
-		gbc_textField_2.gridy = 5;
-		getContentPane().add(textField_2, gbc_textField_2);
-		textField_2.setColumns(10);
+		txDurpel = new JTextField();
+		GridBagConstraints gbc_txDurpel = new GridBagConstraints();
+		gbc_txDurpel.insets = new Insets(0, 0, 5, 5);
+		gbc_txDurpel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txDurpel.gridx = 2;
+		gbc_txDurpel.gridy = 5;
+		getContentPane().add(txDurpel, gbc_txDurpel);
+		txDurpel.setColumns(10);
+		
+		JLabel lblNewLabel_1 = new JLabel("Imagen");
+		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.gridheight = 7;
+		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_1.gridx = 4;
+		gbc_lblNewLabel_1.gridy = 5;
+		getContentPane().add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
 		JLabel lblClasificacion = new JLabel("Clasificacion");
 		lblClasificacion.setFont(new Font("Verdana", Font.BOLD, 14));
@@ -107,15 +145,22 @@ public class FrmAdmPelicula extends JFrame {
 		gbc_lblClasificacion.gridy = 7;
 		getContentPane().add(lblClasificacion, gbc_lblClasificacion);
 		
-		textField_3 = new JTextField();
-		textField_3.setFont(new Font("Arial", Font.BOLD, 12));
-		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
-		gbc_textField_3.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_3.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_3.gridx = 2;
-		gbc_textField_3.gridy = 7;
-		getContentPane().add(textField_3, gbc_textField_3);
-		textField_3.setColumns(10);
+		txClaspel = new JTextField();
+		txClaspel.setFont(new Font("Arial", Font.BOLD, 12));
+		GridBagConstraints gbc_txClaspel = new GridBagConstraints();
+		gbc_txClaspel.insets = new Insets(0, 0, 5, 5);
+		gbc_txClaspel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txClaspel.gridx = 2;
+		gbc_txClaspel.gridy = 7;
+		getContentPane().add(txClaspel, gbc_txClaspel);
+		txClaspel.setColumns(10);
+		
+		Component horizontalStrut_2 = Box.createHorizontalStrut(20);
+		GridBagConstraints gbc_horizontalStrut_2 = new GridBagConstraints();
+		gbc_horizontalStrut_2.insets = new Insets(0, 0, 5, 5);
+		gbc_horizontalStrut_2.gridx = 3;
+		gbc_horizontalStrut_2.gridy = 7;
+		getContentPane().add(horizontalStrut_2, gbc_horizontalStrut_2);
 		
 		JLabel lblNewLabel = new JLabel("Idioma");
 		lblNewLabel.setFont(new Font("Verdana", Font.BOLD, 14));
@@ -125,16 +170,23 @@ public class FrmAdmPelicula extends JFrame {
 		gbc_lblNewLabel.gridy = 9;
 		getContentPane().add(lblNewLabel, gbc_lblNewLabel);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Espa\u00F1ol", "Subtitulada"}));
-		comboBox.setSelectedIndex(0);
-		comboBox.setFont(new Font("Arial", Font.BOLD, 12));
+		comboIdio = new JComboBox();
+		comboIdio.setModel(new DefaultComboBoxModel(new String[] {"Espa\u00F1ol", "Subtitulada"}));
+		comboIdio.setSelectedIndex(0);
+		comboIdio.setFont(new Font("Arial", Font.BOLD, 12));
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox.gridx = 2;
 		gbc_comboBox.gridy = 9;
-		getContentPane().add(comboBox, gbc_comboBox);
+		getContentPane().add(comboIdio, gbc_comboBox);
+		
+		Component verticalStrut = Box.createVerticalStrut(20);
+		GridBagConstraints gbc_verticalStrut = new GridBagConstraints();
+		gbc_verticalStrut.insets = new Insets(0, 0, 5, 5);
+		gbc_verticalStrut.gridx = 1;
+		gbc_verticalStrut.gridy = 10;
+		getContentPane().add(verticalStrut, gbc_verticalStrut);
 		
 		Component horizontalStrut = Box.createHorizontalStrut(20);
 		GridBagConstraints gbc_horizontalStrut = new GridBagConstraints();
@@ -151,52 +203,63 @@ public class FrmAdmPelicula extends JFrame {
 		gbc_lblSinopsis.gridy = 11;
 		getContentPane().add(lblSinopsis, gbc_lblSinopsis);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setColumns(2);
-		textArea.setRows(1);
-		textArea.setTabSize(6);
-		textArea.setFont(new Font("Arial", Font.BOLD, 12));
+		txSinpel = new JTextArea();
+		txSinpel.setColumns(2);
+		txSinpel.setRows(1);
+		txSinpel.setTabSize(6);
+		txSinpel.setFont(new Font("Arial", Font.BOLD, 12));
 		GridBagConstraints gbc_textArea = new GridBagConstraints();
-		gbc_textArea.gridwidth = 3;
+		gbc_textArea.gridwidth = 4;
 		gbc_textArea.insets = new Insets(0, 0, 5, 5);
 		gbc_textArea.fill = GridBagConstraints.BOTH;
 		gbc_textArea.gridx = 1;
 		gbc_textArea.gridy = 12;
-		getContentPane().add(textArea, gbc_textArea);
+		getContentPane().add(txSinpel, gbc_textArea);
 		
 		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
 		GridBagConstraints gbc_horizontalStrut_1 = new GridBagConstraints();
 		gbc_horizontalStrut_1.insets = new Insets(0, 0, 5, 0);
-		gbc_horizontalStrut_1.gridx = 4;
+		gbc_horizontalStrut_1.gridx = 5;
 		gbc_horizontalStrut_1.gridy = 12;
 		getContentPane().add(horizontalStrut_1, gbc_horizontalStrut_1);
 		
-		JButton btnGuardar = new JButton("Guardar");
-		btnGuardar.setFont(new Font("Verdana", Font.BOLD, 14));
-		GridBagConstraints gbc_btnGuardar = new GridBagConstraints();
-		gbc_btnGuardar.anchor = GridBagConstraints.EAST;
-		gbc_btnGuardar.insets = new Insets(0, 0, 0, 5);
-		gbc_btnGuardar.gridx = 2;
-		gbc_btnGuardar.gridy = 14;
-		getContentPane().add(btnGuardar, gbc_btnGuardar);
+		JPanel panel_1 = new JPanel();
+		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+		gbc_panel_1.insets = new Insets(0, 0, 0, 5);
+		gbc_panel_1.fill = GridBagConstraints.BOTH;
+		gbc_panel_1.gridx = 4;
+		gbc_panel_1.gridy = 13;
+		getContentPane().add(panel_1, gbc_panel_1);
+		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JButton btnCancelar = new JButton("Cancelar");
+		btnGuardar = new JButton("Guardar");
+		panel_1.add(btnGuardar);
+		btnGuardar.setFont(new Font("Verdana", Font.BOLD, 14));
+			
+		btnCancelar = new JButton("Cancelar");
+		panel_1.add(btnCancelar);
 		btnCancelar.setFont(new Font("Verdana", Font.BOLD, 14));
-		GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
-		gbc_btnCancelar.insets = new Insets(0, 0, 0, 5);
-		gbc_btnCancelar.anchor = GridBagConstraints.WEST;
-		gbc_btnCancelar.gridx = 3;
-		gbc_btnCancelar.gridy = 14;
-		getContentPane().add(btnCancelar, gbc_btnCancelar);
+
+		eventoBtn();
 	}
 	
+	private void eventoBtn()
+	{
+		btnGuardar.addActionListener(this);
+		btnGuardar.setActionCommand("Guardar");
+		btnCancelar.addActionListener(this);
+		btnCancelar.setActionCommand("Cancelar");
+		btnAbrir.addActionListener(this);
+		btnAbrir.setActionCommand("Abrir");
+	}
 	private static final long serialVersionUID = 1L;
-	private JTextField textField;
-	private JTextField textField_1;
-	private final JButton btnNewButton = new JButton("Abrir");
-	private JTextField textField_2;
-	private JTextField textField_3;
-
+	private JTextField txtNompel;
+	private JTextField txImgpel;
+	private JTextField txDurpel;
+	private JTextField txClaspel;
+	File file1;
+	
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -210,6 +273,66 @@ public class FrmAdmPelicula extends JFrame {
 		});
 	}
 	
-	
+	public void actionPerformed(ActionEvent e) {
+		if(e.getActionCommand().equals("Abrir")){
+			System.out.println("Bla");
+			JFileChooser fc = new JFileChooser();
+			int returnVal = fc.showOpenDialog(null);
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+                file1 = fc.getSelectedFile();
+			}
+			txImgpel.setText(file1.getAbsolutePath());
+		}
+		else if(e.getActionCommand().equals("Guardar")){
+			try {
+				System.out.println("Bla");
+				String Idiom;
+				Idiom= comboIdio.getSelectedItem().toString();
+				System.out.println(Idiom);
+				
+				byte[] person_image = null;
+				String file = file1.getAbsolutePath();
+				
+				
+				File image = new File(file);
+			    FileInputStream fis = null;
+			    
+				fis = new FileInputStream(image);
+				ByteArrayOutputStream bos = new ByteArrayOutputStream();
+				byte[] buf = new byte[1024];
+				try {
+					for (int readNum; (readNum = fis.read(buf)) != -1;) 
+					{
+						bos.write(buf, 0, readNum); 
+					}
+					person_image=bos.toByteArray();
 
+					Conexion c = new Conexion();
+					try {
+						c.executeU("INSERT INTO peliculas VALUES (null,"+txtNompel.getText()+",person_image,"+txClaspel.getText()+",txDurpel.getText(),txSinpel.getText(),Idiom)");
+						c.close();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				} catch (IOException ex) 
+				{
+					System.err.println(ex.getMessage());
+				}
+
+			} catch (FileNotFoundException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+		}else if(e.getActionCommand().equals( "Cancelar")){
+			txtNompel.setText("");
+			txImgpel.setText("");
+			txDurpel.setText("");
+			txClaspel.setText("");
+			comboIdio.setSelectedIndex(0);
+		}
+	}
 }
