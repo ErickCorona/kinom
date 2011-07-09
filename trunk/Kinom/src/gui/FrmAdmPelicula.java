@@ -2,13 +2,19 @@ package gui;
 
 import java.awt.EventQueue;
 
+
 import javax.swing.JFrame;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.RenderingHints;
+
 import javax.swing.JTextField;
 import java.awt.Insets;
 
@@ -23,17 +29,22 @@ import javax.swing.JPanel;
 import java.awt.Component;
 import javax.swing.Box;
 
+import utils.ImageUtils;
+
 import bd.Conexion;
 
 import classes.Funcion;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,6 +58,8 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 	JButton btnGuardar;
 	JButton btnCancelar;
 	JButton btnAbrir = new JButton("Abrir");
+	JLabel lblpic;
+	private ImageIcon imgThumb;
 
 	public FrmAdmPelicula() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -129,13 +142,14 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 		getContentPane().add(txDurpel, gbc_txDurpel);
 		txDurpel.setColumns(10);
 		
-		JLabel lblNewLabel_1 = new JLabel("Imagen");
-		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.gridheight = 7;
-		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_1.gridx = 4;
-		gbc_lblNewLabel_1.gridy = 5;
-		getContentPane().add(lblNewLabel_1, gbc_lblNewLabel_1);
+		lblpic = new JLabel("Imagen");
+		GridBagConstraints gbc_lblpic = new GridBagConstraints();
+		gbc_lblpic.anchor = GridBagConstraints.EAST;
+		gbc_lblpic.gridheight = 7;
+		gbc_lblpic.insets = new Insets(0, 0, 5, 5);
+		gbc_lblpic.gridx = 4;
+		gbc_lblpic.gridy = 5;
+		getContentPane().add(lblpic, gbc_lblpic);
 		
 		JLabel lblClasificacion = new JLabel("Clasificacion");
 		lblClasificacion.setFont(new Font("Verdana", Font.BOLD, 14));
@@ -282,57 +296,78 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
                 file1 = fc.getSelectedFile();
 			}
 			txImgpel.setText(file1.getAbsolutePath());
+			ImageIcon img = new ImageIcon(txImgpel.getText());
+			Image nueva = img.getImage(); 
+			
+			BufferedImage tempBuff = new BufferedImage(nueva.getWidth(null),nueva.getHeight(null), BufferedImage.TYPE_INT_RGB); //Buffered image		
+			
+			Graphics2D g2 = tempBuff.createGraphics(); //Obtemeos la instancia grafica
+		    g2.drawImage(nueva, 0, 0,null); //La pintamos
+		    
+			BufferedImage scaled = new BufferedImage(130, 180, BufferedImage.TYPE_INT_RGB);
+			
+			scaled = ImageUtils.getScaledInstance(tempBuff, 130, 180, RenderingHints.VALUE_INTERPOLATION_BILINEAR,false);
+			
+			imgThumb = new ImageIcon(scaled);
+			lblpic.setIcon(imgThumb);
+			lblpic.setText("");
+
+			
 		}
 		else if(e.getActionCommand().equals("Guardar")){
-			try {
 				System.out.println("Bla");
 				String Idiom;
 				Idiom= comboIdio.getSelectedItem().toString();
-				System.out.println(Idiom);
+				try {
+					 Conexion c = new Conexion();
+					 c.GuardaPelicula(file1,txtNompel.getText(), txClaspel.getText(), txDurpel.getText(), txSinpel.getText(), Idiom);
+					 c.close();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
+				/*
 				byte[] person_image = null;
-				String file = file1.getAbsolutePath();
 				
 				
 				File image = new File(file);
 			    FileInputStream fis = null;
 			    
 				fis = new FileInputStream(image);
-				ByteArrayOutputStream bos = new ByteArrayOutputStream();
-				byte[] buf = new byte[1024];
-				try {
-					for (int readNum; (readNum = fis.read(buf)) != -1;) 
-					{
-						bos.write(buf, 0, readNum); 
-					}
-					person_image=bos.toByteArray();
+				
+				File image = new File(file);
+				
+				FileInputStream   fis = new FileInputStream(image);
+				
+				
+				stmt.setBinaryStream(1, fis, (int) image.length());
+				stmt.execute();
+				
+					*/
+					//Creamos una cadena para después prepararla
+					//File imagen = new File(ruta);
+					//ruta puede ser: "/home/cmop/Desktop/1.jpg"
+					//FileInputStream   fis = new FileInputStream(imagen);
+					//Lo convertimos en un Stream
+					//Asignamos el Stream al Statement
+				
+					
 
-					Conexion c = new Conexion();
-					try {
-						c.executeU("INSERT INTO peliculas VALUES (null,"+txtNompel.getText()+",person_image,"+txClaspel.getText()+",txDurpel.getText(),txSinpel.getText(),Idiom)");
-						c.close();
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (ClassNotFoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				} catch (IOException ex) 
-				{
-					System.err.println(ex.getMessage());
-				}
-
-			} catch (FileNotFoundException e2) {
+			//} catch (FileNotFoundException e2) {
 				// TODO Auto-generated catch block
-				e2.printStackTrace();
-			}
-		}else if(e.getActionCommand().equals( "Cancelar")){
-			txtNompel.setText("");
-			txImgpel.setText("");
-			txDurpel.setText("");
-			txClaspel.setText("");
-			comboIdio.setSelectedIndex(0);
+		//		e2.printStackTrace();
+			
+		}
+		else if(e.getActionCommand().equals( "Cancelar")){
+				txtNompel.setText("");
+				txImgpel.setText("");
+				txDurpel.setText("");
+				txClaspel.setText("");
+				txSinpel.setText("");
+				comboIdio.setSelectedIndex(0);
+				lblpic.setText("Imagen");
+				lblpic.setIcon(null);
 		}
 	}
 }
