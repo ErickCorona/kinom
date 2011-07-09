@@ -1,10 +1,17 @@
 package bd;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import org.sqlite.SQLite;
 
 
 public class Conexion{
@@ -159,8 +166,47 @@ public class Conexion{
 		ResultSet rs = stm.executeQuery("SELECT LAST_INSERT_ID() FROM " + tabla);
 		rs.next();
 		int last = rs.getInt(1); 
-		
 		return last;
+	}
+	
+	public void GuardaPelicula(File file1,  String nombre, String clas, String dura, String sino, String idio)
+	{
+		FileInputStream fis = null;
+        PreparedStatement ps = null;
+        try {
+			fis = new FileInputStream(file1);
+			System.out.println("Ya entre1");
+			System.out.println(file1.getAbsolutePath());
+	        try {
+	        	
+				ps = conn.prepareStatement("INSERT INTO peliculas(id_pel,nom_pel, img_pel, clas_pel, dur_pel, sin_pel, idm_pel) VALUES (null , ?, ?, ?, ?, ?, ?)");
+		        System.out.println("Ya entre2");
+				ps.setString(1, nombre);
+				ps.setBinaryStream(2, fis, (int) file1.length());
+		        ps.setString(3, clas);
+		        ps.setString(4, dura);
+		        ps.setString(5, sino);
+		        ps.setString(6, idio);
+		        ps.executeUpdate();
+		        ps.close();
+		        try {
+					fis.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		        
+		    } catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	   
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+      
+       
 	}
 	
 	public void reset() throws SQLException{
