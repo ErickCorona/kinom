@@ -1,5 +1,12 @@
 package classes;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.naming.spi.DirStateFactory.Result;
+
+import bd.Conexion;
+
 public class Usuario {
 	
 	public static final int TICKETERO = 0;
@@ -62,5 +69,26 @@ public class Usuario {
 
 	public void setTipo(int tipo) {
 		this.tipo = tipo;
+	}
+	
+	public static boolean existeUsr(String usr){
+		Conexion conn = new Conexion();
+		try {
+			ResultSet rs = conn.executeQ("SELECT nom_usr FROM usuarios WHERE usr_usr = '"+usr+"'");
+			System.out.println("SELECT nom_usr FROM usuarios WHERE usr_usr = '"+usr+"'");
+			if(rs.next()){
+				System.out.println("Hola");
+				return true;
+			}
+			return false;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
 }
