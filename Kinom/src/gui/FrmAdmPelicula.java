@@ -360,10 +360,10 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 					 Conexion c = new Conexion();
 					 if(!cambioimagen){
 						 System.out.println("nulo");
-						 c.ModificaPelicula(peli.getId(),null,txtNompel.getText(), txClaspel.getText(), txDurpel.getText(), txSinpel.getText(), Idiom);
+						// c.ModificaPelicula(peli.getId(),null,txtNompel.getText(), txClaspel.getText(), txDurpel.getText(), txSinpel.getText(), Idiom);
 					 }else{
 						 System.out.println("no nulo");
-						 c.ModificaPelicula(peli.getId(),file1,txtNompel.getText(), txClaspel.getText(), txDurpel.getText(), txSinpel.getText(), Idiom);
+						 //c.ModificaPelicula(peli.getId(),file1,txtNompel.getText(), txClaspel.getText(), txDurpel.getText(), txSinpel.getText(), Idiom);
 					 }
 					 c.close();
 					 
