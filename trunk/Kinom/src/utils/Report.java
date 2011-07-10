@@ -1,5 +1,6 @@
 package utils;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -14,12 +15,14 @@ import net.sf.jasperreports.view.*;
 public class Report {
 	
 	public static void main(String args[]){
+		semanal();
+		//mensual();
 		
 	}
 
 	public static void check(){
 		Calendar today = Calendar.getInstance();
-		if(today.get(Calendar.DAY_OF_WEEK)==Calendar.THURSDAY)
+		if(today.get(Calendar.DAY_OF_WEEK)==Calendar.FRIDAY)
 			semanal();
 		if(today.get(Calendar.DAY_OF_MONTH)==today.getMaximum(Calendar.DAY_OF_MONTH)-1)
 			mensual();
@@ -28,6 +31,9 @@ public class Report {
 	public static void semanal(){
 		Conexion c = new Conexion();
 		try {
+			File f = new File("c:\\reportes");
+			f.mkdir();
+			
 			c.open();
 			JasperPrint print = JasperFillManager.fillReport("Reportes\\Semanal.jasper", new HashMap(), c.getConeccion());
 			JasperExportManager.exportReportToPdfFile(print, "C:\\reportes\\semanal.pdf");
@@ -43,6 +49,8 @@ public class Report {
 	public static void mensual(){
 		Conexion c = new Conexion();
 		try {
+			File f = new File("c:\\reportes");
+			f.mkdir();
 			c.open();
 			JasperPrint print = JasperFillManager.fillReport("Reportes\\Mensual.jasper", new HashMap(), c.getConeccion());
 			JasperExportManager.exportReportToPdfFile(print, "C:\\reportes\\mensual.pdf");
@@ -64,6 +72,7 @@ public class Report {
 		m.setCuerpo(body);
 		m.setFiles(arc);
 		m.addRecipient("betobs26@hotmail.com");
+		m.addRecipient("jsus.159@gmail.com");
 		try {
 			m.enviarCorreo();
 		} catch (Exception e) {
