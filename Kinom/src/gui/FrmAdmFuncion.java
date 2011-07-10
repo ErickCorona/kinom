@@ -52,6 +52,7 @@ public class FrmAdmFuncion extends JFrame implements ActionListener{
 	JButton btnAgregar;
 	JButton btnModificar;
 	JButton btnEliminar;
+	private JScrollPane scrollPane_1;
 
 	/**
 	 * Launch the application.
@@ -146,9 +147,11 @@ public class FrmAdmFuncion extends JFrame implements ActionListener{
 				String numSala = JOptionPane.showInputDialog("Ingresa la capacidad de la sala");
 				if (numSala == null)
 					return;
-				int num = Integer.parseInt(numSala);
+				
+				
 				
 				try {
+					int num = Integer.parseInt(numSala);
 					Conexion conn = new Conexion();
 					
 					conn.insert("salas", "null, "+num);
@@ -161,6 +164,8 @@ public class FrmAdmFuncion extends JFrame implements ActionListener{
 				} catch (ClassNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+				} catch (NumberFormatException e2) {
+					JOptionPane.showMessageDialog(FrmAdmFuncion.this, "Numero invalido", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 				
 				
@@ -175,7 +180,8 @@ public class FrmAdmFuncion extends JFrame implements ActionListener{
 				Sala sala = (Sala) cmbSala.getSelectedItem();
 				Conexion conn = new Conexion();
 				try {
-					conn.update("salas", "cap_sala="+txtCapacidad.getText(), "id_sala="+sala.getNumero());
+					int cap = Integer.parseInt(txtCapacidad.getText());
+					conn.update("salas", "cap_sala="+cap, "id_sala="+sala.getNumero());
 					conn.close();
 					llenarSalas();
 					JOptionPane.showMessageDialog(FrmAdmFuncion.this, "Cambiado correctamente");
@@ -185,6 +191,8 @@ public class FrmAdmFuncion extends JFrame implements ActionListener{
 				} catch (ClassNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+				} catch (NumberFormatException e2) {
+					JOptionPane.showMessageDialog(FrmAdmFuncion.this, "Numero invalido", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 				
 			}
@@ -276,7 +284,8 @@ public class FrmAdmFuncion extends JFrame implements ActionListener{
 						pnHorario.llenar(funciones, Calendar.getInstance());//Cargamos las funciones apartir del arreglo
 						pnHorario.validate();//Recargamos los paneles
 						
-					}		
+					}	
+					scrollPane_1.validate();
 					
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
@@ -310,7 +319,11 @@ public class FrmAdmFuncion extends JFrame implements ActionListener{
 		panel_1.add(btnGuardar);
 		
 		pnHorario = new PnHorario();
-		panel.add(pnHorario, BorderLayout.CENTER);
+		//panel.add(pnHorario, BorderLayout.CENTER);
+		
+		scrollPane_1 = new JScrollPane();
+		scrollPane_1.setViewportView(pnHorario);
+		panel.add(scrollPane_1, BorderLayout.CENTER);
 		
 		
 		llenarPeliculas();
@@ -399,5 +412,8 @@ public class FrmAdmFuncion extends JFrame implements ActionListener{
 		else if(e.getActionCommand().equals( "Eliminar")){
 		
 		}
+	}
+	public JScrollPane getScrollPane_1() {
+		return scrollPane_1;
 	}
 }
