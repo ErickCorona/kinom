@@ -201,4 +201,14 @@ public class Cartelera {
 	public void setFunciones(ArrayList<Funcion> funciones) {
 		this.funciones = funciones;
 	}
+
+	public Calendar getCurrentDate() {
+		return currentDate;
+	}
+
+	public void setCurrentDate(Calendar currentDate) {
+		this.currentDate = currentDate;
+	}
+	
+	
 }

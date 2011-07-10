@@ -243,20 +243,24 @@ public class DgConfirmacionCambio extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						Conexion c = new Conexion();
-						for(int i=0; i<numBoletos; i++){
-							try {
-								if(!dosx1 || i%2==0){
-									ticket.imprimir();
+						try {
+							int i;
+							for(i=0; i<numBoletos; i++){
 									c.insert("ventas", "null," + ticket.getFuncion().getId() + ",(SELECT base_pre FROM precios)," + (dosx1?1:0) + ",null");
-								}
-								c.executeU("UPDATE funciones SET ocu_fun=ocu_fun+1 WHERE id_fun=" + ticket.getFuncion().getId());
-								c.close();
-								//TODO Aumentar oucpados en funcion.
-								//TODO Decrementar los 4 en caso de que compren 3 en dia 2x1
-								//TODO Cargar el descuento de estudiante.
-							} catch (Exception ex) {
-								ex.printStackTrace();
+									c.executeU("UPDATE funciones SET ocu_fun=ocu_fun+1 WHERE id_fun=" + ticket.getFuncion().getId());
+									if(!dosx1 || i%2==0){
+										ticket.imprimir(c.getLasID("ventas"));
+									}
+									//DONE Aumentar oucpados en funcion.
+									//DONE Decrementar los 4 en caso de que compren 3 en dia 2x1
+									//TODO Cargar el descuento de estudiante.
+								
 							}
+							if(i%2!=0)
+								c.executeU("UPDATE funciones SET ocu_fun=ocu_fun+1 WHERE id_fun=" + ticket.getFuncion().getId());
+							c.close();
+						}catch(Exception ex){
+							ex.printStackTrace();
 						}
 						dispose();
 					}

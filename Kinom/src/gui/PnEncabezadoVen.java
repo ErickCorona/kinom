@@ -51,13 +51,6 @@ public class PnEncabezadoVen extends JPanel {
 		flowLayout_1.setAlignment(FlowLayout.RIGHT);
 		add(panel_1);
 		
-		JButton btnCortesia = new JButton("Cortes\u00EDa");
-		btnCortesia.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		panel_1.add(btnCortesia);
-		
 		JLabel lblFecha = new JLabel("Fecha:");
 		lblFecha.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		panel_1.add(lblFecha);

@@ -31,12 +31,13 @@ public class Ticket {
 		this.tipo = NORMAL;
 	}
 	
-	public void imprimir(){
+	public void imprimir(int id){
+		//Quitar comentarios de este método para que se muestre el precio
 		StringBuffer info = new StringBuffer();
 		info.append("Sala ");
 		info.append(funcion.getSala().getNumero());
-		info.append(" $");
-		info.append((int)precio);
+		/*info.append(" $");
+		info.append((int)precio);*/
 		info.append("\n");
 		
 		info.append(funcion.getPelicula().getNombre());
@@ -50,6 +51,8 @@ public class Ticket {
 		if(Cartelera.is2x1(funcion.getHorario()))
 			info.append("\t- 2x1 -\n");
 		info.append(ticketero.getNombre());
+		info.append("\nID"+id);
+		
 		JTextPane text = new JTextPane();
 		text.setText(info.toString());
 		StyledDocument doc = text.getStyledDocument();
@@ -62,16 +65,16 @@ public class Ticket {
 		StyleConstants.setFontSize(style, 8);
 		
 		doc.setCharacterAttributes(0, 7, text.getStyle("24"), true);
-		doc.setCharacterAttributes(7, 3, text.getStyle("18"), true);
-		doc.setCharacterAttributes(info.length()-ticketero.getNombre().length(), ticketero.getNombre().length(), text.getStyle("8"), true);
+		//doc.setCharacterAttributes(7, 3, text.getStyle("18"), true);
+		doc.setCharacterAttributes(info.length()-ticketero.getNombre().length()-("\nID"+id).length(), ticketero.getNombre().length()+("\nID"+id).length(), text.getStyle("8"), true);
+		if(info.indexOf("2x1")!=-1)
+			doc.setCharacterAttributes(info.indexOf("2x1"), 3, text.getStyle("18"), true);
 		try{
 			Printable printable = text.getPrintable(null, null);
 			PrinterJob job = PrinterJob.getPrinterJob();
 			job.setPrintable(printable);
 			PrintRequestAttributeSet attr = new HashPrintRequestAttributeSet();
-			/*boolean printAccepted = job.printDialog(attr);
-			if(printAccepted)*/
-				job.print(attr);
+			job.print(attr);
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}

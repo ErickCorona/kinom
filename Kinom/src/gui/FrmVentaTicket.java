@@ -92,14 +92,7 @@ public class FrmVentaTicket extends JFrame implements ActionListener{
 			car = new Cartelera();
 			pnCentral = new PnCartelera(car.getPeliculas(Calendar.getInstance()));
 			contentPane.add(pnCentral, BorderLayout.CENTER);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
@@ -128,6 +121,9 @@ public class FrmVentaTicket extends JFrame implements ActionListener{
 					fecha.setTime(format.parse(cfecha.getSelectedItem().toString()));
 				}else{
 					pnSuperior.getCmbFecha().setSelectedIndex(0);
+					fecha.set(Calendar.DATE, fecha.get(Calendar.DATE)-1);
+					car.setCurrentDate(fecha);
+					fecha = Calendar.getInstance();
 				}
 				contentPane.remove(pnCentral);
 				if(fecha.get(Calendar.DAY_OF_YEAR)==Calendar.getInstance().get(Calendar.DAY_OF_YEAR))
@@ -140,7 +136,6 @@ public class FrmVentaTicket extends JFrame implements ActionListener{
 				PnVentaPanel.getTxtNumero().setText("");
 				
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			
