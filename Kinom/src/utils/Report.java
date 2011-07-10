@@ -16,7 +16,6 @@ public class Report {
 	
 	public static void main(String args[]){
 		semanal();
-		//mensual();
 		
 	}
 
@@ -43,7 +42,7 @@ public class Report {
 		}
 		ArrayList<String> arc = new ArrayList<String>();
 		arc.add("C:\\reportes\\semanal.pdf");
-		send("Reporte Semanal","Reporte Semanal Adjunto",arc);
+		MailService.send("Reporte Semanal","Reporte Semanal Adjunto",arc);
 	}
 	
 	public static void mensual(){
@@ -63,21 +62,8 @@ public class Report {
 		ArrayList<String> arc = new ArrayList<String>();
 		arc.add("C:\\reportes\\mensual.pdf");
 		arc.add("C:\\reportes\\mensualpelicula.pdf");
-		send("Reporte Mensual","Reporte Mensual Adjunto",arc);
+		MailService.send("Reporte Mensual","Reporte Mensual Adjunto",arc);
 	}
 	
-	public static void send(String subject, String body, ArrayList<String> arc){
-		MailService m = new MailService();
-		m.setSubject(subject);
-		m.setCuerpo(body);
-		m.setFiles(arc);
-		m.addRecipient("betobs26@hotmail.com");
-		m.addRecipient("jsus.159@gmail.com");
-		try {
-			m.enviarCorreo();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 }
 

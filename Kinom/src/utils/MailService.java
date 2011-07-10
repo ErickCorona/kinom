@@ -50,7 +50,7 @@ public class MailService {
 	            BodyPart messageBodyPart = new MimeBodyPart(); 
 	            Multipart multipart = new MimeMultipart(); 
 	            
-	            messageBodyPart.setText(this.cuerpo);
+	            messageBodyPart.setContent(this.cuerpo, "text/html");
 	            multipart.addBodyPart(messageBodyPart); 
 	            
 	            for(String file:files){
@@ -104,5 +104,19 @@ public class MailService {
 
 		public void addRecipient(String mail) {
 			toEmail.add(mail);
+		}
+		
+		public static void send(String subject, String body, ArrayList<String> arc){
+			MailService m = new MailService();
+			m.setSubject(subject);
+			m.setCuerpo(body);
+			m.setFiles(arc);
+			m.addRecipient("betobs26@hotmail.com");
+			m.addRecipient("jsus.159@gmail.com");
+			try {
+				m.enviarCorreo();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 }
