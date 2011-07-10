@@ -320,44 +320,13 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 				Idiom= comboIdio.getSelectedItem().toString();
 				try {
 					 Conexion c = new Conexion();
-					// c.GuardaPelicula(file1,txtNompel.getText(), txClaspel.getText(), txDurpel.getText(), txSinpel.getText(), Idiom);
+					 c.GuardaPelicula(file1,txtNompel.getText(), txClaspel.getText(), txDurpel.getText(), txSinpel.getText(), Idiom);
 					 c.close();
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
-				/*
-				byte[] person_image = null;
-				
-				
-				File image = new File(file);
-			    FileInputStream fis = null;
-			    
-				fis = new FileInputStream(image);
-				
-				File image = new File(file);
-				
-				FileInputStream   fis = new FileInputStream(image);
-				
-				
-				stmt.setBinaryStream(1, fis, (int) image.length());
-				stmt.execute();
-				
-					*/
-					//Creamos una cadena para después prepararla
-					//File imagen = new File(ruta);
-					//ruta puede ser: "/home/cmop/Desktop/1.jpg"
-					//FileInputStream   fis = new FileInputStream(imagen);
-					//Lo convertimos en un Stream
-					//Asignamos el Stream al Statement
-				
-					
-
-			//} catch (FileNotFoundException e2) {
-				// TODO Auto-generated catch block
-		//		e2.printStackTrace();
-			
+						
 		}
 		else if(e.getActionCommand().equals( "Cancelar")){
 				txtNompel.setText("");
