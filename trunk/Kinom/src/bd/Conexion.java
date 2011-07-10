@@ -162,7 +162,7 @@ public class Conexion{
 		if(!enabled)
 			open();
 		Statement stm = this.conn.createStatement();
-		ResultSet rs = stm.executeQuery("SELECT LAST_INSERT_ID()");
+		ResultSet rs = stm.executeQuery("SELECT LAST_INSERT_ROWID()");
 		rs.next();
 		int last = rs.getInt(1);
 		
@@ -173,7 +173,7 @@ public class Conexion{
 		if(!enabled)
 			open();
 		Statement stm = this.conn.createStatement();
-		ResultSet rs = stm.executeQuery("SELECT LAST_INSERT_ID() FROM " + tabla);
+		ResultSet rs = stm.executeQuery("SELECT LAST_INSERT_ROWID() FROM " + tabla);
 		rs.next();
 		int last = rs.getInt(1); 
 		return last;
