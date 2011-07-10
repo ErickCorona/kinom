@@ -42,13 +42,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
 
-public class FrmAdmFuncion extends JFrame {
+public class FrmAdmFuncion extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtCapacidad;
 	private JList lstPeliculas;
 	private JComboBox cmbSala;
 	private PnHorario pnHorario;
+	JButton btnAgregar;
+	JButton btnModificar;
+	JButton btnEliminar;
 
 	/**
 	 * Launch the application.
@@ -215,7 +218,7 @@ public class FrmAdmFuncion extends JFrame {
 		lstPeliculas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(lstPeliculas);
 		
-		final JButton btnAgregar = new JButton("Agregar");
+		btnAgregar = new JButton("Agregar");
 		GridBagConstraints gbc_btnAgregar = new GridBagConstraints();
 		gbc_btnAgregar.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnAgregar.anchor = GridBagConstraints.SOUTH;
@@ -224,7 +227,7 @@ public class FrmAdmFuncion extends JFrame {
 		gbc_btnAgregar.gridy = 0;
 		pnPeliculas.add(btnAgregar, gbc_btnAgregar);
 		
-		JButton btnEliminar = new JButton("Eliminar");
+		btnEliminar = new JButton("Eliminar");
 		GridBagConstraints gbc_btnEliminar = new GridBagConstraints();
 		gbc_btnEliminar.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnEliminar.insets = new Insets(0, 0, 5, 0);
@@ -232,7 +235,7 @@ public class FrmAdmFuncion extends JFrame {
 		gbc_btnEliminar.gridy = 1;
 		pnPeliculas.add(btnEliminar, gbc_btnEliminar);
 		
-		JButton btnModificar = new JButton("Modificar");
+		btnModificar = new JButton("Modificar");
 		GridBagConstraints gbc_btnModificar = new GridBagConstraints();
 		gbc_btnModificar.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnModificar.anchor = GridBagConstraints.NORTH;
@@ -312,6 +315,7 @@ public class FrmAdmFuncion extends JFrame {
 		
 		llenarPeliculas();
 		llenarSalas();
+		eventoBtn();
 	}
 	
 
@@ -364,6 +368,16 @@ public class FrmAdmFuncion extends JFrame {
 		
 		
 	}
+	
+	private void eventoBtn()
+	{
+		btnAgregar.addActionListener(this);
+		btnAgregar.setActionCommand("Agregar");
+		btnModificar.addActionListener(this);
+		btnModificar.setActionCommand("Modificar");
+		btnEliminar.addActionListener(this);
+		btnEliminar.setActionCommand("Eliminar");
+	}
 
 	public JList getLstPeliculas() {
 		return lstPeliculas;
@@ -373,5 +387,17 @@ public class FrmAdmFuncion extends JFrame {
 	}
 	public JPanel getPnHorario() {
 		return pnHorario;
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		if(e.getActionCommand().equals("Agregar")){
+			new FrmAdmPelicula();
+		}
+		else if(e.getActionCommand().equals("Modificar")){
+				new FrmAdmPelicula((Pelicula)lstPeliculas.getSelectedValue());
+		}
+		else if(e.getActionCommand().equals( "Eliminar")){
+		
+		}
 	}
 }
