@@ -13,6 +13,7 @@ import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
@@ -71,10 +72,14 @@ public class pnDiaHorario extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if(numBotones>0){
 					JTextHora nHora = horario.get(numBotones-1);
+					if(nHora.getText().equals("")){
 					horario.remove(numBotones-1);
 					remove(nHora);
 					numBotones--;
 					validate();
+					}else{
+						JOptionPane.showMessageDialog(pnDiaHorario.this, "No se puede eliminar, borre el campo");
+					}
 				}
 				
 			}
@@ -114,23 +119,31 @@ public class pnDiaHorario extends JPanel {
 		
 	}
 	
-	public void guardarFunciones(Pelicula pel, Sala sal){
+	public void guardarFunciones(Pelicula pel, Sala sal) throws ParseException{
 		Set<Integer> keys = this.horario.keySet(); 
 		for (Integer k : keys) {
 			JTextHora hraFuncion = horario.get(k);
-			System.out.println(label.getText());
-			System.out.println("Horario"+hraFuncion.getText());
+			if(hraFuncion.getText().equals("")){
+				continue;
+			}else if(!hraFuncion.cambio()){
+				continue;
+			}
+			
+			SimpleDateFormat validacion = new SimpleDateFormat("HH:mm");
+		
+			
+			//System.out.println(label.getText());
+			//System.out.println("Horario"+hraFuncion.getText());
 			SimpleDateFormat df = new SimpleDateFormat("dd/MMM/yy");
 			SimpleDateFormat dfFinal = new SimpleDateFormat("yyyy-MM-dd");
-			try {
+			
+				Date val = validacion.parse(hraFuncion.getText());
+				
 				Date fecha = df.parse(label.getText());
 				
 				String fechaFinal = dfFinal.format(fecha);
 				hraFuncion.guardar(pel,sal,fechaFinal);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		
 		}
 	}
 	

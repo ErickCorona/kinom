@@ -30,6 +30,17 @@ public class JTextHora extends JTextField {
 		setText(funcion.getHorarString());
 		this.funcion = funcion;
 	}
+	
+	public boolean cambio(){
+		if(funcion == null){
+			return true;
+		}
+		if(funcion.getHorarString().equals(this.getText())){
+			return false;
+		}else{
+			return true;
+		}
+	}
 
 
 	public JTextHora(int id){
@@ -58,6 +69,7 @@ public class JTextHora extends JTextField {
 				/*SimpleDateFormat format = new SimpleDateFormat("dd/MMM/yy");
 				java.util.Date fechaFinal =  format.parse(fecha);
 				*/
+				
 				String fechaHora = fecha +" "+this.getText()+":00" ;
 				String valores = "null,"+pel.getId()+","+sala.getNumero()+",'"+fechaHora+"',0,0";
 				conn.insert("funciones", valores);

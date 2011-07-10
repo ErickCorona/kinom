@@ -1,5 +1,6 @@
 package gui;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -100,7 +101,7 @@ public class PnHorario extends JPanel {
 		this.pel = pel;
 	}
 
-	public void guardar() {
+	public void guardar() throws ParseException {
 		for (pnDiaHorario pnDia : semana) {
 			pnDia.guardarFunciones(this.pel,this.sala);
 		}
