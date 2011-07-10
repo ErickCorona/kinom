@@ -253,6 +253,7 @@ public class DgConfirmacionCambio extends JDialog {
 								c.close();
 								//TODO Aumentar oucpados en funcion.
 								//TODO Decrementar los 4 en caso de que compren 3 en dia 2x1
+								//TODO Cargar el descuento de estudiante.
 							} catch (Exception ex) {
 								ex.printStackTrace();
 							}
