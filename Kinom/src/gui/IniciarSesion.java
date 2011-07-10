@@ -48,6 +48,7 @@ public class IniciarSesion extends JFrame implements ActionListener{
 									e.printStackTrace();
 								}
 							}
+							System.out.println(""+frame.getUser().getTipo());
 							frame.dispose();
 						}
 					};
@@ -153,5 +154,14 @@ public class IniciarSesion extends JFrame implements ActionListener{
 	public boolean isLogged() {
 		return logged;
 	}
+
+	public Usuario getUser() {
+		return user;
+	}
+
+	public void setUser(Usuario user) {
+		this.user = user;
+	}
+
 	
 }
