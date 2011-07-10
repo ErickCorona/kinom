@@ -1,55 +1,35 @@
 package gui;
 
+import java.awt.Component;
 import java.awt.EventQueue;
-
-
-import javax.swing.JFrame;
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
-
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
-import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.awt.Image;
-import java.awt.RenderingHints;
-
-import javax.swing.JTextField;
 import java.awt.Insets;
+import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
+import javax.swing.Box;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
-import javax.swing.SwingConstants;
-import javax.swing.JTextArea;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import java.awt.Component;
-import javax.swing.Box;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import utils.ImageUtils;
-
 import bd.Conexion;
-
-import classes.Funcion;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.awt.FlowLayout;
+import classes.Pelicula;
 
 public class FrmAdmPelicula extends JFrame implements ActionListener {
 	
@@ -60,8 +40,19 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 	JButton btnAbrir = new JButton("Abrir");
 	JLabel lblpic;
 	private ImageIcon imgThumb;
+	private Pelicula peli;
 
-	public FrmAdmPelicula() {
+	public FrmAdmPelicula(Pelicula p){
+		peli=p;
+		init();
+	}
+	
+	public FrmAdmPelicula(){
+		peli= new Pelicula(0,"",null,"",0,"","");
+		init();
+	}
+	
+	public void init() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Administrar Pelicula");
 		setBounds(100, 100, 594, 480);
@@ -255,6 +246,33 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 		btnCancelar.setFont(new Font("Verdana", Font.BOLD, 14));
 
 		eventoBtn();
+		llena();
+		setVisible(true);
+	}
+	
+	private void llena()
+	{
+		txtNompel.setText(peli.getNombre());
+		txClaspel.setText(peli.getClasificacion());
+		txDurpel.setText(""+peli.getDuracion());
+		txSinpel.setText(peli.getSinopsis());
+		txImgpel.setText("");
+
+		Image nueva = peli.getImagen().getImage(); 
+		BufferedImage tempBuff = new BufferedImage(nueva.getWidth(null),nueva.getHeight(null), BufferedImage.TYPE_INT_RGB); //Buffered image		
+		Graphics2D g2 = tempBuff.createGraphics(); //Obtemeos la instancia grafica
+	    g2.drawImage(nueva, 0, 0,null); //La pintamos
+		BufferedImage scaled = new BufferedImage(130, 180, BufferedImage.TYPE_INT_RGB);
+		scaled = ImageUtils.getScaledInstance(tempBuff, 130, 180, RenderingHints.VALUE_INTERPOLATION_BILINEAR,false);
+		imgThumb = new ImageIcon(scaled);
+		lblpic.setIcon(imgThumb);
+		if(peli.getIdioma().equals("Español")){
+			comboIdio.setSelectedIndex(0);
+		}
+		else{
+			comboIdio.setSelectedIndex(1);
+		}
+
 	}
 	
 	private void eventoBtn()
