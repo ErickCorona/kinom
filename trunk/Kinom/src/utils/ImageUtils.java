@@ -9,6 +9,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.swing.ImageIcon;
+
 public class ImageUtils {
     /**
      * Convenience method that returns a scaled instance of the
@@ -111,5 +113,15 @@ public class ImageUtils {
         // Close the input stream and return bytes
         is.close();
         return bytes;
+    }
+    
+    public  ImageIcon createImageIcon(String path,String description) {
+    	java.net.URL imgURL = getClass().getResource(path);
+    	if (imgURL != null) {
+    		return new ImageIcon(imgURL, description);
+    	} else {
+    		System.err.println("Couldn't find file: " + path);
+    		return null;
+    	}
     }
 }

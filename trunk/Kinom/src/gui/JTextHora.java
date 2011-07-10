@@ -99,19 +99,35 @@ public class JTextHora extends JTextField {
 				
 				
 			}else{
-				//Borrar el horario
-				try {
-					conn.delete("funciones", "id_fun = '"+funcion.getId()+"'");
-					conn.close();
-					
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				
 			}
+		}
+		
+	}
+
+
+	public boolean fueBorrado() {
+		if(this.getText().equals("") && this.funcion!=null){
+			return true;
+		}else{
+			return false;
+		}
+}
+
+
+	public void borrar() {
+		//Borrar el horario
+		try {
+			Conexion conn = new Conexion();
+			conn.delete("funciones", "id_fun = '"+funcion.getId()+"'");
+			conn.close();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 	}

@@ -77,7 +77,7 @@ public class FrmAdmFuncion extends JFrame implements ActionListener{
 	 */
 	public FrmAdmFuncion() throws SQLException, ClassNotFoundException, ParseException {
 		setTitle("Cartelera");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 813, 473);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -252,7 +252,7 @@ public class FrmAdmFuncion extends JFrame implements ActionListener{
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		panel.add(panel_1, BorderLayout.NORTH);
 		
-		JButton btnAgregarmodificar = new JButton("Agregar/Modificar");
+		final JButton btnAgregarmodificar = new JButton("Agregar/Modificar");
 		btnAgregarmodificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Consultar si ya existe una funcion con esas caracteristicas
@@ -299,7 +299,7 @@ public class FrmAdmFuncion extends JFrame implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
 				try {
 					pnHorario.guardar();
-					btnAgregar.doClick();
+					btnAgregarmodificar.doClick();
 					JOptionPane.showMessageDialog(FrmAdmFuncion.this, "Cambios guardados exitosamente");
 				} catch (ParseException e1) {
 					JOptionPane.showMessageDialog(FrmAdmFuncion.this, "Hora invalida","ERROR",JOptionPane.ERROR_MESSAGE);

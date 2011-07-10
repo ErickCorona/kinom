@@ -123,7 +123,8 @@ public class pnDiaHorario extends JPanel {
 		Set<Integer> keys = this.horario.keySet(); 
 		for (Integer k : keys) {
 			JTextHora hraFuncion = horario.get(k);
-			if(hraFuncion.getText().equals("")){
+			if(hraFuncion.fueBorrado()){
+				hraFuncion.borrar();
 				continue;
 			}else if(!hraFuncion.cambio()){
 				continue;
