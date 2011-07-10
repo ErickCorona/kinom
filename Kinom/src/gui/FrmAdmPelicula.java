@@ -41,6 +41,7 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 	JLabel lblpic;
 	private ImageIcon imgThumb;
 	private Pelicula peli;
+	boolean cambioimagen=false;
 
 	public FrmAdmPelicula(Pelicula p){
 		peli=p;
@@ -48,7 +49,7 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 	}
 	
 	public FrmAdmPelicula(){
-		peli= new Pelicula(0,"",null,"",0,"","");
+		peli= new Pelicula(0,"",null,"",0,"","Español");
 		init();
 	}
 	
@@ -99,6 +100,7 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 		getContentPane().add(lblImagen, gbc_lblImagen);
 		
 		txImgpel = new JTextField();
+		txImgpel.setEditable(false);
 		GridBagConstraints gbc_txImgpel = new GridBagConstraints();
 		gbc_txImgpel.insets = new Insets(0, 0, 5, 5);
 		gbc_txImgpel.fill = GridBagConstraints.HORIZONTAL;
@@ -257,20 +259,23 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 		txDurpel.setText(""+peli.getDuracion());
 		txSinpel.setText(peli.getSinopsis());
 		txImgpel.setText("");
-
-		Image nueva = peli.getImagen().getImage(); 
-		BufferedImage tempBuff = new BufferedImage(nueva.getWidth(null),nueva.getHeight(null), BufferedImage.TYPE_INT_RGB); //Buffered image		
-		Graphics2D g2 = tempBuff.createGraphics(); //Obtemeos la instancia grafica
-	    g2.drawImage(nueva, 0, 0,null); //La pintamos
-		BufferedImage scaled = new BufferedImage(130, 180, BufferedImage.TYPE_INT_RGB);
-		scaled = ImageUtils.getScaledInstance(tempBuff, 130, 180, RenderingHints.VALUE_INTERPOLATION_BILINEAR,false);
-		imgThumb = new ImageIcon(scaled);
-		lblpic.setIcon(imgThumb);
-		if(peli.getIdioma().equals("Español")){
-			comboIdio.setSelectedIndex(0);
+		
+		if(peli.getImagen()!=null){
+			Image nueva = peli.getImagen().getImage(); 
+			BufferedImage tempBuff = new BufferedImage(nueva.getWidth(null),nueva.getHeight(null), BufferedImage.TYPE_INT_RGB); //Buffered image		
+			Graphics2D g2 = tempBuff.createGraphics(); //Obtemeos la instancia grafica
+		    g2.drawImage(nueva, 0, 0,null); //La pintamos
+			BufferedImage scaled = new BufferedImage(130, 180, BufferedImage.TYPE_INT_RGB);
+			scaled = ImageUtils.getScaledInstance(tempBuff, 130, 180, RenderingHints.VALUE_INTERPOLATION_BILINEAR,false);
+			imgThumb = new ImageIcon(scaled);
+			lblpic.setIcon(imgThumb);
+			lblpic.setText("");
+		}
+		if(peli.getIdioma().equals("Subtitulada")){
+			comboIdio.setSelectedIndex(1);
 		}
 		else{
-			comboIdio.setSelectedIndex(1);
+			comboIdio.setSelectedIndex(0);
 		}
 
 	}
@@ -307,6 +312,7 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equals("Abrir")){
+			cambioimagen=true;
 			System.out.println("Bla");
 			JFileChooser fc = new JFileChooser();
 			int returnVal = fc.showOpenDialog(null);
@@ -333,8 +339,10 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 			
 		}
 		else if(e.getActionCommand().equals("Guardar")){
+			String Idiom;
+			System.out.println(peli.getId());
+			if(peli.getId()==0){
 				System.out.println("Bla");
-				String Idiom;
 				Idiom= comboIdio.getSelectedItem().toString();
 				try {
 					 Conexion c = new Conexion();
@@ -344,17 +352,29 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-						
+			}
+			else{
+				System.out.println("Bla Modificar");
+				Idiom= comboIdio.getSelectedItem().toString();
+				 try {
+					 Conexion c = new Conexion();
+					 if(!cambioimagen){
+						 System.out.println("nulo");
+						 c.ModificaPelicula(peli.getId(),null,txtNompel.getText(), txClaspel.getText(), txDurpel.getText(), txSinpel.getText(), Idiom);
+					 }else{
+						 System.out.println("no nulo");
+						 c.ModificaPelicula(peli.getId(),file1,txtNompel.getText(), txClaspel.getText(), txDurpel.getText(), txSinpel.getText(), Idiom);
+					 }
+					 c.close();
+					 
+				 } catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}						
 		}
 		else if(e.getActionCommand().equals( "Cancelar")){
-				txtNompel.setText("");
-				txImgpel.setText("");
-				txDurpel.setText("");
-				txClaspel.setText("");
-				txSinpel.setText("");
-				comboIdio.setSelectedIndex(0);
-				lblpic.setText("Imagen");
-				lblpic.setIcon(null);
+				this.dispose();
 		}
 	}
 }
