@@ -7,8 +7,11 @@
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
 	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\Fam Barradas Spezzia\\workspace\\Kinom\\Reportes\\"]]></defaultValueExpression>
+	</parameter>
 	<queryString>
-		<![CDATA[SELECT * FROM mensual]]>
+		<![CDATA[SELECT * FROM mensual ORDER BY Boletos DESC ]]>
 	</queryString>
 	<field name="id_fun" class="java.lang.Object"/>
 	<field name="Nombre" class="java.lang.Object"/>
@@ -18,43 +21,61 @@
 	<group name="Sala">
 		<groupExpression><![CDATA[$F{id_fun}]]></groupExpression>
 		<groupHeader>
-			<band height="30">
+			<band height="46">
+				<printWhenExpression><![CDATA[$V{REPORT_COUNT}==0]]></printWhenExpression>
+				<line>
+					<reportElement positionType="FixRelativeToBottom" x="0" y="43" width="555" height="1"/>
+					<graphicElement>
+						<pen lineWidth="0.5" lineColor="#999999"/>
+					</graphicElement>
+				</line>
 				<textField>
-					<reportElement style="SubTitle" x="0" y="4" width="157" height="20"/>
+					<reportElement style="SubTitle" x="0" y="22" width="157" height="24" forecolor="#006600"/>
 					<textElement>
-						<font size="16" isBold="true"/>
+						<font isBold="true"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[""+$F{Nombre}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA["Nombre"]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement style="SubTitle" x="157" y="4" width="100" height="20"/>
+					<reportElement style="SubTitle" x="157" y="22" width="100" height="24" forecolor="#006600"/>
 					<textElement textAlignment="Center">
-						<font size="16" isBold="true"/>
+						<font isBold="true"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[""+$F{Sala}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA["Sala"]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement style="SubTitle" x="257" y="4" width="164" height="20"/>
+					<reportElement style="SubTitle" x="257" y="22" width="164" height="24" forecolor="#006600"/>
 					<textElement textAlignment="Center">
-						<font size="16" isBold="true"/>
+						<font isBold="true"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[""+$F{Fecha}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA["Fecha"]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement style="SubTitle" x="421" y="4" width="132" height="20"/>
+					<reportElement style="SubTitle" x="421" y="22" width="132" height="24" forecolor="#006600"/>
 					<textElement textAlignment="Right">
-						<font size="16" isBold="true"/>
+						<font isBold="true"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[""+$F{Boletos}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA["Boletos"]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="SubTitle" x="0" y="0" width="308" height="24" forecolor="#006600"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["20 Funciones más vendidas"]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>
-	</group>
-	<group name="Fecha">
-		<groupExpression><![CDATA[$F{Fecha}]]></groupExpression>
-	</group>
-	<group name="Boletos">
-		<groupExpression><![CDATA[$F{Boletos}]]></groupExpression>
+		<groupFooter>
+			<band height="107">
+				<printWhenExpression><![CDATA[$V{REPORT_COUNT}==12]]></printWhenExpression>
+				<subreport>
+					<reportElement x="-10" y="0" width="200" height="100"/>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "Bottom.jasper"]]></subreportExpression>
+				</subreport>
+			</band>
+		</groupFooter>
 	</group>
 	<background>
 		<band splitType="Stretch"/>
@@ -81,50 +102,49 @@
 		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="46" splitType="Stretch">
+		<band height="6" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="24">
+			<textField>
+				<reportElement style="SubTitle" x="0" y="0" width="157" height="20"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[""+$F{Nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SubTitle" x="157" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[""+$F{Sala}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SubTitle" x="257" y="0" width="164" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[""+$F{Fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SubTitle" x="421" y="0" width="132" height="20"/>
+				<textElement textAlignment="Right">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[""+$F{Boletos}]]></textFieldExpression>
+			</textField>
 			<line>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="43" width="555" height="1"/>
+				<reportElement positionType="FixRelativeToBottom" x="1" y="22" width="555" height="1"/>
 				<graphicElement>
 					<pen lineWidth="0.5" lineColor="#999999"/>
 				</graphicElement>
 			</line>
-			<textField>
-				<reportElement style="SubTitle" x="0" y="22" width="157" height="24" forecolor="#006600"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["Nombre"]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement style="SubTitle" x="157" y="22" width="100" height="24" forecolor="#006600"/>
-				<textElement textAlignment="Center">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["Sala"]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement style="SubTitle" x="257" y="22" width="164" height="24" forecolor="#006600"/>
-				<textElement textAlignment="Center">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["Fecha"]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement style="SubTitle" x="421" y="22" width="132" height="24" forecolor="#006600"/>
-				<textElement textAlignment="Right">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["Boletos"]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement style="SubTitle" x="0" y="0" width="274" height="24" forecolor="#006600"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["Top 20 Funciones"]]></textFieldExpression>
-			</textField>
 		</band>
-	</columnHeader>
+	</detail>
+	<columnFooter>
+		<band height="12"/>
+	</columnFooter>
 	<pageFooter>
 		<band height="24" splitType="Stretch">
 			<line>
@@ -156,7 +176,4 @@
 			</textField>
 		</band>
 	</pageFooter>
-	<summary>
-		<band splitType="Stretch"/>
-	</summary>
 </jasperReport>
