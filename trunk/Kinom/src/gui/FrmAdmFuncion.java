@@ -213,7 +213,7 @@ public class FrmAdmFuncion extends JFrame {
 		lstPeliculas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(lstPeliculas);
 		
-		JButton btnAgregar = new JButton("Agregar");
+		final JButton btnAgregar = new JButton("Agregar");
 		GridBagConstraints gbc_btnAgregar = new GridBagConstraints();
 		gbc_btnAgregar.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnAgregar.anchor = GridBagConstraints.SOUTH;
@@ -251,22 +251,25 @@ public class FrmAdmFuncion extends JFrame {
 		btnAgregarmodificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Consultar si ya existe una funcion con esas caracteristicas
-				Pelicula pel = (Pelicula) lstPeliculas.getSelectedValue();
-				Sala sala = (Sala) cmbSala.getSelectedItem();
-				ArrayList<Funcion> funciones = new ArrayList<Funcion>();
-				pnHorario.setPel(pel);
-				pnHorario.setSala(sala);
+				Pelicula pel = (Pelicula) lstPeliculas.getSelectedValue(); //Se obtiene la pelicula
+				Sala sala = (Sala) cmbSala.getSelectedItem(); //Se obtiene la sala
+				ArrayList<Funcion> funciones = new ArrayList<Funcion>(); //Guardamos las funciones exitentes
+				pnHorario.setPel(pel); //Asignamos al panel la busqueda
+				pnHorario.setSala(sala); //Asignamos al panel la busqueda
 				try {
-					funciones = Cartelera.getFuncionDesdeHoy(pel, sala.getNumero());
+					funciones = Cartelera.getFuncionDesdeHoy(pel, sala.getNumero()); //Llenamos el arreglo
 					if(funciones.size() == 0){
-						Calendar cal = Calendar.getInstance();
-						System.out.println("Prueba");
-						pnHorario.llenar(cal);
-						pnHorario.validate();
+						//Si el arreglo esta vacio por lo tanto no existe
+						//Funciones
+						Calendar cal = Calendar.getInstance(); //Creamos un calendar con la fecha actual
+						//System.out.println("Prueba");
+						pnHorario.llenar(cal);//Lenamos el panel 
+						pnHorario.validate();//Recargamos el panel
 						
 					}else {
-						pnHorario.llenar(funciones, Calendar.getInstance());
-						pnHorario.validate();
+						//Ya existen funciones
+						pnHorario.llenar(funciones, Calendar.getInstance());//Cargamos las funciones apartir del arreglo
+						pnHorario.validate();//Recargamos los paneles
 						
 					}		
 					
@@ -290,6 +293,8 @@ public class FrmAdmFuncion extends JFrame {
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				pnHorario.guardar();
+				btnAgregar.doClick();
+				JOptionPane.showMessageDialog(FrmAdmFuncion.this, "Cambios guardados exitosamente");
 			}
 		});
 		panel_1.add(btnGuardar);
@@ -312,7 +317,9 @@ public class FrmAdmFuncion extends JFrame {
 				model.addElement(pelicula);
 				//System.out.println("Hola");
 			}
+			
 			this.lstPeliculas.setModel(model);
+			lstPeliculas.setSelectedIndex(0);
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

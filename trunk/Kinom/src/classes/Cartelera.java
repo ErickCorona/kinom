@@ -117,6 +117,7 @@ public class Cartelera {
 			Calendar fecha = Calendar.getInstance();
 			fecha.setTime(format.parse(rs.getString("hro_fun")));
 			func.setHorario(fecha);
+			func.setId(rs.getInt("id_fun"));
 			
 			funciones.add(func);
 		}

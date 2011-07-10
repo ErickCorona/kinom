@@ -1,6 +1,8 @@
 package gui;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -47,14 +49,16 @@ public class JTextHora extends JTextField {
 	}
 
 
-	public void guardar(Pelicula pel, Sala sala, String fecha) {
+	public void guardar(Pelicula pel, Sala sala, String fecha) throws ParseException {
 		Conexion conn = new Conexion();
 		if(funcion == null){
 			//No existe la funcion se guarda en la base de datos
 			
 			try {
-				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-				String fechaHora = fecha +" "+this.getText() ;
+				/*SimpleDateFormat format = new SimpleDateFormat("dd/MMM/yy");
+				java.util.Date fechaFinal =  format.parse(fecha);
+				*/
+				String fechaHora = fecha +" "+this.getText()+":00" ;
 				String valores = "null,"+pel.getId()+","+sala.getNumero()+",'"+fechaHora+"',0,0";
 				conn.insert("funciones", valores);
 				conn.close();
@@ -69,7 +73,7 @@ public class JTextHora extends JTextField {
 			if(getText().length() > 0){
 				//Modificar funcion
 				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-				String fechaHora = fecha +" "+this.getText() ;
+				String fechaHora = fecha +" "+this.getText()+":00" ;
 				try {
 					conn.update("funciones", "hro_fun = '"+fechaHora+"'", "id_fun = "+funcion.getId());
 					conn.close();

@@ -3,9 +3,11 @@ package gui;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -89,9 +91,11 @@ public class pnDiaHorario extends JPanel {
 		
 
 	}
-	
+	/**
+	 * Carga las funciones apartir de un arreglo de funciones
+	 * @param func
+	 */
 	public void cargarFunciones(ArrayList<Funcion> func){
-		int i;
 		for (Funcion funcion : func) {
 			JTextHora nHora = new JTextHora(numBotones);
 			nHora.setFuncion(funcion);
@@ -116,7 +120,17 @@ public class pnDiaHorario extends JPanel {
 			JTextHora hraFuncion = horario.get(k);
 			System.out.println(label.getText());
 			System.out.println("Horario"+hraFuncion.getText());
-			//hraFuncion.guardar(pel,sal,this.fecha);
+			SimpleDateFormat df = new SimpleDateFormat("dd/MMM/yy");
+			SimpleDateFormat dfFinal = new SimpleDateFormat("yyyy-MM-dd");
+			try {
+				Date fecha = df.parse(label.getText());
+				
+				String fechaFinal = dfFinal.format(fecha);
+				hraFuncion.guardar(pel,sal,fechaFinal);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
