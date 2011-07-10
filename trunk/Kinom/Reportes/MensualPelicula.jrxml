@@ -15,29 +15,6 @@
 	<field name="Nombre" class="java.lang.Object"/>
 	<field name="Fecha" class="java.lang.Object"/>
 	<field name="Boletos" class="java.lang.Object"/>
-	<group name="uno">
-		<groupExpression><![CDATA[$F{uno}]]></groupExpression>
-		<groupHeader>
-			<band height="38">
-				<textField>
-					<reportElement style="SubTitle" x="7" y="10" width="506" height="24" forecolor="#006600"/>
-					<textElement>
-						<font isBold="true"/>
-					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA["Gráfica de Ventas de Películas"]]></textFieldExpression>
-				</textField>
-				<line>
-					<reportElement positionType="FixRelativeToBottom" x="0" y="30" width="555" height="1"/>
-					<graphicElement>
-						<pen lineWidth="0.5" lineColor="#999999"/>
-					</graphicElement>
-				</line>
-			</band>
-		</groupHeader>
-		<groupFooter>
-			<band height="50"/>
-		</groupFooter>
-	</group>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -63,53 +40,58 @@
 		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="13" splitType="Stretch"/>
-	</columnHeader>
-	<detail>
-		<band height="321" splitType="Stretch">
-			<printWhenExpression><![CDATA[$V{REPORT_COUNT}==1]]></printWhenExpression>
-			<lineChart>
-				<chart theme="default">
-					<reportElement x="0" y="0" width="553" height="308"/>
-					<chartTitle/>
-					<chartSubtitle/>
-					<chartLegend/>
-				</chart>
-				<categoryDataset>
-					<dataset resetType="Group" resetGroup="uno"/>
-					<categorySeries>
-						<seriesExpression><![CDATA[$F{Nombre}]]></seriesExpression>
-						<categoryExpression><![CDATA[$F{Fecha}]]></categoryExpression>
-						<valueExpression><![CDATA[$F{Boletos}]]></valueExpression>
-					</categorySeries>
-				</categoryDataset>
-				<linePlot isShowLines="true" isShowShapes="false">
-					<plot/>
-					<categoryAxisFormat>
-						<axisFormat verticalTickLabels="false">
-							<labelFont/>
-							<tickLabelFont/>
-						</axisFormat>
-					</categoryAxisFormat>
-					<valueAxisFormat>
-						<axisFormat verticalTickLabels="true">
-							<labelFont/>
-							<tickLabelFont/>
-						</axisFormat>
-					</valueAxisFormat>
-				</linePlot>
-			</lineChart>
-		</band>
-	</detail>
-	<columnFooter>
-		<band height="45" splitType="Stretch">
+		<band height="372" splitType="Stretch">
+			<textField>
+				<reportElement style="SubTitle" x="0" y="0" width="506" height="24" forecolor="#006600"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Gráfica de Ventas de Películas"]]></textFieldExpression>
+			</textField>
 			<line>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="40" width="555" height="1"/>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="20" width="555" height="1"/>
 				<graphicElement>
 					<pen lineWidth="0.5" lineColor="#999999"/>
 				</graphicElement>
 			</line>
+			<timeSeriesChart>
+				<chart evaluationTime="Column">
+					<reportElement x="0" y="35" width="551" height="334"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<timeSeriesDataset>
+					<timeSeries>
+						<seriesExpression><![CDATA[$F{Nombre}]]></seriesExpression>
+						<timePeriodExpression><![CDATA[new Date(
+    Calendar.getInstance().get(Calendar.YEAR),
+    Calendar.getInstance().get(Calendar.MONTH),
+    Integer.parseInt($F{Fecha})
+)]]></timePeriodExpression>
+						<valueExpression><![CDATA[$F{Boletos}]]></valueExpression>
+					</timeSeries>
+				</timeSeriesDataset>
+				<timeSeriesPlot>
+					<plot/>
+					<timeAxisFormat>
+						<axisFormat>
+							<labelFont/>
+							<tickLabelFont/>
+						</axisFormat>
+					</timeAxisFormat>
+					<valueAxisFormat>
+						<axisFormat>
+							<labelFont/>
+							<tickLabelFont/>
+						</axisFormat>
+					</valueAxisFormat>
+				</timeSeriesPlot>
+			</timeSeriesChart>
 		</band>
+	</columnHeader>
+	<columnFooter>
+		<band height="13" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
 		<band height="20" splitType="Stretch">
