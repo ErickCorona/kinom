@@ -202,6 +202,42 @@ public class Conexion{
                
 	}
 	
+	public void ModificaPelicula(int idpel,File file1,  String nombre, String clas, String dura, String sino, String idio) throws Exception
+	{
+		if(!enabled)
+			open();
+		FileInputStream fis = null;
+        PreparedStatement ps = null;
+        if(file1!=null){
+	       	fis = new FileInputStream(file1);
+			System.out.println("Ya entre1 Modificar");		
+			ps = conn.prepareStatement("UPDATE peliculas SET nom_pel=? ,img_pel=?,clas_pel=?,dur_pel=?,sin_pel=?, idm_pel=? WHERE id_pel = "+idpel);
+	        System.out.println("Ya entre2 Modificar");
+			ps.setString(1, nombre);
+			ps.setBytes(2,ImageUtils.getBytesFromFile(file1) );
+	        ps.setString(3, clas);
+	        ps.setString(4, dura);
+	        ps.setString(5, sino);
+	        ps.setString(6, idio);
+	        ps.executeUpdate();
+	        ps.close();
+			fis.close();
+	    }
+        else{
+			System.out.println("Ya entre1 Modificar2");		
+			ps = conn.prepareStatement("UPDATE peliculas SET nom_pel=? ,clas_pel=?,dur_pel=?,sin_pel=?, idm_pel=? WHERE id_pel = "+idpel);
+	        System.out.println("Ya entre2 Modificar");
+			ps.setString(1, nombre);
+	        ps.setString(2, clas);
+	        ps.setString(3, dura);
+	        ps.setString(4, sino);
+	        ps.setString(5, idio);
+	        ps.executeUpdate();
+	        ps.close();
+        }
+               
+	}
+	
 	public void reset() throws SQLException{
 		this.conn.setAutoCommit(true);
 		
