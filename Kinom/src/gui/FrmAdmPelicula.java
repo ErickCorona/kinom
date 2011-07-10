@@ -320,7 +320,7 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 				Idiom= comboIdio.getSelectedItem().toString();
 				try {
 					 Conexion c = new Conexion();
-					 c.GuardaPelicula(file1,txtNompel.getText(), txClaspel.getText(), txDurpel.getText(), txSinpel.getText(), Idiom);
+					// c.GuardaPelicula(file1,txtNompel.getText(), txClaspel.getText(), txDurpel.getText(), txSinpel.getText(), Idiom);
 					 c.close();
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block

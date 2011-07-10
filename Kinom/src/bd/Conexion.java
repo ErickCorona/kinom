@@ -145,6 +145,7 @@ public class Conexion{
 			open();
 		Statement stm = this.conn.createStatement();
 		String updte = "UPDATE "+tabla+" SET "+valores+" WHERE "+condicion;
+		System.out.println(updte);
 		stm.executeUpdate(updte);
 	}
 	
