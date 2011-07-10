@@ -151,6 +151,7 @@ public class FrmAdmFuncion extends JFrame {
 					conn.insert("salas", "null, "+num);
 					llenarSalas();
 					conn.close();
+					JOptionPane.showMessageDialog(FrmAdmFuncion.this, "Agregado correctamente");
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -174,6 +175,7 @@ public class FrmAdmFuncion extends JFrame {
 					conn.update("salas", "cap_sala="+txtCapacidad.getText(), "id_sala="+sala.getNumero());
 					conn.close();
 					llenarSalas();
+					JOptionPane.showMessageDialog(FrmAdmFuncion.this, "Cambiado correctamente");
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -292,9 +294,14 @@ public class FrmAdmFuncion extends JFrame {
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				pnHorario.guardar();
-				btnAgregar.doClick();
-				JOptionPane.showMessageDialog(FrmAdmFuncion.this, "Cambios guardados exitosamente");
+				try {
+					pnHorario.guardar();
+					btnAgregar.doClick();
+					JOptionPane.showMessageDialog(FrmAdmFuncion.this, "Cambios guardados exitosamente");
+				} catch (ParseException e1) {
+					JOptionPane.showMessageDialog(FrmAdmFuncion.this, "Hora invalida","ERROR",JOptionPane.ERROR_MESSAGE);
+				}
+				
 			}
 		});
 		panel_1.add(btnGuardar);

@@ -62,7 +62,7 @@ public class Conexion{
 			open();
 		Statement stm = this.conn.createStatement();
 		String ste = "SELECT * FROM "+nomTab+" WHERE " + filtro;
-		System.out.println(ste);
+		//System.out.println(ste);
 		ResultSet rs = stm.executeQuery(ste);
 		
 		return rs;
@@ -128,7 +128,7 @@ public class Conexion{
 			open();
 		Statement stm = this.conn.createStatement();
 		String consulta = "INSERT INTO "+tabla+" VALUES ("+valores+");";
-		System.out.println(consulta);
+		//System.out.println(consulta);
 		stm.executeUpdate(consulta);
 	}
 	
@@ -145,7 +145,7 @@ public class Conexion{
 			open();
 		Statement stm = this.conn.createStatement();
 		String updte = "UPDATE "+tabla+" SET "+valores+" WHERE "+condicion;
-		System.out.println(updte);
+		//System.out.println(updte);
 		stm.executeUpdate(updte);
 	}
 	
