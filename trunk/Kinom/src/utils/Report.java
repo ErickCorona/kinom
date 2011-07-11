@@ -15,8 +15,7 @@ import net.sf.jasperreports.view.*;
 public class Report {
 	
 	public static void main(String args[]){
-		semanal();
-		
+		mensual();
 	}
 
 	public static void check(){
@@ -55,6 +54,8 @@ public class Report {
 			JasperExportManager.exportReportToPdfFile(print, "C:\\reportes\\mensual.pdf");
 			print = JasperFillManager.fillReport("Reportes\\MensualPelicula.jasper", new HashMap(), c.getConeccion());
 			JasperExportManager.exportReportToPdfFile(print, "C:\\reportes\\mensualpelicula.pdf");
+			print = JasperFillManager.fillReport("Reportes\\MensualporSemana.jasper", new HashMap(), c.getConeccion());
+			JasperExportManager.exportReportToPdfFile(print, "C:\\reportes\\MensualporSemana.pdf");
 			c.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -62,7 +63,10 @@ public class Report {
 		ArrayList<String> arc = new ArrayList<String>();
 		arc.add("C:\\reportes\\mensual.pdf");
 		arc.add("C:\\reportes\\mensualpelicula.pdf");
+		arc.add("C:\\reportes\\MensualporSemana.pdf");
 		MailService.send("Reporte Mensual","Reporte Mensual Adjunto",arc);
+		File f = new File("c:\\reportes");
+		f.delete();
 	}
 	
 }

@@ -68,7 +68,7 @@
 		</groupHeader>
 		<groupFooter>
 			<band height="107">
-				<printWhenExpression><![CDATA[$V{REPORT_COUNT}==12]]></printWhenExpression>
+				<printWhenExpression><![CDATA[$V{REPORT_COUNT}==20]]></printWhenExpression>
 				<subreport>
 					<reportElement x="-10" y="0" width="200" height="100"/>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
