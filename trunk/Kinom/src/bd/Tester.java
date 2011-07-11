@@ -1,9 +1,7 @@
 package bd;
 
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.*;
+import java.io.File;
 
 class Tester {
 
@@ -11,30 +9,13 @@ class Tester {
 	 * @param args
 	 */
 	public static void main(String args[]){
-		/*Conexion c = new Conexion("root","pass","kinom");
-		ResultSet rs;
+		Conexion c = new Conexion();
 		try{
-			rs = c.executeQ("SELECT * FROM peliculas");
-			System.out.println("Primer registro: " + rs.next() + " : " + rs.getString(2));
-			c.close();
+			for(int i=0;i<10;i++){
+				c.GuardaPelicula(new File("pelicula"+(i+1)+".jpg"), "Película " + (i+1), "B", "120", "Película No. " + (i+1), "Español");
+			}
 		}catch(Exception e){
-				e.printStackTrace();
-		}*/
-		
-		/*Calendar hoy = Calendar.getInstance();
-		hoy.set(2012, 11, 21, 11, 59, 59);
-		System.out.println("Dia: " + hoy.getTime());*/
-		
-		//classes.Cartelera cart = new classes.Cartelera();
-	/*	try {
-			cart.loadFunciones();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		System.out.println(Calendar.WEDNESDAY);
+		}
 	}
 }
