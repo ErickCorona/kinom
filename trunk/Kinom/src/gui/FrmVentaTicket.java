@@ -128,6 +128,11 @@ public class FrmVentaTicket extends JFrame implements ActionListener{
 				contentPane.remove(pnCentral);
 				if(fecha.get(Calendar.DAY_OF_YEAR)==Calendar.getInstance().get(Calendar.DAY_OF_YEAR))
 					fecha = Calendar.getInstance();
+				if(Cartelera.isEstudianteDes(fecha)){
+					PnVentaPanel.getChckbxEstudiante().setVisible(true);
+				}else{
+					PnVentaPanel.getChckbxEstudiante().setVisible(false);
+				}
 				pnCentral = new PnCartelera(car.getPeliculas(fecha));
 				contentPane.add(pnCentral, BorderLayout.CENTER);
 				contentPane.validate();
@@ -135,6 +140,8 @@ public class FrmVentaTicket extends JFrame implements ActionListener{
 				PnVentaPanel.llenar(new ArrayList<Funcion>());
 				PnVentaPanel.getTxtNumero().setText("");
 				PnVentaPanel.getChckbxEstudiante().setSelected(false);
+				
+				
 				
 			} catch (Exception e1) {
 				e1.printStackTrace();

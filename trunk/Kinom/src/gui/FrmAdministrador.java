@@ -191,6 +191,12 @@ public class FrmAdministrador extends JFrame {
 		panel_3.add(horizontalStrut, gbc_horizontalStrut);
 		
 		JButton btnAltaTicketero = new JButton("Alta Ticketero");
+		btnAltaTicketero.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				FrmAltaTicketero frame =  new FrmAltaTicketero();
+				frame.setVisible(true);
+			}
+		});
 		btnAltaTicketero.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
@@ -210,6 +216,12 @@ public class FrmAdministrador extends JFrame {
 		panel_3.add(btnAltaTicketero, gbc_btnAltaTicketero);
 		
 		JButton btnCambiarPrecio = new JButton("Cambiar Precio");
+		btnCambiarPrecio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FrmAdminCostos frame = new FrmAdminCostos();
+				frame.setVisible(true);
+			}
+		});
 		btnCambiarPrecio.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
