@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
@@ -20,6 +21,8 @@ import bd.Conexion;
 import utils.ImageUtils;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class FrmAdminCostos extends JFrame {
 
@@ -101,9 +104,35 @@ public class FrmAdminCostos extends JFrame {
 		contentPane.add(panel_2, BorderLayout.SOUTH);
 		
 		JButton btnNewButton = new JButton("Aceptar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try{
+					float precioBase = Float.parseFloat(txtPrecioBase.getText());
+					int dosx1 = cmb2x1.getSelectedIndex() + 1;
+					int dest = cmbDesEstudiantes.getSelectedIndex() + 1;
+					
+					Conexion conn = new Conexion();
+					conn.update("precios", "dosx1_pre = "+dosx1+", base_pre = "+precioBase+",dest_pre = "+dest, "id_pre = 1");
+					JOptionPane.showMessageDialog(FrmAdminCostos.this, "Precios cambiados correctamente");
+				}catch (NumberFormatException e1) {
+					JOptionPane.showMessageDialog(FrmAdminCostos.this,"Precio base invalido", "Error", JOptionPane.ERROR_MESSAGE);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		panel_2.add(btnNewButton);
 		
 		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+			}
+		});
 		panel_2.add(btnCancelar);
 		llenar();
 	}
