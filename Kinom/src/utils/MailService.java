@@ -112,7 +112,7 @@ public class MailService {
 			m.setCuerpo(body);
 			m.setFiles(arc);
 			m.addRecipient("betobs26@hotmail.com");
-			m.addRecipient("jsus.159@gmail.com");
+			//m.addRecipient("jsus.159@gmail.com");
 			try {
 				m.enviarCorreo();
 			} catch (Exception e) {
