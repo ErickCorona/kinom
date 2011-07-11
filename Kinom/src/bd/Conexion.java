@@ -20,6 +20,8 @@ import javax.swing.ImageIcon;
 
 import org.sqlite.SQLite;
 
+import classes.Pelicula;
+
 import utils.ImageUtils;
 
 
@@ -188,7 +190,7 @@ public class Conexion{
        	fis = new FileInputStream(file1);
 		System.out.println("Ya entre1");
 		System.out.println(file1.getAbsolutePath());
-		ps = conn.prepareStatement("INSERT INTO peliculas(id_pel,nom_pel, img_pel, clas_pel, dur_pel, sin_pel, idm_pel) VALUES (null , ?, ?, ?, ?, ?, ?)");
+		ps = conn.prepareStatement("INSERT INTO peliculas(id_pel,nom_pel, img_pel, clas_pel, dur_pel, sin_pel, idm_pel,stus_pel) VALUES (null , ?, ?, ?, ?, ?, ?,?)");
         System.out.println("Ya entre2");
 		ps.setString(1, nombre);
 		ps.setBytes(2,ImageUtils.getBytesFromFile(file1) );
@@ -196,6 +198,7 @@ public class Conexion{
         ps.setString(4, dura);
         ps.setString(5, sino);
         ps.setString(6, idio);
+        ps.setInt(7, 1);
         ps.executeUpdate();
         ps.close();
 		fis.close();
@@ -236,6 +239,18 @@ public class Conexion{
 	        ps.close();
         }
                
+	}
+	
+	public void EliminarPelicula(Pelicula pel) throws Exception
+	{
+		if(!enabled)
+			open();
+		System.out.println("Eliminar");		
+        PreparedStatement ps = null;
+        ps = conn.prepareStatement("UPDATE peliculas SET stus_pel=0  WHERE id_pel = "+pel.getId());
+        pel.setStatus(0);
+		ps.executeUpdate();
+        ps.close();
 	}
 	
 	public void reset() throws SQLException{

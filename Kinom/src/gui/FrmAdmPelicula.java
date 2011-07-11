@@ -23,6 +23,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -30,6 +31,7 @@ import javax.swing.JTextField;
 import utils.ImageUtils;
 import bd.Conexion;
 import classes.Pelicula;
+import javax.swing.SwingConstants;
 
 public class FrmAdmPelicula extends JFrame implements ActionListener {
 	
@@ -39,6 +41,7 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 	JButton btnCancelar;
 	JButton btnAbrir = new JButton("Abrir");
 	JLabel lblpic;
+	JComboBox comboClas;
 	private ImageIcon imgThumb;
 	private Pelicula peli;
 	boolean cambioimagen=false;
@@ -49,18 +52,18 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 	}
 	
 	public FrmAdmPelicula(){
-		peli= new Pelicula(0,"",null,"",0,"","Español");
+		peli= new Pelicula(0,"",null,"",0,"","Español",1);
 		init();
 	}
 	
 	public void init() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setTitle("Administrar Pelicula");
 		setBounds(100, 100, 594, 480);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 138, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 3.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 8.0, 1.0, Double.MIN_VALUE};
 		getContentPane().setLayout(gridBagLayout);
 		
@@ -145,6 +148,7 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 		getContentPane().add(lblpic, gbc_lblpic);
 		
 		JLabel lblClasificacion = new JLabel("Clasificacion");
+		lblClasificacion.setHorizontalAlignment(SwingConstants.CENTER);
 		lblClasificacion.setFont(new Font("Verdana", Font.BOLD, 14));
 		GridBagConstraints gbc_lblClasificacion = new GridBagConstraints();
 		gbc_lblClasificacion.insets = new Insets(0, 0, 5, 5);
@@ -152,15 +156,15 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 		gbc_lblClasificacion.gridy = 7;
 		getContentPane().add(lblClasificacion, gbc_lblClasificacion);
 		
-		txClaspel = new JTextField();
-		txClaspel.setFont(new Font("Arial", Font.BOLD, 12));
-		GridBagConstraints gbc_txClaspel = new GridBagConstraints();
-		gbc_txClaspel.insets = new Insets(0, 0, 5, 5);
-		gbc_txClaspel.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txClaspel.gridx = 2;
-		gbc_txClaspel.gridy = 7;
-		getContentPane().add(txClaspel, gbc_txClaspel);
-		txClaspel.setColumns(10);
+		comboClas = new JComboBox();
+		comboClas.setModel(new DefaultComboBoxModel(new String[] {"AA", "A", "B", "B-15", "C", "D"}));
+		comboClas.setSelectedIndex(0);
+		GridBagConstraints gbc_comboClas = new GridBagConstraints();
+		gbc_comboClas.insets = new Insets(0, 0, 5, 5);
+		gbc_comboClas.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboClas.gridx = 2;
+		gbc_comboClas.gridy = 7;
+		getContentPane().add(comboClas, gbc_comboClas);
 		
 		Component horizontalStrut_2 = Box.createHorizontalStrut(20);
 		GridBagConstraints gbc_horizontalStrut_2 = new GridBagConstraints();
@@ -181,12 +185,12 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 		comboIdio.setModel(new DefaultComboBoxModel(new String[] {"Espa\u00F1ol", "Subtitulada"}));
 		comboIdio.setSelectedIndex(0);
 		comboIdio.setFont(new Font("Arial", Font.BOLD, 12));
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 2;
-		gbc_comboBox.gridy = 9;
-		getContentPane().add(comboIdio, gbc_comboBox);
+		GridBagConstraints gbc_comboClas1 = new GridBagConstraints();
+		gbc_comboClas1.insets = new Insets(0, 0, 5, 5);
+		gbc_comboClas1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboClas1.gridx = 2;
+		gbc_comboClas1.gridy = 9;
+		getContentPane().add(comboIdio, gbc_comboClas1);
 		
 		Component verticalStrut = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut = new GridBagConstraints();
@@ -230,6 +234,14 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 		gbc_horizontalStrut_1.gridy = 12;
 		getContentPane().add(horizontalStrut_1, gbc_horizontalStrut_1);
 		
+		JLabel lblsonObligatorios = new JLabel("*Campos Obligatorios");
+		lblsonObligatorios.setFont(new Font("Tahoma", Font.BOLD, 12));
+		GridBagConstraints gbc_lblsonObligatorios = new GridBagConstraints();
+		gbc_lblsonObligatorios.insets = new Insets(0, 0, 0, 5);
+		gbc_lblsonObligatorios.gridx = 1;
+		gbc_lblsonObligatorios.gridy = 13;
+		getContentPane().add(lblsonObligatorios, gbc_lblsonObligatorios);
+		
 		JPanel panel_1 = new JPanel();
 		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
 		gbc_panel_1.insets = new Insets(0, 0, 0, 5);
@@ -255,7 +267,6 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 	private void llena()
 	{
 		txtNompel.setText(peli.getNombre());
-		txClaspel.setText(peli.getClasificacion());
 		txDurpel.setText(""+peli.getDuracion());
 		txSinpel.setText(peli.getSinopsis());
 		txImgpel.setText("");
@@ -277,7 +288,24 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 		else{
 			comboIdio.setSelectedIndex(0);
 		}
-
+		if(peli.getClasificacion().equals("AA")){
+			comboClas.setSelectedIndex(0);
+		}
+		if(peli.getClasificacion().equals("A")){
+			comboClas.setSelectedIndex(1);
+		}
+		if(peli.getClasificacion().equals("B")){
+			comboClas.setSelectedIndex(2);
+		}
+		if(peli.getClasificacion().equals("B-15")){
+			comboClas.setSelectedIndex(3);
+		}
+		if(peli.getClasificacion().equals("C")){
+			comboClas.setSelectedIndex(4);
+		}
+		if(peli.getClasificacion().equals("D")){
+			comboClas.setSelectedIndex(5);
+		}
 	}
 	
 	private void eventoBtn()
@@ -293,7 +321,6 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 	private JTextField txtNompel;
 	private JTextField txImgpel;
 	private JTextField txDurpel;
-	private JTextField txClaspel;
 	File file1;
 	
 	
@@ -341,13 +368,26 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 		else if(e.getActionCommand().equals("Guardar")){
 			String Idiom;
 			System.out.println(peli.getId());
+			try{
+				//para ver si es numero
+				int nume = Integer.parseInt(txDurpel.getText());  
+			}
+			catch(Exception e2){
+				JOptionPane.showMessageDialog(FrmAdmPelicula.this, "La duracion debe ser un numero");
+			}
 			if(peli.getId()==0){
 				System.out.println("Bla");
 				Idiom= comboIdio.getSelectedItem().toString();
 				try {
+					if(txImgpel.getText().equals("")||txtNompel.getText().equals("")){
+						JOptionPane.showMessageDialog(FrmAdmPelicula.this, "Los campos Nombre e Imagen son Obligatorios");
+					}else{
 					 Conexion c = new Conexion();
-					 c.GuardaPelicula(file1,txtNompel.getText(), txClaspel.getText(), txDurpel.getText(), txSinpel.getText(), Idiom);
+					 c.GuardaPelicula(file1,txtNompel.getText(), comboClas.getSelectedItem().toString(), txDurpel.getText(), txSinpel.getText(), Idiom);
 					 c.close();
+					 JOptionPane.showMessageDialog(FrmAdmPelicula.this, "Pelicula Guardada Exitosamente");
+					 this.dispose();
+					}
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -355,18 +395,23 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 			}
 			else{
 				System.out.println("Bla Modificar");
+				if(txtNompel.getText().equals("")){
+					JOptionPane.showMessageDialog(FrmAdmPelicula.this, "Los campos Nombre e Imagen son Obligatorios");
+				}
 				Idiom= comboIdio.getSelectedItem().toString();
 				 try {
 					 Conexion c = new Conexion();
 					 if(!cambioimagen){
 						 System.out.println("nulo");
-						// c.ModificaPelicula(peli.getId(),null,txtNompel.getText(), txClaspel.getText(), txDurpel.getText(), txSinpel.getText(), Idiom);
+
+						 c.ModificaPelicula(peli.getId(),null,txtNompel.getText(), comboClas.getSelectedItem().toString(), txDurpel.getText(), txSinpel.getText(), Idiom);
 					 }else{
 						 System.out.println("no nulo");
-						 //c.ModificaPelicula(peli.getId(),file1,txtNompel.getText(), txClaspel.getText(), txDurpel.getText(), txSinpel.getText(), Idiom);
+						 c.ModificaPelicula(peli.getId(),file1,txtNompel.getText(), comboClas.getSelectedItem().toString(), txDurpel.getText(), txSinpel.getText(), Idiom);
 					 }
 					 c.close();
-					 
+					 JOptionPane.showMessageDialog(FrmAdmPelicula.this, "Se ha efecutado la modificacion");
+					 this.dispose();
 				 } catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

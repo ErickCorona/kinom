@@ -41,6 +41,7 @@ import java.util.Calendar;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
+import javax.xml.transform.OutputKeys;
 
 public class FrmAdmFuncion extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L;
@@ -53,6 +54,7 @@ public class FrmAdmFuncion extends JFrame implements ActionListener{
 	JButton btnModificar;
 	JButton btnEliminar;
 	private JScrollPane scrollPane_1;
+
 
 	/**
 	 * Launch the application.
@@ -335,10 +337,16 @@ public class FrmAdmFuncion extends JFrame implements ActionListener{
 
 	public void llenarPeliculas(){
 		try {
-			ArrayList<Pelicula> peliculas =  new Cartelera().getPeliculas();
+			lstPeliculas.removeAll();
+			ArrayList<Pelicula> peliculas =  new Cartelera().getPeliculasE();
 			DefaultListModel model = new DefaultListModel();
 			for (Pelicula pelicula : peliculas) {
-				model.addElement(pelicula);
+				System.out.println(pelicula.getStatus());
+				System.out.println(pelicula.getDuracion());
+				
+				if(pelicula.getStatus()==1){
+					model.addElement(pelicula);
+				}
 				//System.out.println("Hola");
 			}
 			
@@ -408,10 +416,24 @@ public class FrmAdmFuncion extends JFrame implements ActionListener{
 		}
 		else if(e.getActionCommand().equals("Modificar")){
 				new FrmAdmPelicula((Pelicula)lstPeliculas.getSelectedValue());
+				
 		}
 		else if(e.getActionCommand().equals( "Eliminar")){
-		
+			Conexion c = new Conexion();
+			try {
+				int nume=JOptionPane.showConfirmDialog(FrmAdmFuncion.this, "¿Esta seguro de Eliminar la pelicula?");
+				System.out.println(nume);
+				if(nume==0){
+					c.EliminarPelicula((Pelicula)(lstPeliculas.getSelectedValue()));
+				}
+				c.close();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 		}
+		llenarPeliculas();
 	}
 	public JScrollPane getScrollPane_1() {
 		return scrollPane_1;
