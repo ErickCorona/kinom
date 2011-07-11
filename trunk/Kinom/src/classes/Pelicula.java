@@ -18,6 +18,7 @@ public class Pelicula {
 	private int duracion;
 	private String sinopsis;
 	private String idioma;
+	private int status=0;
 	
 	public Pelicula() {
 		
@@ -34,7 +35,7 @@ public class Pelicula {
 	}
 
 	public Pelicula(int id, String nombre, ImageIcon imagen,
-			String clasificacion, int duracion, String sinopsis, String idioma) {
+			String clasificacion, int duracion, String sinopsis, String idioma,int stus) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -43,6 +44,7 @@ public class Pelicula {
 		this.duracion = duracion;
 		this.sinopsis = sinopsis;
 		this.idioma = idioma;
+		this.status = stus;
 	}
 	
 	public void desplegarInfo(JTextPane text, int sala){
@@ -126,5 +128,13 @@ public class Pelicula {
 	public String toString() {
 		// TODO Auto-generated method stub
 		return this.nombre;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 }

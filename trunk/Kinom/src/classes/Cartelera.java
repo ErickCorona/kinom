@@ -74,13 +74,26 @@ public class Cartelera {
 		Pelicula pel;
 		while(rs.next()){
 			byte blob[] = rs.getBytes("img_pel");
-			pel = new Pelicula(rs.getInt("id_pel"), rs.getString("nom_pel"), new ImageIcon(blob), rs.getString("clas_pel"), rs.getInt("dur_pel"), rs.getString("sin_pel"), rs.getString("idm_pel"));
+			pel = new Pelicula(rs.getInt("id_pel"), rs.getString("nom_pel"), new ImageIcon(blob), rs.getString("clas_pel"), rs.getInt("dur_pel"), rs.getString("sin_pel"), rs.getString("idm_pel"), rs.getInt("stus_pel"));
 			p.add(pel);
 		}
 		conn.close();
 		return p;
 	}
 	
+	public ArrayList<Pelicula> getPeliculasE() throws SQLException, ClassNotFoundException, ParseException{
+		ArrayList<Pelicula> p = new ArrayList<Pelicula>();
+		Conexion conn = new Conexion();
+		ResultSet rs = conn.select("Peliculas");
+		Pelicula pel;
+		while(rs.next()){
+			byte blob[] = rs.getBytes("img_pel");
+			pel = new Pelicula(rs.getInt("id_pel"), rs.getString("nom_pel"), new ImageIcon(blob), rs.getString("clas_pel"), rs.getInt("dur_pel"), rs.getString("sin_pel"), rs.getString("idm_pel"), rs.getInt("stus_pel"));
+			p.add(pel);
+		}
+		conn.close();
+		return p;
+	}
 	/**
 	 * Toma las funciones que serán proyectadas en la fecha actual <i>currentDate</i> de una película en específico en una sala.
 	 * @param pel Película de la que se quieren las funciones.
@@ -153,7 +166,7 @@ public class Cartelera {
 			byte blob[] = rs.getBytes("img_pel");
 			funciones.add(
 				new Funcion(
-					new Pelicula(rs.getInt(2), rs.getString("nom_pel"), new ImageIcon(blob), rs.getString("clas_pel"), rs.getInt("dur_pel"), rs.getString("sin_pel"), rs.getString("idm_pel")),
+					new Pelicula(rs.getInt(2), rs.getString("nom_pel"), new ImageIcon(blob), rs.getString("clas_pel"), rs.getInt("dur_pel"), rs.getString("sin_pel"), rs.getString("idm_pel"), rs.getInt("stus_pel")),
 					fecha,
 					new Sala(rs.getInt(3),rs.getInt("cap_sala")),
 					rs.getInt("ocu_fun"),
