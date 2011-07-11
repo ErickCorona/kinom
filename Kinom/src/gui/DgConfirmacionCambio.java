@@ -296,6 +296,11 @@ public class DgConfirmacionCambio extends JDialog {
 			double total = Math.round(num/2.0) * Cartelera.getPrecio();
 			txtTotal.setText(""+total);
 			dosx1 = true;
+		}else if(/*Cartelera.isEstudianteDes(tick.getFuncion().getHorario()) && */tick.isDescuento()){
+			//Se venden los boletos con descuento de estudiantes
+			double total = num * Cartelera.getPrecioDesc();
+			txtTotal.setText(""+total);
+			dosx1 = false;
 		}else{
 			//No es 2x1
 			double total = num * Cartelera.getPrecio();

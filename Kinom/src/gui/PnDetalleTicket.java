@@ -139,6 +139,7 @@ public class PnDetalleTicket extends JPanel implements ActionListener {
 		btnImprimir.addActionListener(this);
 		
 		chckbxEstudiante = new JCheckBox("Estudiante");
+		chckbxEstudiante.setVisible(false);
 		chckbxEstudiante.setHorizontalAlignment(SwingConstants.LEFT);
 		chckbxEstudiante.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		GridBagConstraints gbc_chckbxEstudiante = new GridBagConstraints();
@@ -196,6 +197,9 @@ public class PnDetalleTicket extends JPanel implements ActionListener {
 					total = Integer.parseInt(txtNumero.getText());
 					if(((Funcion)lstHorarios.getSelectedValue()).getLibres()>=total){
 						Ticket tick = new Ticket((Funcion)lstHorarios.getSelectedValue(),((FrmVentaTicket)this.getParent().getParent().getParent().getParent()).getUser());
+						if(chckbxEstudiante.isSelected()){
+							tick.setDescuento(true);
+						}
 						new DgConfirmacionCambio((Frame)this.getParent().getParent().getParent().getParent(),true, total, tick);
 						btnCancelar.doClick();
 					}

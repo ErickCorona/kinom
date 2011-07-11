@@ -194,6 +194,26 @@ public class Cartelera {
 		return pre;
 	}
 	
+	public static boolean isEstudianteDes(Calendar date){
+		Conexion con = new Conexion();
+		boolean pre = false;
+		try{
+			ResultSet rs = con.select("precios");
+			if(rs.getInt("dest_pre") == date.get(Calendar.DAY_OF_WEEK))
+				pre = true;
+			con.close();
+					
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return pre;
+	}
+	
+	
+	public static float getPrecioDesc(){
+		return (float) 20.0;
+	}
 	//public static boolean 
 
 	public ArrayList<Funcion> getFunciones() {

@@ -20,6 +20,15 @@ public class Ticket {
 	
 	private Funcion funcion;
 	private double precio;
+	private boolean descuento;
+	public boolean isDescuento() {
+		return descuento;
+	}
+
+	public void setDescuento(boolean descuento) {
+		this.descuento = descuento;
+	}
+
 	private int tipo;
 	private String descripcion;
 	private Usuario ticketero;
