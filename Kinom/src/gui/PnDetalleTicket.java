@@ -30,6 +30,7 @@ import classes.Sala;
 import classes.Ticket;
 import classes.Usuario;
 import javax.swing.ListSelectionModel;
+import javax.swing.JCheckBox;
 
 public class PnDetalleTicket extends JPanel implements ActionListener {
 	/**
@@ -40,6 +41,7 @@ public class PnDetalleTicket extends JPanel implements ActionListener {
 	private JList lstHorarios;
 	private JButton btnCancelar;
 	private JButton btnImprimir;
+	private JCheckBox chckbxEstudiante;
 	
 	/**
 	 * Create the panel.
@@ -48,9 +50,9 @@ public class PnDetalleTicket extends JPanel implements ActionListener {
 		setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 119, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 312, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 312, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		JLabel lblDetallesDeVental = new JLabel("Detalles de Venta");
@@ -133,8 +135,18 @@ public class PnDetalleTicket extends JPanel implements ActionListener {
 		gbc_btnImprimir.gridwidth = 2;
 		gbc_btnImprimir.insets = new Insets(0, 0, 5, 5);
 		gbc_btnImprimir.gridx = 1;
-		gbc_btnImprimir.gridy = 6;
+		gbc_btnImprimir.gridy = 7;
 		btnImprimir.addActionListener(this);
+		
+		chckbxEstudiante = new JCheckBox("Estudiante");
+		chckbxEstudiante.setHorizontalAlignment(SwingConstants.LEFT);
+		chckbxEstudiante.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		GridBagConstraints gbc_chckbxEstudiante = new GridBagConstraints();
+		gbc_chckbxEstudiante.gridwidth = 2;
+		gbc_chckbxEstudiante.insets = new Insets(0, 0, 5, 5);
+		gbc_chckbxEstudiante.gridx = 1;
+		gbc_chckbxEstudiante.gridy = 6;
+		add(chckbxEstudiante, gbc_chckbxEstudiante);
 		btnImprimir.setActionCommand("print");
 		add(btnImprimir, gbc_btnImprimir);
 		
@@ -145,7 +157,7 @@ public class PnDetalleTicket extends JPanel implements ActionListener {
 		gbc_btnCancelar.gridwidth = 2;
 		gbc_btnCancelar.insets = new Insets(0, 0, 0, 5);
 		gbc_btnCancelar.gridx = 1;
-		gbc_btnCancelar.gridy = 7;
+		gbc_btnCancelar.gridy = 8;
 		btnCancelar.setActionCommand("cancel");
 		add(btnCancelar, gbc_btnCancelar);
 
@@ -216,4 +228,7 @@ public class PnDetalleTicket extends JPanel implements ActionListener {
 	}
 
 	
+	public JCheckBox getChckbxEstudiante() {
+		return chckbxEstudiante;
+	}
 }

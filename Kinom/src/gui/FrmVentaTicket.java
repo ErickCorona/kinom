@@ -134,6 +134,7 @@ public class FrmVentaTicket extends JFrame implements ActionListener{
 				eventoBtn();
 				PnVentaPanel.llenar(new ArrayList<Funcion>());
 				PnVentaPanel.getTxtNumero().setText("");
+				PnVentaPanel.getChckbxEstudiante().setSelected(false);
 				
 			} catch (Exception e1) {
 				e1.printStackTrace();

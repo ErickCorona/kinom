@@ -193,6 +193,8 @@ public class Cartelera {
 		}
 		return pre;
 	}
+	
+	//public static boolean 
 
 	public ArrayList<Funcion> getFunciones() {
 		return funciones;
