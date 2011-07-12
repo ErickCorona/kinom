@@ -155,7 +155,7 @@ public class Cartelera {
 		SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
 		
 		Conexion con = new Conexion();
-		ResultSet rs = con.executeQ("SELECT * FROM funciones,peliculas,salas WHERE funciones.id_pel=peliculas.id_pel AND funciones.id_sala=salas.id_sala AND date(hro_fun) ='" + format2.format(date.getTime()) + "' ORDER BY hro_fun");
+		ResultSet rs = con.executeQ("SELECT * FROM funciones,peliculas,salas WHERE funciones.id_pel=peliculas.id_pel AND funciones.id_sala=salas.id_sala AND date(hro_fun) ='" + format2.format(date.getTime()) + "' AND peliculas.stus_pel=1 ORDER BY hro_fun");
 		
 		while(rs.next()){
 			Calendar fecha = Calendar.getInstance();

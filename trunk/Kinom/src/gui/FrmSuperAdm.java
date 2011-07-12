@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -18,13 +19,20 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
+import com.lowagie.text.Image;
+
 import utils.MailService;
 import bd.Conexion;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class FrmSuperAdm extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
 	private JPasswordField txtPass;
+	private JLabel image;
+	private JPanel panel_1;
+	private JPanel panel;
 
 	/**
 	 * Launch the application.
@@ -46,7 +54,7 @@ public class FrmSuperAdm extends JFrame implements ActionListener{
 	 * Create the frame.
 	 */
 	public FrmSuperAdm() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 213);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -58,7 +66,7 @@ public class FrmSuperAdm extends JFrame implements ActionListener{
 		gbl_contentPane.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.insets = new Insets(0, 0, 0, 5);
 		gbc_panel.fill = GridBagConstraints.BOTH;
@@ -69,7 +77,7 @@ public class FrmSuperAdm extends JFrame implements ActionListener{
 		gbl_panel.columnWidths = new int[]{0, 0};
 		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
 		gbl_panel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Cambiar contrase\u00F1a de Administrador");
@@ -96,12 +104,39 @@ public class FrmSuperAdm extends JFrame implements ActionListener{
 		gbc_btnAceptar.gridy = 2;
 		panel.add(btnAceptar, gbc_btnAceptar);
 		
+		panel_1 = new JPanel();
+		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+		gbc_panel_1.fill = GridBagConstraints.BOTH;
+		gbc_panel_1.gridx = 0;
+		gbc_panel_1.gridy = 4;
+		panel.add(panel_1, gbc_panel_1);
+		GridBagLayout gbl_panel_1 = new GridBagLayout();
+		gbl_panel_1.columnWidths = new int[]{0, 0, 0};
+		gbl_panel_1.rowHeights = new int[]{0, 0};
+		gbl_panel_1.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_1.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		panel_1.setLayout(gbl_panel_1);
+		
 		JButton btnEnviar = new JButton("Enviar mi contrase\u00F1a al correo");
+		btnEnviar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				image.setVisible(true);
+			}
+		});
 		GridBagConstraints gbc_btnEnviar = new GridBagConstraints();
-		gbc_btnEnviar.anchor = GridBagConstraints.WEST;
+		gbc_btnEnviar.insets = new Insets(0, 0, 0, 5);
 		gbc_btnEnviar.gridx = 0;
-		gbc_btnEnviar.gridy = 4;
-		panel.add(btnEnviar, gbc_btnEnviar);
+		gbc_btnEnviar.gridy = 0;
+		panel_1.add(btnEnviar, gbc_btnEnviar);
+		
+		image = new JLabel("");
+		image.setIcon(new ImageIcon(FrmSuperAdm.class.getResource("/imagen/load.gif")));
+		GridBagConstraints gbc_image = new GridBagConstraints();
+		gbc_image.gridx = 1;
+		gbc_image.gridy = 0;
+		panel_1.add(image, gbc_image);
+		image.setVisible(false);
 		
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(FrmSuperAdm.class.getResource("/imagen/usb-icon.png")));
@@ -115,6 +150,7 @@ public class FrmSuperAdm extends JFrame implements ActionListener{
 		btnEnviar.setActionCommand("Enviar");
 	}
 
+	private ResultSet rs;
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equals("Aceptar")){
@@ -130,12 +166,23 @@ public class FrmSuperAdm extends JFrame implements ActionListener{
 				e1.printStackTrace();
 			}
 			JOptionPane.showMessageDialog(this, "La contraseña del administrador fue cambiada.");
+			txtPass.setText("");
 		}else if(e.getActionCommand().equals("Enviar")){
-			Conexion c = new Conexion();
+			final Conexion c = new Conexion();
 			try {
-				ResultSet rs = c.executeQ("SELECT pass_usr FROM usuarios WHERE tipo_usr=2");
-				MailService.send("Contraseña - Kinom", "Su contraseña para acceder al sistema es <b>" + rs.getString("pass_usr") + "</b>", new ArrayList<String>());
-				c.close();
+				rs = c.executeQ("SELECT pass_usr FROM usuarios WHERE tipo_usr=2");
+				Thread t = new Thread(){
+					public void run(){
+						try {
+							MailService.send("Contraseña - Kinom", "Su contraseña para acceder al sistema es <b>" + rs.getString("pass_usr") + "</b>", new ArrayList<String>());
+							image.setVisible(false);
+							c.close();
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+					}
+				};
+				t.start();
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}

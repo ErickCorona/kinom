@@ -416,7 +416,10 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			}						
+			}
+			synchronized(this){
+				this.notifyAll();
+			}
 		}
 		else if(e.getActionCommand().equals( "Cancelar")){
 				this.dispose();

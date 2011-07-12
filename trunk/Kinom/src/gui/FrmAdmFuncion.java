@@ -352,7 +352,7 @@ public class FrmAdmFuncion extends JFrame implements ActionListener{
 			
 			this.lstPeliculas.setModel(model);
 			lstPeliculas.setSelectedIndex(0);
-			
+			lstPeliculas.validate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -412,11 +412,26 @@ public class FrmAdmFuncion extends JFrame implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equals("Agregar")){
-			new FrmAdmPelicula();
+			Thread t = new Thread(){
+				public void run(){
+					FrmAdmPelicula pel = new FrmAdmPelicula();
+					synchronized(pel){
+						try {
+							pel.wait();
+						} catch (InterruptedException e1) {
+							e1.printStackTrace();
+						}
+					}
+					llenarPeliculas();
+				}
+			};
+			t.start();
 		}
 		else if(e.getActionCommand().equals("Modificar")){
+				int abc = lstPeliculas.getSelectedIndex();
+				llenarPeliculas();
+				lstPeliculas.setSelectedIndex(abc);
 				new FrmAdmPelicula((Pelicula)lstPeliculas.getSelectedValue());
-				
 		}
 		else if(e.getActionCommand().equals( "Eliminar")){
 			Conexion c = new Conexion();
@@ -425,6 +440,7 @@ public class FrmAdmFuncion extends JFrame implements ActionListener{
 				System.out.println(nume);
 				if(nume==0){
 					c.EliminarPelicula((Pelicula)(lstPeliculas.getSelectedValue()));
+					llenarPeliculas();
 				}
 				c.close();
 			} catch (Exception e1) {
@@ -433,7 +449,6 @@ public class FrmAdmFuncion extends JFrame implements ActionListener{
 			}
 			
 		}
-		llenarPeliculas();
 	}
 	public JScrollPane getScrollPane_1() {
 		return scrollPane_1;
