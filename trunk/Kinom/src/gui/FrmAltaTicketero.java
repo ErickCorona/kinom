@@ -163,6 +163,11 @@ public class FrmAltaTicketero extends JFrame {
 		panel_2.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Cancelar");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+			}
+		});
 		panel_2.add(btnNewButton_1);
 	}
 

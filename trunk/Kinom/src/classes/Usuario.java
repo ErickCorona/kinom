@@ -80,6 +80,7 @@ public class Usuario {
 				System.out.println("Hola");
 				return true;
 			}
+			conn.close();
 			return false;
 			
 		} catch (SQLException e) {
