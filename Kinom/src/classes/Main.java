@@ -12,10 +12,21 @@ import gui.FrmAdministrador;
 import gui.FrmSuperAdm;
 import gui.FrmVentaTicket;
 import gui.IniciarSesion;
+import gui.SplashWindow2;
 
 public class Main {
 
 	public static void main(String args[]){
+		final SplashWindow2 splash = new SplashWindow2("../imagen/splashfinal.png");
+		final int pause = 1500;
+		try {
+			Thread.sleep(pause);
+		} catch (InterruptedException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		splash.dispose();
+	
 		try {
 			UIManager.setLookAndFeel(
 					"com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
