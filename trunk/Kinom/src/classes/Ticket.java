@@ -1,26 +1,7 @@
 package classes;
 
-import java.awt.print.Book;
-import java.awt.print.Printable;
-import java.awt.print.PrinterException;
-import java.awt.print.PrinterJob;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import javax.print.attribute.HashPrintRequestAttributeSet;
-import javax.print.attribute.PrintRequestAttributeSet;
-import javax.swing.JTextPane;
-import javax.swing.text.*;
-
-
-import bd.Conexion;
-
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.print.Book;
 import java.awt.print.PageFormat;
@@ -28,26 +9,34 @@ import java.awt.print.Paper;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+import javax.print.Doc;
 import javax.print.DocFlavor;
+import javax.print.DocPrintJob;
+import javax.print.PrintException;
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
+import javax.print.SimpleDoc;
+import javax.print.StreamPrintServiceFactory;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.Copies;
-import javax.print.attribute.standard.Sides;
+import javax.print.attribute.standard.MediaPrintableArea;
+import javax.print.attribute.standard.MediaSize;
+import javax.swing.ImageIcon;
 import javax.swing.JTextPane;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
-import classes.Cartelera;
-
-import com.lowagie.text.pdf.Barcode;
+import utils.ImageUtils;
 
 public class Ticket {
 
@@ -56,8 +45,14 @@ public class Ticket {
 
 	public static void main(String args[]){
 		try {
-			print("YAY!!!!");
-		} catch (PrinterException e) {
+			new Ticket().imprimirLogo();
+		} catch (PrintException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -78,6 +73,10 @@ public class Ticket {
 	private String descripcion;
 	private Usuario ticketero;
 	
+	public Ticket(){
+		
+	}
+	
 	public Ticket(Funcion funcion, Usuario ticketero) {
 		this.funcion = funcion;
 		this.precio = Cartelera.getPrecio();
@@ -87,11 +86,11 @@ public class Ticket {
 	
 	public void imprimir(int id){
 		//Quitar comentarios de este método para que se muestre el precio
-		/*StringBuffer info = new StringBuffer();
+		StringBuffer info = new StringBuffer();
 		info.append("Sala ");
 		info.append(funcion.getSala().getNumero());
-		info.append(" $");
-		info.append((int)precio);
+		//info.append(" $");
+		//info.append((int)precio);
 		info.append("\n");
 		
 		info.append(funcion.getPelicula().getNombre());
@@ -124,21 +123,38 @@ public class Ticket {
 		doc.setCharacterAttributes(info.length()-ticketero.getNombre().length()-("\nID"+id).length(), ticketero.getNombre().length()+("\nID"+id).length(), text.getStyle("8"), true);
 		if(info.indexOf("2x1")!=-1)
 			doc.setCharacterAttributes(info.indexOf("2x1"), 3, text.getStyle("18"), true);
-		*/
-		/*try {
-			text.print(null, null, true, null, null, true);
+		
+		try {
+			 DocFlavor flavor = DocFlavor.INPUT_STREAM.PDF;
+			 String psMimeType = DocFlavor.BYTE_ARRAY.POSTSCRIPT.getMimeType();
+			    StreamPrintServiceFactory[] psfactories = StreamPrintServiceFactory.lookupStreamPrintServiceFactories(
+			    		flavor, psMimeType);
+			 PrintRequestAttributeSet attr_set = new HashPrintRequestAttributeSet();
+			 attr_set.add(MediaSize.findMedia(100, 20, MediaSize.MM)); 
+			 text.print(null, null, false, null, attr_set, true);
 		} catch (PrinterException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
-		
+		}
+		/*
+	       try{
+               Printable printable = text.getPrintable(null, null);
+               PrinterJob job = PrinterJob.getPrinterJob();
+               job.printDialog();
+               job.setPrintable(printable);
+               PrintRequestAttributeSet attr = new HashPrintRequestAttributeSet();
+               job.print(attr);
+       }catch(Exception ex){
+               ex.printStackTrace();
+       }*/
+/*
 		try{
-			Ticket.print("Imprime!");
+			//Ticket.print("Imprime!");
 			//new cgdgff().print("Hola!! Ya funciono");
 			//cgdgff.Foo.main(null);
 		}catch(Exception ex){
 			ex.printStackTrace();
-		}
+		}*/
 	}
 	
 	public static void print(JTextPane text) throws PrinterException{
@@ -147,7 +163,7 @@ public class Ticket {
 		Book book = new Book();
 		PageFormat pf = new PageFormat();
 		Paper pap = new Paper();
-		pap.setSize(164,72);
+		pap.setSize(72,72);
 		pf.setPaper(pap);
 		book.append(printable, job.defaultPage(pf));
         job.setPageable(book);
@@ -161,6 +177,41 @@ public class Ticket {
 		JTextPane t = new JTextPane();
 		t.setText(s);
 		print(t);
+	}
+	
+	public  void imprimirLogo() throws PrintException, IOException, URISyntaxException{
+		try {
+			
+			PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
+			//pras.add(new Copies(1));
+			pras.add(new MediaPrintableArea(0, 0,48 , 20, MediaPrintableArea.MM));
+			//pras.add(MediaSize.findMedia(50, 200, MediaSize.MM)); 
+
+			PrintService ps = PrintServiceLookup.lookupDefaultPrintService();
+			/*
+			if (pss.length == 0)
+			throw new RuntimeException("No printer services available.");
+			 */
+			//PrintService ps = pss[0];
+			System.out.println("Printing to " + ps);
+
+			DocPrintJob job = ps.createPrintJob();
+			java.net.URL imgURL = getClass().getResource("../imagen/logocinemas.jpg");
+			FileInputStream fin = new FileInputStream(new File(imgURL.toURI()));
+			Doc doc = new SimpleDoc(fin, DocFlavor.INPUT_STREAM.GIF, null);
+			
+			job.print(doc, pras);
+
+			fin.close();
+			
+			
+			} catch (IOException ie) {
+			ie.printStackTrace();
+			} catch (PrintException pe) {
+			pe.printStackTrace();
+			}
+	    
+	    
 	}
 	
 	public Funcion getFuncion() {
