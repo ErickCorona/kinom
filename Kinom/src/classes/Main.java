@@ -8,6 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import utils.Report;
+
 import gui.FrmAdministrador;
 import gui.FrmSuperAdm;
 import gui.FrmVentaTicket;
@@ -26,7 +28,12 @@ public class Main {
 			e2.printStackTrace();
 		}
 		splash.dispose();
-	
+		Thread t = new Thread(){
+			public void run(){
+				Report.check();
+			}
+		};
+		t.start();
 		try {
 			UIManager.setLookAndFeel(
 					"com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
