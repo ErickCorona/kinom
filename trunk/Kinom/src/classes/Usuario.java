@@ -77,6 +77,7 @@ public class Usuario {
 			ResultSet rs = conn.executeQ("SELECT nom_usr FROM usuarios WHERE usr_usr = '"+usr+"'");
 			System.out.println("SELECT nom_usr FROM usuarios WHERE usr_usr = '"+usr+"'");
 			if(rs.next()){
+				conn.close();
 				System.out.println("Hola");
 				return true;
 			}
