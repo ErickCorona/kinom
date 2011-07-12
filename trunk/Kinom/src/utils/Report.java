@@ -1,6 +1,7 @@
 package utils;
 
 import java.io.File;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,13 +28,15 @@ public class Report {
 	}
 	
 	public static void semanal(){
+		Report r = new Report();
 		Conexion c = new Conexion();
 		try {
-			File f = new File("c:\\reportes");
-			f.mkdir();
+			String ruta = r.getClass().getResource("../").toURI().getPath()+"../Reportes/Semanal.jasper";
+			File f = new File("C:\\reportes");
+			f.mkdirs();
 			
 			c.open();
-			JasperPrint print = JasperFillManager.fillReport("Reportes\\Semanal.jasper", new HashMap(), c.getConeccion());
+			JasperPrint print = JasperFillManager.fillReport(ruta, new HashMap(), c.getConeccion());
 			JasperExportManager.exportReportToPdfFile(print, "C:\\reportes\\semanal.pdf");
 			c.close();
 		} catch (Exception e) {
@@ -42,19 +45,28 @@ public class Report {
 		ArrayList<String> arc = new ArrayList<String>();
 		arc.add("C:\\reportes\\semanal.pdf");
 		MailService.send("Reporte Semanal","Reporte Semanal Adjunto",arc);
+		File f = new File("c:\\reportes\\semanal.pdf");
+		f.delete();
 	}
 	
 	public static void mensual(){
+		Report r = new Report();
 		Conexion c = new Conexion();
 		try {
+			String ruta = r.getClass().getResource("../").toURI().getPath()+"../Reportes/Mensual.jasper";
 			File f = new File("c:\\reportes");
-			f.mkdir();
+			f.mkdirs();
 			c.open();
-			JasperPrint print = JasperFillManager.fillReport("Reportes\\Mensual.jasper", new HashMap(), c.getConeccion());
+			
+			JasperPrint print = JasperFillManager.fillReport(ruta, new HashMap(), c.getConeccion());
 			JasperExportManager.exportReportToPdfFile(print, "C:\\reportes\\mensual.pdf");
-			print = JasperFillManager.fillReport("Reportes\\MensualPelicula.jasper", new HashMap(), c.getConeccion());
+			ruta = r.getClass().getResource("../").toURI().getPath()+"../Reportes/MensualPelicula.jasper";
+			
+			print = JasperFillManager.fillReport(ruta, new HashMap(), c.getConeccion());
 			JasperExportManager.exportReportToPdfFile(print, "C:\\reportes\\mensualpelicula.pdf");
-			print = JasperFillManager.fillReport("Reportes\\MensualporSemana.jasper", new HashMap(), c.getConeccion());
+			ruta = r.getClass().getResource("../").toURI().getPath()+"../Reportes/MensualporSemana.jasper";
+			
+			print = JasperFillManager.fillReport(ruta, new HashMap(), c.getConeccion());
 			JasperExportManager.exportReportToPdfFile(print, "C:\\reportes\\MensualporSemana.pdf");
 			c.close();
 		} catch (Exception e) {
@@ -65,7 +77,11 @@ public class Report {
 		arc.add("C:\\reportes\\mensualpelicula.pdf");
 		arc.add("C:\\reportes\\MensualporSemana.pdf");
 		MailService.send("Reporte Mensual","Reporte Mensual Adjunto",arc);
-		File f = new File("c:\\reportes");
+		File f = new File("c:\\reportes\\mensual.pdf");
+		f.delete();
+		f = new File("c:\\reportes\\mensualpelicula.pdf");
+		f.delete();
+		f = new File("c:\\reportes\\MensualporSemana.pdf");
 		f.delete();
 	}
 	
