@@ -428,10 +428,22 @@ public class FrmAdmFuncion extends JFrame implements ActionListener{
 			t.start();
 		}
 		else if(e.getActionCommand().equals("Modificar")){
-				int abc = lstPeliculas.getSelectedIndex();
-				llenarPeliculas();
-				lstPeliculas.setSelectedIndex(abc);
-				new FrmAdmPelicula((Pelicula)lstPeliculas.getSelectedValue());
+			Thread t = new Thread(){
+			public void run(){
+					int abc = lstPeliculas.getSelectedIndex();
+					FrmAdmPelicula pel = new FrmAdmPelicula((Pelicula)lstPeliculas.getSelectedValue());
+					synchronized(pel){
+						try {
+							pel.wait();
+						} catch (InterruptedException e1) {
+							e1.printStackTrace();
+						}
+					}
+					llenarPeliculas();
+					lstPeliculas.setSelectedIndex(abc);
+				}
+			};
+			t.start();
 		}
 		else if(e.getActionCommand().equals( "Eliminar")){
 			Conexion c = new Conexion();
