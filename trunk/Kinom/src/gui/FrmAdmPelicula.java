@@ -354,19 +354,24 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 			txImgpel.setText(file1.getAbsolutePath());
 			ImageIcon img = new ImageIcon(txImgpel.getText());
 			Image nueva = img.getImage(); 
-			
-			BufferedImage tempBuff = new BufferedImage(nueva.getWidth(null),nueva.getHeight(null), BufferedImage.TYPE_INT_RGB); //Buffered image		
-			
-			Graphics2D g2 = tempBuff.createGraphics(); //Obtemeos la instancia grafica
-		    g2.drawImage(nueva, 0, 0,null); //La pintamos
-		    
-			BufferedImage scaled = new BufferedImage(130, 180, BufferedImage.TYPE_INT_RGB);
-			
-			scaled = ImageUtils.getScaledInstance(tempBuff, 130, 180, RenderingHints.VALUE_INTERPOLATION_BILINEAR,false);
-			
-			imgThumb = new ImageIcon(scaled);
-			lblpic.setIcon(imgThumb);
-			lblpic.setText("");
+			try{
+				BufferedImage tempBuff = new BufferedImage(nueva.getWidth(null),nueva.getHeight(null), BufferedImage.TYPE_INT_RGB); //Buffered image		
+				
+				Graphics2D g2 = tempBuff.createGraphics(); //Obtemeos la instancia grafica
+			    g2.drawImage(nueva, 0, 0,null); //La pintamos
+			    
+				BufferedImage scaled = new BufferedImage(130, 180, BufferedImage.TYPE_INT_RGB);
+				
+				scaled = ImageUtils.getScaledInstance(tempBuff, 130, 180, RenderingHints.VALUE_INTERPOLATION_BILINEAR,false);
+				
+				imgThumb = new ImageIcon(scaled);
+				lblpic.setIcon(imgThumb);
+				lblpic.setText("");
+			}catch(Exception ex){
+				JOptionPane.showMessageDialog(this, "Imagen no válida.");
+				lblpic.setText("Imagen");
+				lblpic.setIcon(null);
+			}
 
 			
 		}
@@ -384,6 +389,8 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 				System.out.println("Bla");
 				Idiom= comboIdio.getSelectedItem().toString();
 				try {
+					if(lblpic.getText().equals("Imagen"))
+						throw new Exception();
 					if(txImgpel.getText().equals("")||txtNompel.getText().equals("")){
 						JOptionPane.showMessageDialog(FrmAdmPelicula.this, "Los campos Nombre e Imagen son Obligatorios");
 					}else{
@@ -394,8 +401,9 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 					 this.dispose();
 					}
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(this, "El archivo seleccionado no es válido.");
 					e1.printStackTrace();
+					return;
 				}
 			}
 			else{
@@ -405,6 +413,8 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 				}
 				Idiom= comboIdio.getSelectedItem().toString();
 				 try {
+					if(lblpic.getText().equals("Imagen"))
+						throw new Exception();
 					 Conexion c = new Conexion();
 					 if(!cambioimagen){
 						 System.out.println("nulo");
@@ -418,8 +428,9 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 					 JOptionPane.showMessageDialog(FrmAdmPelicula.this, "Se ha efecutado la modificacion");
 					 this.dispose();
 				 } catch (Exception e1) {
-					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(this, "El archivo seleccionado no es válido.");
 					e1.printStackTrace();
+					return;
 				}
 			}
 			synchronized(this){
