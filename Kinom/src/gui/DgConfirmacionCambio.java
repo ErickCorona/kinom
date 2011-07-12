@@ -247,7 +247,7 @@ public class DgConfirmacionCambio extends JDialog {
 							int i,id;
 							new Ticket().imprimirLogo();
 							for(i=0; i<numBoletos; i++){
-									c.insert("ventas", "null," + ticket.getFuncion().getId() + ",(SELECT base_pre FROM precios)," + (dosx1?1:0) + ",null");
+									c.insert("ventas", "null," + ticket.getFuncion().getId() + "," + (ticket.isDescuento()?Cartelera.getPrecioDesc()+",":"(SELECT base_pre FROM precios)"+(dosx1?"/2,":",")) + (dosx1?1:0) + ",null");
 									c.executeU("UPDATE funciones SET ocu_fun=ocu_fun+1 WHERE id_fun=" + ticket.getFuncion().getId());
 									id = c.getLasID("ventas");
 									c.close();
@@ -259,8 +259,10 @@ public class DgConfirmacionCambio extends JDialog {
 									//TODO Cargar el descuento de estudiante.
 								
 							}
-							if(i%2!=0)
+							if(i%2!=0){
+								c.insert("ventas", "null," + ticket.getFuncion().getId() + "," + (ticket.isDescuento()?Cartelera.getPrecioDesc()+",":"(SELECT base_pre FROM precios)"+(dosx1?"/2,":",")) + (dosx1?1:0) + ",null");
 								c.executeU("UPDATE funciones SET ocu_fun=ocu_fun+1 WHERE id_fun=" + ticket.getFuncion().getId());
+							}
 							c.close();
 						}catch(Exception ex){
 							ex.printStackTrace();
