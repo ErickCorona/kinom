@@ -9,6 +9,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -49,7 +52,17 @@ public class Conexion{
 	
 	public void open() throws SQLException, ClassNotFoundException{
 		Class.forName("org.sqlite.JDBC");
-		String urljdbc = "jdbc:sqlite:src\\bd\\" + this.database + ".sqlite";
+		URL url = getClass().getResource("../bd/"+this.database+".sqlite");
+		String urljdbc = null;
+		
+		try {
+			urljdbc = "jdbc:sqlite:"+ url.toURI().getPath();
+			//System.out.println(urljdbc);
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//String urljdbc = "jdbc:sqlite:src/bd/" + this.database + ".sqlite";
 		this.conn = DriverManager.getConnection(urljdbc);
 		enabled = true;
 	}
