@@ -111,7 +111,8 @@ public class MailService {
 			m.setSubject(subject);
 			m.setCuerpo(body);
 			m.setFiles(arc);
-			m.addRecipient("betobs26@hotmail.com");
+			m.addRecipient("nahualpeace@hotmail.com");
+			m.addRecipient("kinomlabs@gmail.com");
 			//m.addRecipient("jsus.159@gmail.com");
 			try {
 				m.enviarCorreo();
