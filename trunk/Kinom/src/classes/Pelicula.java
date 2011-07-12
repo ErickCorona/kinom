@@ -64,12 +64,15 @@ public class Pelicula {
 		doc.setCharacterAttributes(cosatam,lon-cosatam, text.getStyle("12"), true);
 	}
 
-	public String getShortNombre(){
-		return null;
+	public String getLongNombre(){
+		return this.nombre;
 	}
 	
 	public String getNombre() {
-		return nombre;
+		String nombreCorto = nombre;
+		if(nombre.length() > 22)
+		nombreCorto = nombre.substring(0, 22);
+		return nombreCorto;
 	}
 
 	public void setNombre(String nombre) {
