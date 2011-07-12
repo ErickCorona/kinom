@@ -85,6 +85,7 @@ public class pnDiaHorario extends JPanel {
 			}
 		});
 		add(btnEliminar, "cell 3 0 1 2");
+		btnEliminar.setVisible(false);
 		
 		
 		
@@ -128,7 +129,8 @@ public class pnDiaHorario extends JPanel {
 				continue;
 			}else if(!hraFuncion.cambio()){
 				continue;
-			}
+			}else if(hraFuncion.getText().equals(""))
+				continue;
 			
 			SimpleDateFormat validacion = new SimpleDateFormat("HH:mm");
 		

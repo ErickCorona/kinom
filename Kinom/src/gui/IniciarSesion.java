@@ -108,6 +108,11 @@ public class IniciarSesion extends JFrame implements ActionListener{
 		btnAceptar.setActionCommand("Aceptar");
 		
 		btnSalir = new JButton("Cancelar");
+		btnSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
 		contentPane.add(btnSalir, "cell 2 2,aligny top");
 		btnAceptar.addActionListener(this);
 		setVisible(true);
