@@ -96,7 +96,7 @@ public class Ticket {
 		info.append(funcion.getPelicula().getNombre());
 		info.append("\n");
 		
-		SimpleDateFormat fecha_h = new SimpleDateFormat("d MMM hh:mm");
+		SimpleDateFormat fecha_h = new SimpleDateFormat("d MMM hh:mm a");
 		info.append(fecha_h.format(funcion.getHorario().getTime()));
 		info.append(" Clas. ");
 		info.append(funcion.getPelicula().getClasificacion()==null?"s/c":funcion.getPelicula().getClasificacion());

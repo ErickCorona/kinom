@@ -17,8 +17,12 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import utils.ImageUtils;
+
 import bd.Conexion;
 import classes.Usuario;
+import net.miginfocom.swing.MigLayout;
+import java.awt.Font;
 
 public class IniciarSesion extends JFrame implements ActionListener{
 
@@ -28,6 +32,8 @@ public class IniciarSesion extends JFrame implements ActionListener{
 	private Usuario user;
 	private boolean logged;
 	private JButton btnAceptar;
+	private JButton btnSalir;
+	private JLabel lblNewLabel;
 	
 	/**
 	 * Launch the application.
@@ -66,59 +72,43 @@ public class IniciarSesion extends JFrame implements ActionListener{
 	public IniciarSesion() {
 		setTitle("Iniciar Sesi\u00F3n");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 259, 119);
+		setBounds(100, 100, 454, 192);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{0, 0, 0, 0};
-		gbl_contentPane.rowHeights = new int[]{0, 0, 0, 0};
-		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		contentPane.setLayout(gbl_contentPane);
+		contentPane.setLayout(new MigLayout("", "[][56px][150px,grow]", "[20px,grow][20px,grow][23px,grow]"));
+		
+		lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageUtils().createImageIcon("../imagen/computer.png", ""));
+		contentPane.add(lblNewLabel, "cell 0 0 1 3");
 		
 		JLabel lblNombre = new JLabel("Usuario");
-		GridBagConstraints gbc_lblNombre = new GridBagConstraints();
-		gbc_lblNombre.anchor = GridBagConstraints.EAST;
-		gbc_lblNombre.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNombre.gridx = 0;
-		gbc_lblNombre.gridy = 0;
-		contentPane.add(lblNombre, gbc_lblNombre);
+		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		contentPane.add(lblNombre, "cell 1 0,alignx right,aligny bottom");
 		
 		txtNombre = new JTextField();
-		GridBagConstraints gbc_txtNombre = new GridBagConstraints();
-		gbc_txtNombre.insets = new Insets(0, 0, 5, 0);
-		gbc_txtNombre.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtNombre.gridx = 2;
-		gbc_txtNombre.gridy = 0;
-		contentPane.add(txtNombre, gbc_txtNombre);
+		txtNombre.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		contentPane.add(txtNombre, "cell 2 0,growx,aligny bottom");
 		txtNombre.setColumns(10);
 		txtNombre.addActionListener(this);
 		txtNombre.setActionCommand("Enter");
 		
 		JLabel lblContrasea = new JLabel("Contrase\u00F1a");
-		GridBagConstraints gbc_lblContrasea = new GridBagConstraints();
-		gbc_lblContrasea.insets = new Insets(0, 0, 5, 5);
-		gbc_lblContrasea.gridx = 0;
-		gbc_lblContrasea.gridy = 1;
-		contentPane.add(lblContrasea, gbc_lblContrasea);
+		lblContrasea.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		contentPane.add(lblContrasea, "cell 1 1,alignx center,aligny top");
 		
 		txtPass = new JPasswordField();
-		GridBagConstraints gbc_txtPass = new GridBagConstraints();
-		gbc_txtPass.insets = new Insets(0, 0, 5, 0);
-		gbc_txtPass.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtPass.gridx = 2;
-		gbc_txtPass.gridy = 1;
-		contentPane.add(txtPass, gbc_txtPass);
+		txtPass.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		contentPane.add(txtPass, "cell 2 1,growx,aligny top");
 		txtPass.addActionListener(this);
 		txtPass.setActionCommand("Enter");
 		
 		btnAceptar = new JButton("Aceptar");
-		GridBagConstraints gbc_btnAceptar = new GridBagConstraints();
-		gbc_btnAceptar.gridx = 2;
-		gbc_btnAceptar.gridy = 2;
-		contentPane.add(btnAceptar, gbc_btnAceptar);
+		contentPane.add(btnAceptar, "flowx,cell 2 2,alignx center,aligny top");
 		btnAceptar.setActionCommand("Aceptar");
+		
+		btnSalir = new JButton("Cancelar");
+		contentPane.add(btnSalir, "cell 2 2,aligny top");
 		btnAceptar.addActionListener(this);
 		setVisible(true);
 	}
