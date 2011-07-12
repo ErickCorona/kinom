@@ -244,12 +244,14 @@ public class DgConfirmacionCambio extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						Conexion c = new Conexion();
 						try {
-							int i;
+							int i,id;
 							for(i=0; i<numBoletos; i++){
 									c.insert("ventas", "null," + ticket.getFuncion().getId() + ",(SELECT base_pre FROM precios)," + (dosx1?1:0) + ",null");
 									c.executeU("UPDATE funciones SET ocu_fun=ocu_fun+1 WHERE id_fun=" + ticket.getFuncion().getId());
+									id = c.getLasID("ventas");
+									c.close();
 									if(!dosx1 || i%2==0){
-										ticket.imprimir(c.getLasID("ventas"));
+										ticket.imprimir(id);
 									}
 									//DONE Aumentar oucpados en funcion.
 									//DONE Decrementar los 4 en caso de que compren 3 en dia 2x1
