@@ -96,7 +96,7 @@ public class FrmAdminCostos extends JFrame {
 		panel_1.add(lblNewLabel, "cell 1 2,alignx trailing");
 		
 		cmbDesEstudiantes = new JComboBox();
-		cmbDesEstudiantes.setModel(new DefaultComboBoxModel(new String[] {"Domingo", "Lunes", "Martes", "Mi\u00E9rcoles", "Jueves", "Viernes", "S\u00E1bado"}));
+		cmbDesEstudiantes.setModel(new DefaultComboBoxModel(new String[] {"Domingo", "Lunes", "Martes", "Mi\u00E9rcoles", "Jueves", "Viernes", "S\u00E1bado", "Ninguno"}));
 		cmbDesEstudiantes.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		panel_1.add(cmbDesEstudiantes, "cell 2 2,growx");
 		

@@ -259,7 +259,7 @@ public class DgConfirmacionCambio extends JDialog {
 									//TODO Cargar el descuento de estudiante.
 								
 							}
-							if(i%2!=0){
+							if(i%2!=0 && dosx1){
 								c.insert("ventas", "null," + ticket.getFuncion().getId() + "," + (ticket.isDescuento()?Cartelera.getPrecioDesc()+",":"(SELECT base_pre FROM precios)"+(dosx1?"/2,":",")) + (dosx1?1:0) + ",null");
 								c.executeU("UPDATE funciones SET ocu_fun=ocu_fun+1 WHERE id_fun=" + ticket.getFuncion().getId());
 							}
