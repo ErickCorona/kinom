@@ -245,6 +245,7 @@ public class DgConfirmacionCambio extends JDialog {
 						Conexion c = new Conexion();
 						try {
 							int i,id;
+							new Ticket().imprimirLogo();
 							for(i=0; i<numBoletos; i++){
 									c.insert("ventas", "null," + ticket.getFuncion().getId() + ",(SELECT base_pre FROM precios)," + (dosx1?1:0) + ",null");
 									c.executeU("UPDATE funciones SET ocu_fun=ocu_fun+1 WHERE id_fun=" + ticket.getFuncion().getId());
