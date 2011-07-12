@@ -25,6 +25,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -216,16 +218,19 @@ public class FrmAdmPelicula extends JFrame implements ActionListener {
 		
 		txSinpel = new JTextArea();
 		txSinpel.setColumns(2);
-		txSinpel.setRows(1);
 		txSinpel.setTabSize(6);
 		txSinpel.setFont(new Font("Arial", Font.BOLD, 12));
+		txSinpel.setLineWrap(true);
+		JScrollPane scroll = new JScrollPane();
+		scroll.setViewportView(txSinpel);
 		GridBagConstraints gbc_textArea = new GridBagConstraints();
 		gbc_textArea.gridwidth = 4;
 		gbc_textArea.insets = new Insets(0, 0, 5, 5);
 		gbc_textArea.fill = GridBagConstraints.BOTH;
 		gbc_textArea.gridx = 1;
 		gbc_textArea.gridy = 12;
-		getContentPane().add(txSinpel, gbc_textArea);
+		
+		getContentPane().add(scroll, gbc_textArea);
 		
 		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
 		GridBagConstraints gbc_horizontalStrut_1 = new GridBagConstraints();
