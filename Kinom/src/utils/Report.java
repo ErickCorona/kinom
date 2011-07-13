@@ -1,10 +1,20 @@
 package utils;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.FieldPosition;
+import java.text.ParseException;
+import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
@@ -16,14 +26,27 @@ import net.sf.jasperreports.view.*;
 public class Report {
 	
 	public static void main(String args[]){
-		mensual();
+		check();
 	}
 
 	public static void check(){
 		Calendar today = Calendar.getInstance();
-		if(today.get(Calendar.DAY_OF_WEEK)==Calendar.FRIDAY)
+		Calendar archs = Calendar.getInstance();
+		Calendar archm = Calendar.getInstance();
+		DateFormat df = DateFormat.getInstance();
+		try {
+			archs.setTime(df.parse(readDate("semanal")));
+		} catch (Exception e) {
+			archs.set(Calendar.DATE, archs.get(Calendar.DATE)-1);
+		}
+		try {
+			archm.setTime(df.parse(readDate("mensual")));
+		} catch (Exception e) {
+			archm.set(Calendar.DATE, archm.get(Calendar.DATE)-1);
+		}
+		if(today.get(Calendar.DAY_OF_WEEK)==Calendar.FRIDAY && today.get(Calendar.DAY_OF_YEAR)!=archs.get(Calendar.DAY_OF_YEAR))
 			semanal();
-		if(today.get(Calendar.DAY_OF_MONTH)==today.getMaximum(Calendar.DAY_OF_MONTH)-1)
+		if(today.get(Calendar.DAY_OF_MONTH)==1 && today.get(Calendar.DAY_OF_YEAR)!=archm.get(Calendar.DAY_OF_YEAR))
 			mensual();
 	}
 	
@@ -47,6 +70,7 @@ public class Report {
 		MailService.send("Reporte Semanal","Reporte Semanal Adjunto",arc);
 		File f = new File("c:\\reportes\\semanal.pdf");
 		f.delete();
+		writeDate("semanal");
 	}
 	
 	public static void mensual(){
@@ -83,6 +107,37 @@ public class Report {
 		f.delete();
 		f = new File("c:\\reportes\\MensualporSemana.pdf");
 		f.delete();
+		writeDate("mensual");
+	}
+	
+	public static void writeDate(String r){
+		File f = new File(r);
+		if(f.exists())
+			f.delete();
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(f));
+			bw.write(DateFormat.getInstance().format(Calendar.getInstance().getTime()));
+			bw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static String readDate(String r){
+		File f = new File(r);
+		String res = null;
+		if(!f.exists())
+			return res;
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(f));
+			res = br.readLine();
+			br.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
 	}
 	
 }
