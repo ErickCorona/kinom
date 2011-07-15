@@ -44,6 +44,7 @@ public class Sala {
 			Sala sala = new Sala(rs.getInt("id_sala"),rs.getInt("cap_sala"));
 			s.add(sala);
 		}
+		conn.close();
 		return s;
 	}
 	
