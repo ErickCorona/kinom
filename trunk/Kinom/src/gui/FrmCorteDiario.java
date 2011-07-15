@@ -161,7 +161,8 @@ public class FrmCorteDiario extends JFrame {
 		llenarSalas();
 		llenarPelicula(cmbSala.getSelectedIndex() + 1);
 		Pelicula pel = (Pelicula) cmbPeliculas.getSelectedItem();
-		llenarCampos(pel.getId());
+		if(pel != null)
+			llenarCampos(pel.getId());
 		
 		
 	}
