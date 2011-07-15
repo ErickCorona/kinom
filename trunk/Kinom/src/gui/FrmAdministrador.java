@@ -130,9 +130,9 @@ public class FrmAdministrador extends JFrame {
 		panel_1.add(panel_3, BorderLayout.CENTER);
 		GridBagLayout gbl_panel_3 = new GridBagLayout();
 		gbl_panel_3.columnWidths = new int[]{0, 0, 0, 0};
-		gbl_panel_3.rowHeights = new int[]{0, 0, 0, 0};
+		gbl_panel_3.rowHeights = new int[]{0, 0, 0, 0, 0};
 		gbl_panel_3.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
-		gbl_panel_3.rowWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
+		gbl_panel_3.rowWeights = new double[]{1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
 		panel_3.setLayout(gbl_panel_3);
 		
 		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
@@ -235,10 +235,25 @@ public class FrmAdministrador extends JFrame {
 		btnCambiarPrecio.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		GridBagConstraints gbc_btnCambiarPrecio = new GridBagConstraints();
 		gbc_btnCambiarPrecio.fill = GridBagConstraints.BOTH;
-		gbc_btnCambiarPrecio.insets = new Insets(0, 0, 0, 5);
+		gbc_btnCambiarPrecio.insets = new Insets(0, 0, 5, 5);
 		gbc_btnCambiarPrecio.gridx = 1;
 		gbc_btnCambiarPrecio.gridy = 2;
 		panel_3.add(btnCambiarPrecio, gbc_btnCambiarPrecio);
+		
+		JButton btnRecorteDiario = new JButton("Recorte Diario");
+		btnRecorteDiario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFrame frame = new FrmCorteDiario();
+				frame.setVisible(true);
+			}
+		});
+		btnRecorteDiario.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		GridBagConstraints gbc_btnRecorteDiario = new GridBagConstraints();
+		gbc_btnRecorteDiario.fill = GridBagConstraints.BOTH;
+		gbc_btnRecorteDiario.insets = new Insets(0, 0, 0, 5);
+		gbc_btnRecorteDiario.gridx = 1;
+		gbc_btnRecorteDiario.gridy = 3;
+		panel_3.add(btnRecorteDiario, gbc_btnRecorteDiario);
 		
 		Component verticalStrut = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut = new GridBagConstraints();
