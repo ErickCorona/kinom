@@ -75,27 +75,15 @@ public class FrmCorteDiario extends JFrame {
 		panel_2.add(lblSala, "cell 0 0,alignx trailing");
 		
 		cmbSala = new JComboBox();
-		cmbSala.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				JComboBox box = (JComboBox) arg0.getSource();
-				Sala sala = (Sala) box.getSelectedItem();
-				llenarPelicula(sala.getNumero());
-			}
-		});
+
 		panel_2.add(cmbSala, "cell 1 0,growx");
 		
 		JLabel lblPelicula = new JLabel("Pelicula:");
 		panel_2.add(lblPelicula, "cell 2 0,alignx trailing");
 		
 		cmbPeliculas = new JComboBox();
-		cmbPeliculas.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JComboBox combo = (JComboBox) e.getSource();
-				Pelicula peli = (Pelicula) combo.getSelectedItem();
-				llenarCampos(peli.getId());
-				
-			}
-		});
+		cmbPeliculas.setModel(new DefaultComboBoxModel());
+		
 		panel_2.add(cmbPeliculas, "cell 3 0,growx");
 		
 		JPanel panel_3 = new JPanel();
@@ -155,6 +143,20 @@ public class FrmCorteDiario extends JFrame {
 				dispose();
 			}
 		});
+		
+		JButton btnConsultar = new JButton("Consultar");
+		btnConsultar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Pelicula peli = (Pelicula) cmbPeliculas.getSelectedItem();
+				Sala sala = (Sala) cmbSala.getSelectedItem();
+				
+				llenarCampos(peli.getId(), sala.getNumero());
+				
+			
+				
+			}
+		});
+		panel_4.add(btnConsultar);
 		btnSalir.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		panel_4.add(btnSalir);
 		
@@ -162,7 +164,7 @@ public class FrmCorteDiario extends JFrame {
 		llenarPelicula(cmbSala.getSelectedIndex() + 1);
 		Pelicula pel = (Pelicula) cmbPeliculas.getSelectedItem();
 		if(pel != null)
-			llenarCampos(pel.getId());
+			llenarCampos(pel.getId(),1);
 		
 		
 	}
@@ -175,7 +177,6 @@ public class FrmCorteDiario extends JFrame {
 			//model.addElement("");
 			for (Sala sala : salas) {
 				model.addElement(sala);
-				
 			}
 			this.cmbSala.setModel(model);
 		} catch (SQLException e) {
@@ -188,29 +189,31 @@ public class FrmCorteDiario extends JFrame {
 	}
 	
 	public void llenarPelicula(int id_pel){
-		//System.out.println(""+id_pel);
 		Conexion conn = new Conexion();
-		DefaultComboBoxModel model = new DefaultComboBoxModel();
-
+		//cmbPeliculas.removeAllItems();
 		try {
-			String stm = "SELECT DISTINCT " +
-					"peliculas.id_pel,peliculas.nom_pel " +
-					"FROM peliculas,funciones,salas " +
+			/*String stm = "SELECT DISTINCT " +
+					"peliculas.id_pel as id_pel,peliculas.nom_pel as nom_pel " +
+					"FROM peliculas,funciones,salas " + 
 					"WHERE funciones.id_sala = salas.id_sala " +
 					"AND peliculas.id_pel = funciones.id_pel " +
 					"AND date(funciones.hro_fun) = date('now', 'localtime') " +
-					"AND salas.id_sala = 1 ";
-			//System.out.println(stm);
+					"AND salas.id_sala = 2" ;//+ id_pel;*/
+			String stm = "SELECT * FROM peliculas WHERE peliculas.stus_pel = 1";
+			System.out.println(stm);
 			ResultSet rs = conn.executeQ(stm);
+			DefaultComboBoxModel model = new DefaultComboBoxModel();
 			while(rs.next()){
 				Pelicula pel = new Pelicula();
 				pel.setNombre(rs.getString("nom_pel"));
 				pel.setId(rs.getInt("id_pel"));
 				model.addElement(pel);
+				System.out.println("Pelicula:"+rs.getString("nom_pel"));
 			}
 			cmbPeliculas.setModel(model);
+			cmbPeliculas.validate();
 			conn.close();
-		} catch (SQLException e) {
+		}catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
@@ -219,16 +222,13 @@ public class FrmCorteDiario extends JFrame {
 		}
 		
 	}
-	public void llenarCampos(int id_pel){
+	public void llenarCampos(int id_pel, int id_sala){
 		Conexion conn = new Conexion();
 		try {
-			ResultSet rs = conn.executeQ("SELECT " +
-											"peliculas.nom_pel,COUNT(ventas.id_ven) as venta,SUM(ventas.prec_ven) as total " +
-										"FROM  ventas,funciones,peliculas  " +
-										"WHERE  ventas.id_fun = funciones.id_fun  " +
-										"AND funciones.id_pel = peliculas.id_pel  " +
-										"AND date(funciones.hro_fun)=date('now','localtime')  " +
-										"AND funciones.id_pel = 1");
+			ResultSet rs = conn.executeQ("SELECT peliculas.nom_pel,COUNT(ventas.id_ven) as venta,SUM(ventas.prec_ven) as total " +
+					"FROM  ventas,funciones,peliculas  " +
+					"WHERE  ventas.id_fun = funciones.id_fun  AND funciones.id_pel = peliculas.id_pel  AND date(funciones.hro_fun)=date('now','localtime')  AND funciones.id_pel = "+id_pel+" AND funciones.id_sala = "+id_sala+"");
+			
 			if(rs.next()){
 				Sala sala = (Sala) cmbSala.getSelectedItem();
 				txtSala.setText(""+sala.getNumero());
@@ -237,7 +237,9 @@ public class FrmCorteDiario extends JFrame {
 				txtTotal.setText(rs.getString("total"));
 				
 			}
+			
 			conn.close();
+			System.out.println("LLenar campos");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
