@@ -235,7 +235,9 @@ public class FrmCorteDiario extends JFrame {
 				txtTitulo.setText(rs.getString("nom_pel"));
 				txtVendidos.setText(rs.getString("venta"));
 				txtTotal.setText(rs.getString("total"));
+				
 			}
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -243,6 +245,7 @@ public class FrmCorteDiario extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		
 	}
 
