@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,9 +24,12 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import java.awt.Font;
 import javax.swing.JButton;
+
+import utils.Report;
+
 import java.awt.FlowLayout;
 
-public class FrmCorteDiario extends JFrame {
+public class FrmCorteDiario extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JComboBox cmbSala;
@@ -156,6 +160,10 @@ public class FrmCorteDiario extends JFrame {
 				
 			}
 		});
+		
+		JButton btnGuardarPdf = new JButton("Guardar PDF");
+		btnGuardarPdf.addActionListener(this);
+		panel_4.add(btnGuardarPdf);
 		panel_4.add(btnConsultar);
 		btnSalir.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		panel_4.add(btnSalir);
@@ -249,6 +257,12 @@ public class FrmCorteDiario extends JFrame {
 		}
 		
 		
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		JFileChooser fc = new JFileChooser();
+		fc.showSaveDialog(this);
+		Report.diario(fc.getSelectedFile().getAbsolutePath());
 	}
 
 	public JComboBox getCmbSala() {

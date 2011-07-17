@@ -50,6 +50,21 @@ public class Report {
 			mensual();
 	}
 	
+	public static void diario(String dir){
+		Report r = new Report();
+		Conexion c = new Conexion();
+		try {
+			String ruta = r.getClass().getResource("../").toURI().getPath()+"../Reportes/diario.jasper";
+			
+			c.open();
+			JasperPrint print = JasperFillManager.fillReport(ruta, new HashMap(), c.getConeccion());
+			JasperExportManager.exportReportToPdfFile(print, dir);
+			c.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public static void semanal(){
 		Report r = new Report();
 		Conexion c = new Conexion();
